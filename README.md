@@ -1,20 +1,9 @@
 # IyCS-Proyecto3
 
-## Requisitos
+Requisitos: Node.js 24 LTS y Docker Desktop iniciado.
 
-- Node.js 24 LTS y npm.
-- Docker Desktop con el motor de Linux iniciado.
+1. [Preparar MySQL e iniciar el backend](backend/README.md).
+2. [Iniciar el frontend en otra terminal](frontend/README.md).
+3. Abrir `http://127.0.0.1:5173`.
 
-## Arranque local
-
-1. Preparar las credenciales e iniciar MySQL siguiendo el [README del backend](backend/README.md#preparar-el-entorno).
-2. Iniciar el [backend](backend/README.md#arrancar-el-backend).
-3. En otra terminal, iniciar el [frontend](frontend/README.md).
-
-Abrir `http://127.0.0.1:5173`.
-
-Para detener la aplicación, presionar Ctrl+C en las terminales del frontend y del backend. Para detener MySQL, ejecutar en PowerShell desde la raíz del repositorio:
-
-```powershell
-docker compose stop
-```
+Para detener frontend y backend, usar Ctrl+C en sus terminales. Para detener MySQL, ejecutar `docker compose stop` en PowerShell desde la raíz del repositorio.
