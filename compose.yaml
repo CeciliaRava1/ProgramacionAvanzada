@@ -11,6 +11,9 @@ x-backend-environment: &backend-environment
   ADMIN_INICIAL_CORREO: ${ADMIN_INICIAL_CORREO:-admin@example.test}
   ADMIN_INICIAL_CONTRASENA: ${ADMIN_INICIAL_CONTRASENA:-Admin1234}
   ORIGEN_DEL_FRONTEND: ${ORIGEN_DEL_FRONTEND:-http://127.0.0.1:5173}
+  SMTP_HOST: mailpit
+  SMTP_PUERTO: "1025"
+  CORREO_REMITENTE: ${CORREO_REMITENTE:-GymHelper <no-responder@gymhelper.local>}
   HOST: 0.0.0.0
   PORT: "3000"
   # Docker Desktop (Windows) no propaga eventos de archivos a los contenedores: se consulta por polling.
@@ -36,6 +39,17 @@ services:
       start_period: 30s
       retries: 20
 
+  # Bandeja de correo de desarrollo: recibe los correos del backend (SMTP 1025) y los muestra en la web (8025). No envía nada afuera.
+  mailpit:
+    image: axllent/mailpit:v1.27.10
+    ports:
+      - "127.0.0.1:8025:8025"
+    healthcheck:
+      test: ["CMD", "/mailpit", "readyz"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   # Crea las tablas, importa el catálogo y el administrador inicial. Termina al finalizar.
   migrar:
     build: ./backend
@@ -58,6 +72,8 @@ services:
         condition: service_healthy
       migrar:
         condition: service_completed_successfully
+      mailpit:
+        condition: service_healthy
     ports:
       - "127.0.0.1:3000:3000"
     volumes:

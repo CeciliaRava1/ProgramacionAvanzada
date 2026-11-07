@@ -45,7 +45,8 @@ Cuando termine de iniciar:
 
 - Aplicación: <http://127.0.0.1:5173>
 - Backend: <http://127.0.0.1:3000/health>
-- Acceso de prueba: **admin@example.test / Admin1234** (solo desarrollo local). Si ya existe un administrador, se conservan sus credenciales.
+- Correos de desarrollo (Mailpit): <http://127.0.0.1:8025>. Ahí aparece el enlace de "¿Olvidaste tu contraseña?"; no se envía nada afuera.
+- Acceso de prueba: **admin@example.test / Admin1234**, eligiendo "Administrador" en el inicio de sesión (solo desarrollo local). Si ya existe un administrador, se conservan sus credenciales.
 
 Usá siempre `127.0.0.1` y no `localhost`: el backend solo acepta ese origen.
 
@@ -65,6 +66,7 @@ Los tests del backend usan la base MySQL del compose.
 | Servicio | Función |
 |---|---|
 | `mysql` | Base de datos MySQL 8.4. Datos en el volumen `mysql_data`. |
+| `mailpit` | Bandeja de correo de desarrollo: recibe los correos del backend (SMTP interno en el puerto 1025) y los muestra en el puerto 8025. |
 | `migrar` | Crea las tablas, importa el catálogo y crea el administrador inicial. Se ejecuta al iniciar y termina. |
 | `backend` | NestJS en el puerto 3000, con recarga automática al editar `backend/src`. |
 | `frontend` | React con Vite en el puerto 5173, con recarga automática al editar `frontend/src`. |
@@ -78,7 +80,7 @@ Los puertos se publican solo en `127.0.0.1`, así que no quedan expuestos a la r
 | `failed to connect to the docker API` o `cannot connect to the Docker daemon` | Windows: iniciar Docker Desktop. Ubuntu: `sudo systemctl start docker`. |
 | `permission denied ... /var/run/docker.sock` (Ubuntu) | Falta el grupo `docker`. Ver Requisitos. |
 | `Falta MYSQL_PASSWORD en el archivo .env` | No se creó o no se completó `.env`. |
-| `port is already allocated` | Hay otro programa usando 3000, 3306 o 5173. Cerrarlo o detener el contenedor anterior con `docker compose down`. |
+| `port is already allocated` | Hay otro programa usando 3000, 3306, 5173 u 8025. Cerrarlo o detener el contenedor anterior con `docker compose down`. |
 | Los cambios en el código no recargan (Windows) | El compose ya usa polling para esto. Si se editó un archivo de configuración (`package.json`, `tsconfig.json`, `vite.config.ts`), ejecutar `docker compose up --build`. |
 | Se agregó una dependencia con `npm` | Ejecutar `docker compose up --build` para reinstalarla en la imagen. |
 | `bad interpreter` o errores raros en archivos con finales de línea CRLF | El repositorio fuerza LF con `.gitattributes`. Si clonaste antes de que existiera, volvé a clonar. |
@@ -86,3 +88,9 @@ Los puertos se publican solo en `127.0.0.1`, así que no quedan expuestos a la r
 ## Flujo de ramas
 
 Se usa Gitflow: la rama `develop` es la base y cada tarea sale de ahí en una rama `feature/<tema>`. Los cambios vuelven a `develop` por revisión del equipo.
+
+## Cuentas y acceso
+
+- Un mismo correo puede tener una cuenta de alumno y otra de entrenador, cada una con su contraseña. Al iniciar sesión se elige el tipo de cuenta.
+- Recuperar la contraseña: "¿Olvidaste tu contraseña?" envía un enlace por correo que sirve una sola vez y vence en 1 hora. En desarrollo el correo se lee en Mailpit (<http://127.0.0.1:8025>).
+- Después de actualizar, la base local se recrea con `docker compose down -v`, porque cambió el esquema de `usuarios`.
