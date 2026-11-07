@@ -12,9 +12,9 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main.js",
     "bd:migrar": "npm run build && node dist/infraestructura/base-de-datos/migrar.js",
-    "bd:importar-ejercicios": "npm run build && node dist/infraestructura/base-de-datos/import-exercises.js",
+    "bd:sembrar-ejercicios": "npm run build && node dist/infraestructura/base-de-datos/sembrar-ejercicios.js",
     "bd:sembrar": "npm run build && node dist/infraestructura/base-de-datos/semilla.js",
-    "bd:preparar": "npm run build && node dist/infraestructura/base-de-datos/migrar.js && node dist/infraestructura/base-de-datos/import-exercises.js && node dist/infraestructura/base-de-datos/semilla.js",
+    "bd:preparar": "npm run build && node dist/infraestructura/base-de-datos/migrar.js && node dist/infraestructura/base-de-datos/sembrar-ejercicios.js && node dist/infraestructura/base-de-datos/semilla.js",
     "test": "npm run build && node --test test/*.test.cjs"
   },
   "dependencies": {

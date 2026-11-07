@@ -7,7 +7,7 @@ import {
 } from '../aplicacion/gestionar-cuentas.js';
 import { DatosDeUsuarioInvalidosError } from '../dominio/usuario.js';
 import { CorreoYaRegistradoError, type RolGestionado } from '../dominio/repositorio-de-usuarios.js';
-import { parseRouteId } from '../../plans/presentation/parse-route-id.js';
+import { leerIdentificadorDeRuta } from '../../comun/identificador-de-ruta.js';
 import { RequerirRol, GuardiaDeRol } from './guardia-de-rol.js';
 import { parsearModificacionDeCuenta } from './modificar-cuenta.request.js';
 
@@ -41,7 +41,7 @@ export class CuentasController {
   @RequerirRol('administrador')
   async modificar(@Param('tipo') tipo: string, @Param('id') idCrudo: string, @Body() cuerpo: unknown): Promise<ResumenDeCuenta> {
     const rol = rolDe(tipo);
-    const id = parseRouteId(idCrudo);
+    const id = leerIdentificadorDeRuta(idCrudo);
     const datos = parsearModificacionDeCuenta(cuerpo, rol);
     try {
       return await this.cuentas.modificar(rol, id, datos);
@@ -56,7 +56,7 @@ export class CuentasController {
   @RequerirRol('administrador')
   async darDeBaja(@Param('tipo') tipo: string, @Param('id') idCrudo: string): Promise<void> {
     const rol = rolDe(tipo);
-    const id = parseRouteId(idCrudo);
+    const id = leerIdentificadorDeRuta(idCrudo);
     try {
       await this.cuentas.darDeBaja(rol, id);
     } catch (error: unknown) {

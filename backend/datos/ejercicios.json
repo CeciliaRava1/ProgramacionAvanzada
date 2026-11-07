@@ -1,0 +1,1210 @@
+[
+  {
+    "identificador": "press-de-banca-con-barra",
+    "nombre": "Press de banca con barra",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Acostate en el banco con los pies firmes en el piso y agarrá la barra un poco más ancho que los hombros. Bajala de forma controlada hasta rozar el pecho y empujala hacia arriba sin despegar la espalda del banco. Pedí ayuda a un compañero o usá los soportes de seguridad cuando trabajes con cargas altas."
+  },
+  {
+    "identificador": "press-de-banca-inclinado-con-barra",
+    "nombre": "Press de banca inclinado con barra",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Pectoral mayor (porción clavicular)",
+    "instrucciones": "Ubicate en un banco inclinado a unos 30 grados y tomá la barra con agarre algo más ancho que los hombros. Bajala controlada hasta la parte alta del pecho y empujala hacia arriba sin arquear de más la zona lumbar. Mantené los codos levemente por debajo de la línea de los hombros para cuidar las articulaciones."
+  },
+  {
+    "identificador": "press-de-banca-declinado-con-barra",
+    "nombre": "Press de banca declinado con barra",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Pectoral mayor (porción esternal)",
+    "instrucciones": "Asegurá bien las piernas en el soporte del banco declinado y retirá la barra de los ganchos con los brazos extendidos. Bajala hasta la parte baja del pecho y empujala de nuevo hacia arriba en línea recta. Usá una carga moderada y pedí ayuda para sacar y devolver la barra."
+  },
+  {
+    "identificador": "press-de-banca-con-mancuernas",
+    "nombre": "Press de banca con mancuernas",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Acostate en el banco con una mancuerna en cada mano a la altura del pecho y las palmas hacia adelante. Empujá hasta estirar los brazos sin chocar las mancuernas arriba y bajá lentamente hasta sentir el estiramiento del pecho. Mantené los pies apoyados y los omóplatos juntos contra el banco."
+  },
+  {
+    "identificador": "press-inclinado-con-mancuernas",
+    "nombre": "Press inclinado con mancuernas",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Pectoral mayor (porción clavicular)",
+    "instrucciones": "Sentate en un banco inclinado a 30 grados con las mancuernas apoyadas sobre los muslos y llevalas a la altura del pecho. Empujá hacia arriba hasta extender los brazos y bajá con control. No dejes que los codos se abran demasiado para proteger los hombros."
+  },
+  {
+    "identificador": "aperturas-con-mancuernas",
+    "nombre": "Aperturas con mancuernas",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Acostate en un banco plano con las mancuernas arriba del pecho y los codos apenas flexionados. Abrí los brazos en arco hasta sentir el estiramiento del pecho y volvé a juntarlos como si abrazaras un tronco. Usá poco peso y no bajes más allá de la línea de los hombros para evitar lesiones."
+  },
+  {
+    "identificador": "aperturas-inclinadas-con-mancuernas",
+    "nombre": "Aperturas inclinadas con mancuernas",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Pectoral mayor (porción clavicular)",
+    "instrucciones": "En un banco inclinado, sostené las mancuernas sobre el pecho con los codos ligeramente flexionados. Abrí los brazos de forma lenta hasta sentir estirar la parte alta del pecho y regresá a la posición inicial contrayendo el pecho. Elegí una carga liviana y mantené el movimiento controlado."
+  },
+  {
+    "identificador": "cruces-en-polea-alta",
+    "nombre": "Cruces en polea alta",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Pectoral mayor (porción esternal)",
+    "instrucciones": "Parate en el centro de dos poleas altas, tomá un agarre en cada mano e inclinate levemente hacia adelante. Llevá las manos hacia abajo y al frente juntándolas a la altura de la cintura, con los codos apenas flexionados. Volvé despacio sin dejar que el peso te tire los hombros hacia atrás."
+  },
+  {
+    "identificador": "cruces-en-polea-baja",
+    "nombre": "Cruces en polea baja",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Pectoral mayor (porción clavicular)",
+    "instrucciones": "Ubicá las poleas abajo, agarrá los mangos y dá un paso adelante con el torso erguido. Subí las manos en arco hasta juntarlas frente al pecho, con los codos levemente flexionados. Bajá de forma lenta y evitá balancear el cuerpo para ayudarte."
+  },
+  {
+    "identificador": "press-de-pecho-en-maquina",
+    "nombre": "Press de pecho en máquina",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Ajustá el asiento para que los mangos queden a la altura de la mitad del pecho y apoyá bien la espalda en el respaldo. Empujá hacia adelante hasta extender los brazos sin bloquear los codos y volvé lentamente. Es una buena opción para principiantes porque guía el recorrido del movimiento."
+  },
+  {
+    "identificador": "contractora-de-pecho-en-maquina",
+    "nombre": "Contractora de pecho en máquina",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Sentate con la espalda apoyada y colocá los antebrazos o las manos en los brazos de la máquina a la altura del pecho. Juntalos al frente apretando el pecho y regresá con control hasta sentir un leve estiramiento. No fuerces el rango hacia atrás para cuidar los hombros."
+  },
+  {
+    "identificador": "flexiones-de-brazos",
+    "nombre": "Flexiones de brazos",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Apoyá las manos en el piso un poco más anchas que los hombros y formá una línea recta desde la cabeza hasta los talones. Bajá el pecho hacia el suelo flexionando los codos y empujá para volver arriba. Si te cuesta, apoyá las rodillas en el piso para reducir la dificultad."
+  },
+  {
+    "identificador": "flexiones-con-pies-elevados",
+    "nombre": "Flexiones con pies elevados",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Pectoral mayor (porción clavicular)",
+    "instrucciones": "Apoyá los pies sobre un banco y las manos en el piso a la anchura de los hombros. Mantené el cuerpo alineado, bajá el pecho hacia el suelo y empujá hasta extender los brazos. Apretá el abdomen para que la cadera no se hunda y proteger la zona lumbar."
+  },
+  {
+    "identificador": "flexiones-con-banda-elastica",
+    "nombre": "Flexiones con banda elástica",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Pectoral mayor",
+    "instrucciones": "Pasá la banda por la espalda y sujetá los extremos con las manos en el piso, en posición de flexión. Bajá el pecho de forma controlada y empujá hacia arriba venciendo la resistencia extra de la banda. Mantené el cuerpo recto y los codos a unos 45 grados del torso."
+  },
+  {
+    "identificador": "fondos-en-paralelas-para-pecho",
+    "nombre": "Fondos en paralelas para pecho",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Pectoral mayor (porción inferior)",
+    "instrucciones": "Sostenete en las paralelas con los brazos extendidos e inclinate un poco hacia adelante. Bajá flexionando los codos hasta sentir estirar el pecho y subí empujando con las manos. No bajes más de lo que tu hombro tolere cómodamente."
+  },
+  {
+    "identificador": "pullover-con-mancuerna",
+    "nombre": "Pullover con mancuerna",
+    "parteDelCuerpo": "Pecho",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Pectoral mayor y serrato anterior",
+    "instrucciones": "Acostate de forma transversal o a lo largo del banco y sostené una mancuerna con ambas manos sobre el pecho. Llevala hacia atrás por encima de la cabeza con los codos apenas flexionados y volvé al punto de partida. Elegí un peso moderado y no arquees la zona lumbar."
+  },
+  {
+    "identificador": "dominadas-con-agarre-prono",
+    "nombre": "Dominadas con agarre prono",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Dorsal ancho",
+    "instrucciones": "Colgate de la barra con las palmas hacia adelante y las manos un poco más anchas que los hombros. Subí hasta pasar el mentón por encima de la barra llevando los codos hacia las costillas y bajá con control. Evitá balancearte y, si todavía no podés, usá una banda o la máquina asistida."
+  },
+  {
+    "identificador": "dominadas-con-agarre-supino",
+    "nombre": "Dominadas con agarre supino",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Dorsal ancho y bíceps braquial",
+    "instrucciones": "Colgate de la barra con las palmas hacia vos y las manos al ancho de los hombros. Tirá del cuerpo hacia arriba hasta que el mentón supere la barra y bajá lentamente hasta extender los brazos. Mantené el abdomen firme para no balancearte."
+  },
+  {
+    "identificador": "jalon-al-pecho-en-polea",
+    "nombre": "Jalón al pecho en polea",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Dorsal ancho",
+    "instrucciones": "Sentate en la máquina, ajustá el almohadón sobre los muslos y tomá la barra ancha con las palmas hacia adelante. Tirá de la barra hasta la parte alta del pecho llevando los codos hacia abajo y volvé despacio. Mantené el torso levemente inclinado hacia atrás y no tires con impulso."
+  },
+  {
+    "identificador": "jalon-con-agarre-cerrado",
+    "nombre": "Jalón con agarre cerrado",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Dorsal ancho",
+    "instrucciones": "Sentate frente a la polea alta y tomá el agarre en V o con las palmas hacia vos a poca distancia. Llevá el agarre hacia el pecho juntando los omóplatos y regresá con control. Evitá encorvar los hombros hacia adelante al final del recorrido."
+  },
+  {
+    "identificador": "remo-con-barra",
+    "nombre": "Remo con barra",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Dorsal ancho y romboides",
+    "instrucciones": "Con los pies al ancho de la cadera, flexioná las rodillas e inclinate hacia adelante con la espalda recta y la barra colgando. Llevá la barra hacia el abdomen juntando los omóplatos y bajala con control. Mantené la zona lumbar neutra durante todo el movimiento y no uses impulso."
+  },
+  {
+    "identificador": "remo-con-mancuerna-a-una-mano",
+    "nombre": "Remo con mancuerna a una mano",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Dorsal ancho",
+    "instrucciones": "Apoyá una mano y una rodilla en el banco con la espalda paralela al piso y tomá una mancuerna con la otra mano. Tirá del codo hacia la cadera sin rotar el torso y bajá estirando el brazo. Repetí todas las repeticiones de un lado y luego cambiá."
+  },
+  {
+    "identificador": "remo-en-polea-baja",
+    "nombre": "Remo en polea baja",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Dorsal ancho y romboides",
+    "instrucciones": "Sentate frente a la polea baja con las rodillas levemente flexionadas y el pecho erguido. Tirá del agarre hasta el abdomen juntando los omóplatos y volvé lentamente sin encorvar la espalda. No te balancees hacia atrás para ayudarte con la carga."
+  },
+  {
+    "identificador": "remo-en-maquina",
+    "nombre": "Remo en máquina",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Romboides y dorsal ancho",
+    "instrucciones": "Ajustá el asiento y apoyá el pecho contra el soporte, agarrando los mangos con los brazos estirados. Tirá hacia atrás llevando los codos junto al cuerpo y apretando los omóplatos, luego volvé con control. Mantené el cuello relajado y el torso fijo."
+  },
+  {
+    "identificador": "remo-invertido",
+    "nombre": "Remo invertido",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Dorsal ancho y romboides",
+    "instrucciones": "Acostate debajo de una barra baja y agarrala con las manos al ancho de los hombros, con el cuerpo recto y los talones en el piso. Tirá del pecho hacia la barra juntando los omóplatos y bajá lentamente. Flexioná las rodillas si necesitás reducir la dificultad."
+  },
+  {
+    "identificador": "remo-pendlay",
+    "nombre": "Remo Pendlay",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Dorsal ancho y trapecio medio",
+    "instrucciones": "Con la barra apoyada en el piso, inclinate con la espalda recta y casi paralela al suelo. Tirá la barra de forma explosiva hasta el abdomen y devolvela al piso en cada repetición. Mantené la zona lumbar firme y usá una carga que te permita controlar la técnica."
+  },
+  {
+    "identificador": "remo-con-banda-elastica",
+    "nombre": "Remo con banda elástica",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Romboides y dorsal ancho",
+    "instrucciones": "Sentate con las piernas estiradas y pasá la banda por las plantas de los pies, tomando los extremos con las manos. Tirá hacia el abdomen juntando los omóplatos y volvé lentamente. Mantené la espalda erguida y los hombros lejos de las orejas."
+  },
+  {
+    "identificador": "remo-con-kettlebell-a-una-mano",
+    "nombre": "Remo con kettlebell a una mano",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Dorsal ancho",
+    "instrucciones": "Inclinate con la espalda recta apoyando una mano en un banco y sostené la kettlebell con la otra mano. Llevá la pesa hacia la cadera con el codo pegado al cuerpo y bajala con control. Evitá girar el torso mientras tirás."
+  },
+  {
+    "identificador": "jalon-en-polea-con-brazos-rectos",
+    "nombre": "Jalón en polea con brazos rectos",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Dorsal ancho",
+    "instrucciones": "De pie frente a la polea alta, tomá la barra con los brazos casi estirados y el torso levemente inclinado. Bajá la barra hasta los muslos manteniendo los codos casi rectos y volvé despacio. Concentrate en sentir trabajar la espalda y no los brazos."
+  },
+  {
+    "identificador": "extensiones-lumbares-en-banco",
+    "nombre": "Extensiones lumbares en banco",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Banco",
+    "musculoObjetivo": "Erector espinal",
+    "instrucciones": "Colocate boca abajo en el banco de hiperextensiones con las caderas apoyadas y los talones fijos. Bajá el torso con la espalda recta y subí hasta formar una línea con las piernas, sin pasarte de la horizontal. No hiperextiendas la zona lumbar al subir."
+  },
+  {
+    "identificador": "superman",
+    "nombre": "Superman",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Erector espinal",
+    "instrucciones": "Acostate boca abajo con los brazos estirados hacia adelante. Elevá a la vez brazos y piernas del piso, mantené un segundo la contracción y bajá lento. Mirá hacia el piso para no forzar el cuello."
+  },
+  {
+    "identificador": "encogimientos-de-hombros-con-barra",
+    "nombre": "Encogimientos de hombros con barra",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Trapecio superior",
+    "instrucciones": "De pie, sostené la barra al frente con los brazos estirados y las manos al ancho de los hombros. Subí los hombros hacia las orejas sin flexionar los codos, pausá un instante y bajá con control. No rotes los hombros para evitar molestias en el cuello."
+  },
+  {
+    "identificador": "encogimientos-de-hombros-con-mancuernas",
+    "nombre": "Encogimientos de hombros con mancuernas",
+    "parteDelCuerpo": "Espalda",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Trapecio superior",
+    "instrucciones": "Parate con una mancuerna en cada mano a los costados del cuerpo. Elevá los hombros en línea recta hacia las orejas, mantené un segundo y bajá lentamente. Mantené la espalda erguida y evitá mover la cabeza."
+  },
+  {
+    "identificador": "press-militar-con-barra",
+    "nombre": "Press militar con barra",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Deltoides anterior",
+    "instrucciones": "De pie con la barra apoyada sobre la parte alta del pecho, empujala hacia arriba hasta extender los brazos sobre la cabeza. Bajala con control hasta la altura de la clavícula. Apretá el abdomen y los glúteos para no arquear la espalda."
+  },
+  {
+    "identificador": "press-de-hombros-con-mancuernas",
+    "nombre": "Press de hombros con mancuernas",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Deltoides anterior",
+    "instrucciones": "Sentate con la espalda apoyada y las mancuernas a la altura de los hombros. Empujá hacia arriba hasta casi juntarlas sin chocarlas y bajá lentamente. Mantené los codos ligeramente al frente y no arquees la zona lumbar."
+  },
+  {
+    "identificador": "press-arnold",
+    "nombre": "Press Arnold",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Deltoides anterior y lateral",
+    "instrucciones": "Sentate con las mancuernas frente al pecho y las palmas hacia vos. Mientras empujás hacia arriba, rotá las muñecas para terminar con las palmas hacia adelante, y revertí el giro al bajar. Usá un peso liviano y controlá el movimiento para proteger los hombros."
+  },
+  {
+    "identificador": "press-de-hombros-en-maquina",
+    "nombre": "Press de hombros en máquina",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Deltoides anterior",
+    "instrucciones": "Ajustá el asiento para que las manos queden a la altura de los hombros y apoyá bien la espalda. Empujá hacia arriba hasta casi extender los brazos y bajá con control. Evitá encogerte de hombros durante el movimiento."
+  },
+  {
+    "identificador": "press-de-hombros-con-kettlebell",
+    "nombre": "Press de hombros con kettlebell",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Deltoides anterior",
+    "instrucciones": "Sostené la kettlebell con una mano a la altura del hombro con la muñeca recta. Empujala hacia arriba hasta extender el brazo y bajala con control, sin inclinar el tronco. Mantené el abdomen firme y realizá el trabajo de cada lado por separado."
+  },
+  {
+    "identificador": "elevaciones-laterales-con-mancuernas",
+    "nombre": "Elevaciones laterales con mancuernas",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Deltoides lateral",
+    "instrucciones": "De pie con una mancuerna en cada mano a los costados, elevá los brazos hacia los lados hasta la altura de los hombros con los codos levemente flexionados. Bajá despacio sin dejar caer el peso. Usá poca carga y evitá balancear el cuerpo."
+  },
+  {
+    "identificador": "elevaciones-frontales-con-mancuernas",
+    "nombre": "Elevaciones frontales con mancuernas",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Deltoides anterior",
+    "instrucciones": "De pie, sostené las mancuernas frente a los muslos y elevá un brazo estirado hacia adelante hasta la altura del hombro. Bajalo lento y alterná con el otro brazo. No te inclines hacia atrás ni uses impulso."
+  },
+  {
+    "identificador": "elevaciones-laterales-en-polea",
+    "nombre": "Elevaciones laterales en polea",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Deltoides lateral",
+    "instrucciones": "Parate de costado a la polea baja y tomá el agarre con la mano más lejana. Elevá el brazo hacia el costado hasta la altura del hombro y bajalo con control. Mantené el torso quieto y la tensión constante de la polea."
+  },
+  {
+    "identificador": "elevaciones-laterales-con-banda-elastica",
+    "nombre": "Elevaciones laterales con banda elástica",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Deltoides lateral",
+    "instrucciones": "Pisá la banda con un pie y tomá el otro extremo con la mano del mismo lado. Elevá el brazo hacia el costado hasta la altura del hombro y bajalo despacio. Mantené el codo ligeramente flexionado y los hombros relajados."
+  },
+  {
+    "identificador": "pajaros-con-mancuernas",
+    "nombre": "Pájaros con mancuernas",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Deltoides posterior",
+    "instrucciones": "Inclinate hacia adelante con la espalda recta y las mancuernas colgando bajo el pecho. Abrí los brazos hacia los costados apretando los omóplatos y bajá con control. Usá un peso liviano y mantené el cuello alineado con la columna."
+  },
+  {
+    "identificador": "pajaros-en-maquina",
+    "nombre": "Pájaros en máquina",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Deltoides posterior",
+    "instrucciones": "Sentate mirando el respaldo de la máquina con el pecho apoyado y tomá los mangos al frente. Abrí los brazos hacia atrás hasta alinearlos con los hombros y regresá lentamente. No uses impulso y mantené los codos levemente flexionados."
+  },
+  {
+    "identificador": "face-pull-en-polea",
+    "nombre": "Face pull en polea",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Deltoides posterior y manguito rotador",
+    "instrucciones": "Ajustá la polea a la altura de la cara con una cuerda y tirá hacia el rostro abriendo los codos hacia los costados. Llevá las manos a ambos lados de la cabeza y volvé despacio. Elegí poco peso para trabajar con técnica y cuidar los hombros."
+  },
+  {
+    "identificador": "remo-al-menton-con-barra",
+    "nombre": "Remo al mentón con barra",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Deltoides lateral y trapecio",
+    "instrucciones": "De pie, tomá la barra con las manos a la anchura de los hombros y llevala pegada al cuerpo hasta la altura del pecho, con los codos hacia arriba. Bajala controlada hasta extender los brazos. No subas más allá del pecho para evitar el pinzamiento del hombro."
+  },
+  {
+    "identificador": "flexiones-pike",
+    "nombre": "Flexiones pike",
+    "parteDelCuerpo": "Hombros",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Deltoides anterior",
+    "instrucciones": "Colocate en posición de V invertida con las manos y los pies apoyados y las caderas altas. Flexioná los codos llevando la cabeza hacia el piso y empujá para volver arriba. Mantené las piernas lo más estiradas que puedas y el cuello relajado."
+  },
+  {
+    "identificador": "curl-con-barra",
+    "nombre": "Curl con barra",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Bíceps braquial",
+    "instrucciones": "De pie con la barra en las manos, palmas hacia adelante y brazos estirados. Flexioná los codos llevando la barra hacia los hombros sin mover los codos del costado del cuerpo y bajá lentamente. Evitá balancear el torso para ayudarte con el peso."
+  },
+  {
+    "identificador": "curl-con-barra-z",
+    "nombre": "Curl con barra Z",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Bíceps braquial",
+    "instrucciones": "Tomá la barra Z en los ángulos internos con las palmas hacia arriba y los brazos estirados. Subí la barra flexionando los codos pegados al cuerpo y bajala con control. El agarre inclinado reduce el estrés en las muñecas, así que es una buena opción si te molestan."
+  },
+  {
+    "identificador": "curl-alterno-con-mancuernas",
+    "nombre": "Curl alterno con mancuernas",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Bíceps braquial",
+    "instrucciones": "De pie con una mancuerna en cada mano y las palmas hacia adelante. Flexioná un codo para subir la mancuerna hasta el hombro y bajala con control antes de subir la otra. Mantené los codos fijos y el torso quieto."
+  },
+  {
+    "identificador": "curl-martillo",
+    "nombre": "Curl martillo",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Braquial y braquiorradial",
+    "instrucciones": "De pie con las mancuernas a los costados y las palmas enfrentadas. Flexioná los codos para subir las mancuernas manteniendo ese agarre neutro y bajalas lentamente. No muevas los hombros ni balancees el cuerpo."
+  },
+  {
+    "identificador": "curl-concentrado",
+    "nombre": "Curl concentrado",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Bíceps braquial",
+    "instrucciones": "Sentate en un banco con las piernas abiertas y apoyá el codo en la cara interna del muslo con una mancuerna en la mano. Subí la mancuerna hacia el hombro apretando el bíceps y bajá con control. Realizá todas las repeticiones y luego cambiá de brazo."
+  },
+  {
+    "identificador": "curl-inclinado-con-mancuernas",
+    "nombre": "Curl inclinado con mancuernas",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Bíceps braquial (cabeza larga)",
+    "instrucciones": "Sentate en un banco inclinado a unos 45 grados con los brazos colgando hacia atrás. Flexioná los codos para subir las mancuernas sin adelantar los hombros y bajá lentamente. Usá poco peso, ya que el estiramiento es grande."
+  },
+  {
+    "identificador": "curl-predicador-con-barra",
+    "nombre": "Curl predicador con barra",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Bíceps braquial (cabeza corta)",
+    "instrucciones": "Apoyá la parte posterior de los brazos sobre el banco predicador y tomá la barra con las palmas hacia arriba. Subí la barra hasta cerca de los hombros y bajala despacio sin llegar a bloquear los codos. Evitá dejar caer el peso en la parte baja para cuidar el tendón."
+  },
+  {
+    "identificador": "curl-en-polea-baja",
+    "nombre": "Curl en polea baja",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Bíceps braquial",
+    "instrucciones": "Parate frente a la polea baja y tomá la barra con las palmas hacia arriba. Subí flexionando los codos pegados al torso y bajá lentamente manteniendo tensión. Mantené la espalda recta y no uses impulso."
+  },
+  {
+    "identificador": "curl-con-banda-elastica",
+    "nombre": "Curl con banda elástica",
+    "parteDelCuerpo": "Bíceps",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Bíceps braquial",
+    "instrucciones": "Pisá la banda con ambos pies y tomá los extremos con las palmas hacia arriba. Flexioná los codos hasta llevar las manos a los hombros y volvé despacio. Mantené los codos junto al cuerpo y los hombros quietos."
+  },
+  {
+    "identificador": "press-frances-con-barra",
+    "nombre": "Press francés con barra",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Acostate en un banco con la barra sobre el pecho y los brazos estirados. Flexioná solo los codos para bajar la barra hacia la frente y volvé a extender. Mantené los codos apuntando al techo y elegí una carga que puedas controlar."
+  },
+  {
+    "identificador": "press-cerrado-de-banca",
+    "nombre": "Press cerrado de banca",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Acostate en el banco y agarrá la barra con las manos separadas al ancho de los hombros. Bajala hasta el pecho con los codos cerca del cuerpo y empujá hacia arriba. No juntes las manos de más para no sobrecargar las muñecas."
+  },
+  {
+    "identificador": "extension-de-triceps-en-polea",
+    "nombre": "Extensión de tríceps en polea",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "De pie frente a la polea alta, tomá la barra corta con los codos pegados al cuerpo. Empujá hacia abajo hasta extender los brazos y volvé hasta que los antebrazos queden a la altura de la cintura. Mantené el torso fijo y los codos sin moverse."
+  },
+  {
+    "identificador": "extension-de-triceps-con-cuerda",
+    "nombre": "Extensión de tríceps con cuerda",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Tríceps braquial (cabeza lateral)",
+    "instrucciones": "Sujetá la cuerda de la polea alta con los codos pegados al torso. Extendé los brazos hacia abajo separando los extremos de la cuerda al final y volvé controlando el peso. Evitá inclinarte sobre la polea para ayudarte con el cuerpo."
+  },
+  {
+    "identificador": "extension-de-triceps-sobre-la-cabeza-con-mancuerna",
+    "nombre": "Extensión de tríceps sobre la cabeza con mancuerna",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Tríceps braquial (cabeza larga)",
+    "instrucciones": "Sentate o parate con una mancuerna sostenida con ambas manos sobre la cabeza. Flexioná los codos para bajarla por detrás de la nuca y extendé los brazos hacia arriba. Mantené los codos apuntando al frente y el abdomen firme."
+  },
+  {
+    "identificador": "patada-de-triceps-con-mancuerna",
+    "nombre": "Patada de tríceps con mancuerna",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Inclinate con la espalda recta y apoyá una mano en el banco, con el codo de la otra pegado al torso. Extendé el brazo hacia atrás hasta quedar recto y volvé lentamente. Usá un peso liviano y no balancees el brazo."
+  },
+  {
+    "identificador": "fondos-en-banco",
+    "nombre": "Fondos en banco",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Banco",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Apoyá las manos en el borde de un banco detrás de vos con las piernas estiradas al frente. Bajá flexionando los codos hasta unos 90 grados y empujá para subir. Mantené la espalda cerca del banco y flexioná las rodillas si querés hacerlo más fácil."
+  },
+  {
+    "identificador": "fondos-en-paralelas-para-triceps",
+    "nombre": "Fondos en paralelas para tríceps",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Sostenete en las paralelas con el torso erguido y los codos apuntando hacia atrás. Bajá hasta que los codos formen 90 grados y empujá hasta extender los brazos. Mantené el cuerpo vertical para enfocar el trabajo en los tríceps."
+  },
+  {
+    "identificador": "flexiones-diamante",
+    "nombre": "Flexiones diamante",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Apoyá las manos juntas bajo el pecho formando un rombo con los pulgares e índices. Bajá el pecho hacia las manos manteniendo los codos cerca del cuerpo y empujá para subir. Apoyá las rodillas si necesitás una versión más fácil."
+  },
+  {
+    "identificador": "extension-de-triceps-en-maquina",
+    "nombre": "Extensión de tríceps en máquina",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Ajustá el asiento para que los codos queden alineados con el eje de la máquina y agarrá los mangos. Empujá hasta extender los brazos y volvé con control. Mantené los hombros bajos y la espalda apoyada."
+  },
+  {
+    "identificador": "extension-de-triceps-con-banda-elastica",
+    "nombre": "Extensión de tríceps con banda elástica",
+    "parteDelCuerpo": "Tríceps",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Tríceps braquial",
+    "instrucciones": "Anclá la banda en un punto alto y tomala con ambas manos, con los codos pegados al torso. Extendé los brazos hacia abajo y volvé lentamente. Mantené el torso quieto y no dejes que los codos se abran."
+  },
+  {
+    "identificador": "curl-de-muneca-con-barra",
+    "nombre": "Curl de muñeca con barra",
+    "parteDelCuerpo": "Antebrazos",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Flexores del antebrazo",
+    "instrucciones": "Sentate con los antebrazos apoyados sobre los muslos y las palmas hacia arriba, sosteniendo una barra liviana. Dejá rodar la barra hacia los dedos y luego flexioná las muñecas para subirla. Usá poco peso y recorridos controlados."
+  },
+  {
+    "identificador": "curl-inverso-de-muneca-con-mancuernas",
+    "nombre": "Curl inverso de muñeca con mancuernas",
+    "parteDelCuerpo": "Antebrazos",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Extensores del antebrazo",
+    "instrucciones": "Apoyá los antebrazos sobre los muslos o un banco con las palmas hacia abajo y una mancuerna en cada mano. Extendé las muñecas hacia arriba y bajalas lentamente. Elegí una carga liviana para no lastimar las articulaciones."
+  },
+  {
+    "identificador": "curl-inverso-con-barra",
+    "nombre": "Curl inverso con barra",
+    "parteDelCuerpo": "Antebrazos",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Braquiorradial",
+    "instrucciones": "De pie, tomá la barra con las palmas hacia abajo y los brazos estirados. Flexioná los codos subiendo la barra hasta los hombros y bajala con control. Mantené las muñecas rectas y los codos junto al cuerpo."
+  },
+  {
+    "identificador": "paseo-del-granjero",
+    "nombre": "Paseo del granjero",
+    "parteDelCuerpo": "Antebrazos",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Flexores del antebrazo y trapecio",
+    "instrucciones": "Tomá una mancuerna pesada en cada mano y caminá con pasos cortos y firmes manteniendo el torso erguido. Apretá fuerte el agarre y no dejes caer los hombros. Hacelo durante 20 a 40 metros o por tiempo."
+  },
+  {
+    "identificador": "colgado-en-barra",
+    "nombre": "Colgado en barra",
+    "parteDelCuerpo": "Antebrazos",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Flexores del antebrazo",
+    "instrucciones": "Agarrate de una barra fija con las palmas hacia adelante y dejá el cuerpo colgando con los hombros activos. Mantené la posición el mayor tiempo posible respirando con calma. Podés apoyar los pies en un banco si necesitás menos carga."
+  },
+  {
+    "identificador": "sentadilla-con-barra",
+    "nombre": "Sentadilla con barra",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Cuádriceps",
+    "instrucciones": "Apoyá la barra sobre la parte alta de la espalda y separá los pies al ancho de los hombros. Bajá flexionando cadera y rodillas hasta que los muslos queden paralelos al piso, con la espalda recta, y subí empujando con los talones. Usá los soportes de seguridad y mantené las rodillas alineadas con las puntas de los pies."
+  },
+  {
+    "identificador": "sentadilla-frontal-con-barra",
+    "nombre": "Sentadilla frontal con barra",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Cuádriceps",
+    "instrucciones": "Apoyá la barra sobre los hombros por delante del cuello con los codos altos. Bajá manteniendo el torso erguido hasta que los muslos queden paralelos al piso y subí con fuerza. Si te cuesta la posición de las manos, usá cargas livianas hasta dominarla."
+  },
+  {
+    "identificador": "sentadilla-goblet",
+    "nombre": "Sentadilla goblet",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Sostené una kettlebell contra el pecho con ambas manos y separá los pies un poco más que los hombros. Bajá entre las rodillas con la espalda recta y los codos hacia adentro, y subí empujando el piso. Es ideal para aprender la técnica de la sentadilla."
+  },
+  {
+    "identificador": "sentadilla-con-mancuernas",
+    "nombre": "Sentadilla con mancuernas",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "De pie con una mancuerna en cada mano a los costados, bajá flexionando cadera y rodillas manteniendo el pecho arriba. Subí empujando con todo el pie sin despegar los talones. Mantené las rodillas alineadas con los pies durante todo el movimiento."
+  },
+  {
+    "identificador": "sentadilla-bulgara",
+    "nombre": "Sentadilla búlgara",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Apoyá el empeine de un pie sobre un banco detrás de vos y sostené una mancuerna en cada mano. Bajá flexionando la rodilla de adelante hasta que el muslo quede paralelo al piso y subí. Mantené el torso erguido y el equilibrio antes de sumar peso."
+  },
+  {
+    "identificador": "prensa-de-piernas",
+    "nombre": "Prensa de piernas",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Sentate en la prensa con la espalda bien apoyada y los pies al ancho de los hombros sobre la plataforma. Bajá flexionando las rodillas hasta unos 90 grados y empujá sin bloquear las rodillas al extender. No levantes la cadera del asiento al bajar."
+  },
+  {
+    "identificador": "sentadilla-hack-en-maquina",
+    "nombre": "Sentadilla hack en máquina",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Cuádriceps",
+    "instrucciones": "Apoyá la espalda y los hombros en la máquina con los pies a la anchura de los hombros. Bajá controlado hasta que los muslos queden paralelos y empujá para subir sin bloquear las rodillas. Mantené los talones apoyados en la plataforma."
+  },
+  {
+    "identificador": "extension-de-cuadriceps-en-maquina",
+    "nombre": "Extensión de cuádriceps en máquina",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Cuádriceps",
+    "instrucciones": "Sentate con la espalda apoyada y colocá los tobillos bajo el rodillo. Extendé las piernas hasta casi estirarlas, apretá el muslo un instante y bajá con control. No uses impulso y elegí una carga que no fuerce las rodillas."
+  },
+  {
+    "identificador": "curl-femoral-acostado",
+    "nombre": "Curl femoral acostado",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Isquiotibiales",
+    "instrucciones": "Acostate boca abajo en la máquina con el rodillo apoyado sobre los tobillos. Flexioná las rodillas llevando los talones hacia los glúteos y bajá lentamente. Mantené la cadera pegada al banco y evitá levantarla."
+  },
+  {
+    "identificador": "curl-femoral-sentado",
+    "nombre": "Curl femoral sentado",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Isquiotibiales",
+    "instrucciones": "Sentate en la máquina con el rodillo sobre los tobillos y el almohadón fijo sobre los muslos. Flexioná las rodillas llevando los talones hacia abajo y atrás, y volvé con control. Mantené la espalda apoyada durante todo el movimiento."
+  },
+  {
+    "identificador": "zancadas-con-mancuernas",
+    "nombre": "Zancadas con mancuernas",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "De pie con una mancuerna en cada mano, dá un paso largo hacia adelante y flexioná ambas rodillas hasta casi tocar el piso con la de atrás. Empujá con el pie delantero para volver al inicio y alterná las piernas. Mantené el torso erguido y la rodilla delantera alineada con el pie."
+  },
+  {
+    "identificador": "zancadas-caminando",
+    "nombre": "Zancadas caminando",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Dá un paso largo hacia adelante y bajá hasta que ambas rodillas formen unos 90 grados. Empujá con la pierna de atrás para dar el siguiente paso y avanzá alternando. Mantené el torso erguido y los pasos amplios y controlados."
+  },
+  {
+    "identificador": "zancada-inversa",
+    "nombre": "Zancada inversa",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "De pie con mancuernas a los costados, dá un paso atrás y bajá la rodilla trasera cerca del piso. Subí empujando con el pie de adelante y alterná las piernas. Es una variante amigable con las rodillas y con buen control del equilibrio."
+  },
+  {
+    "identificador": "peso-muerto-convencional",
+    "nombre": "Peso muerto convencional",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Isquiotibiales y glúteo mayor",
+    "instrucciones": "Con los pies al ancho de la cadera y la barra sobre la mitad del pie, flexioná la cadera y tomá la barra con la espalda recta. Empujá el piso con las piernas y extendé la cadera hasta quedar erguido, manteniendo la barra pegada al cuerpo. Nunca redondees la espalda y bajá la barra con control."
+  },
+  {
+    "identificador": "peso-muerto-rumano",
+    "nombre": "Peso muerto rumano",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Isquiotibiales",
+    "instrucciones": "De pie con la barra frente a los muslos, llevá la cadera hacia atrás con las rodillas apenas flexionadas y bajá la barra pegada a las piernas. Subí empujando la cadera hacia adelante hasta quedar erguido. Mantené la espalda neutra y detené el descenso al sentir el estiramiento."
+  },
+  {
+    "identificador": "peso-muerto-con-mancuernas",
+    "nombre": "Peso muerto con mancuernas",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Isquiotibiales y glúteo mayor",
+    "instrucciones": "Parate con una mancuerna en cada mano frente a los muslos. Llevá la cadera hacia atrás y bajá las mancuernas por delante de las piernas con la espalda recta, luego subí extendiendo la cadera. No redondees la espalda y mantené las mancuernas cerca del cuerpo."
+  },
+  {
+    "identificador": "peso-muerto-sumo",
+    "nombre": "Peso muerto sumo",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Aductores y glúteo mayor",
+    "instrucciones": "Parate con los pies bien abiertos y las puntas hacia afuera, y tomá la barra con las manos por dentro de las piernas. Empujá el piso y extendé la cadera llevando la barra pegada al cuerpo hasta quedar erguido. Mantené el pecho arriba y las rodillas alineadas con los pies."
+  },
+  {
+    "identificador": "buenos-dias-con-barra",
+    "nombre": "Buenos días con barra",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Isquiotibiales y erector espinal",
+    "instrucciones": "Apoyá una barra liviana sobre la parte alta de la espalda y flexioná apenas las rodillas. Inclinate hacia adelante llevando la cadera atrás con la espalda recta y volvé a subir. Usá poco peso y no redondees la columna."
+  },
+  {
+    "identificador": "subida-al-cajon",
+    "nombre": "Subida al cajón",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Banco",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Parate frente a un banco o cajón firme y apoyá un pie completo encima. Subí empujando con esa pierna hasta quedar erguido y bajá lentamente con control. Alterná las piernas y asegurate de que el banco no se mueva."
+  },
+  {
+    "identificador": "sentadilla-sumo-con-kettlebell",
+    "nombre": "Sentadilla sumo con kettlebell",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Aductores y glúteo mayor",
+    "instrucciones": "Colocá los pies bien abiertos con las puntas hacia afuera y sostené la kettlebell con ambas manos entre las piernas. Bajá con la espalda recta y las rodillas siguiendo la dirección de los pies, y subí apretando los glúteos. Mantené el pecho alto durante todo el recorrido."
+  },
+  {
+    "identificador": "abduccion-de-cadera-en-maquina",
+    "nombre": "Abducción de cadera en máquina",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Glúteo medio",
+    "instrucciones": "Sentate en la máquina con la espalda apoyada y las rodillas contra las almohadillas. Abrí las piernas hacia los costados hasta un rango cómodo y cerralas lentamente. No uses impulso y mantené la espalda apoyada."
+  },
+  {
+    "identificador": "aductores-en-maquina",
+    "nombre": "Aductores en máquina",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Aductores",
+    "instrucciones": "Sentate con la espalda apoyada y colocá las piernas abiertas contra las almohadillas internas. Juntá las piernas con fuerza y volvé lentamente sin dejar que el peso rebote. Elegí una apertura inicial cómoda para no forzar la ingle."
+  },
+  {
+    "identificador": "sentadilla-con-salto",
+    "nombre": "Sentadilla con salto",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Bajá a una sentadilla con los muslos paralelos al piso y saltá hacia arriba de forma explosiva extendiendo todo el cuerpo. Aterrizá suave sobre la parte media del pie, flexionando las rodillas para amortiguar. Evitá este ejercicio si tenés molestias en las rodillas."
+  },
+  {
+    "identificador": "sentadilla-isometrica-en-pared",
+    "nombre": "Sentadilla isométrica en pared",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Cuádriceps",
+    "instrucciones": "Apoyá la espalda contra la pared y deslizate hasta que los muslos queden paralelos al piso, con las rodillas a 90 grados. Mantené la posición el tiempo indicado respirando de forma continua. No apoyes las manos sobre los muslos."
+  },
+  {
+    "identificador": "sentadilla-con-banda-elastica",
+    "nombre": "Sentadilla con banda elástica",
+    "parteDelCuerpo": "Piernas",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Cuádriceps y glúteo medio",
+    "instrucciones": "Colocá una banda alrededor de los muslos, por encima de las rodillas, y separá los pies al ancho de los hombros. Bajá a una sentadilla empujando las rodillas hacia afuera contra la banda y subí con control. No dejes que las rodillas colapsen hacia adentro."
+  },
+  {
+    "identificador": "hip-thrust-con-barra",
+    "nombre": "Hip thrust con barra",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Apoyá la parte alta de la espalda en un banco con la barra sobre la cadera, protegida con una almohadilla. Empujá con los talones hasta alinear rodillas, cadera y hombros, y apretá los glúteos arriba. Bajá con control y mantené el mentón cerca del pecho."
+  },
+  {
+    "identificador": "hip-thrust-en-maquina",
+    "nombre": "Hip thrust en máquina",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Sentate en la máquina con la espalda apoyada y el cinturón o almohadilla sobre la cadera. Empujá la cadera hacia arriba apretando los glúteos y bajá lentamente. Mantené los pies firmes y evitá arquear la zona lumbar."
+  },
+  {
+    "identificador": "puente-de-gluteos",
+    "nombre": "Puente de glúteos",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Acostate boca arriba con las rodillas flexionadas y los pies apoyados al ancho de la cadera. Elevá la cadera apretando los glúteos hasta formar una línea de hombros a rodillas y bajá despacio. Evitá arquear la espalda al subir."
+  },
+  {
+    "identificador": "puente-de-gluteos-a-una-pierna",
+    "nombre": "Puente de glúteos a una pierna",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Acostate boca arriba con un pie apoyado y la otra pierna estirada en el aire. Elevá la cadera empujando con el pie apoyado y bajá con control, manteniendo la pelvis nivelada. Repetí del otro lado."
+  },
+  {
+    "identificador": "puente-de-gluteos-con-pelota-suiza",
+    "nombre": "Puente de glúteos con pelota suiza",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Pelota suiza",
+    "musculoObjetivo": "Glúteo mayor e isquiotibiales",
+    "instrucciones": "Acostate boca arriba con los talones sobre una pelota suiza y los brazos a los costados. Elevá la cadera apretando los glúteos y, si podés, flexioná las rodillas para acercar la pelota. Bajá con control manteniendo el abdomen firme."
+  },
+  {
+    "identificador": "patada-de-gluteo-en-polea",
+    "nombre": "Patada de glúteo en polea",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Colocá una tobillera en un pie y enganchala a la polea baja, apoyándote con las manos en la máquina. Llevá la pierna hacia atrás con la rodilla casi estirada apretando el glúteo y volvé despacio. No arquees la espalda para subir más."
+  },
+  {
+    "identificador": "patada-de-gluteo-en-cuadrupedia",
+    "nombre": "Patada de glúteo en cuadrupedia",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Ubicate en cuatro apoyos con las manos bajo los hombros y las rodillas bajo la cadera. Elevá una pierna flexionada hacia el techo apretando el glúteo y bajala sin apoyar la rodilla. Mantené la espalda neutra sin rotar la cadera."
+  },
+  {
+    "identificador": "patada-de-gluteo-en-maquina",
+    "nombre": "Patada de glúteo en máquina",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Glúteo mayor",
+    "instrucciones": "Apoyá el pecho en el soporte y colocá el pie en la plataforma de la máquina. Empujá hacia atrás con la pierna hasta extender la cadera y volvé lentamente. Evitá usar impulso y mantené el torso fijo."
+  },
+  {
+    "identificador": "abduccion-con-banda-elastica",
+    "nombre": "Abducción con banda elástica",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Glúteo medio",
+    "instrucciones": "Acostate de costado con una banda alrededor de los muslos y las rodillas flexionadas. Elevá la rodilla de arriba abriendo la pierna sin mover la cadera y bajá lentamente. Mantené los pies juntos y la pelvis estable."
+  },
+  {
+    "identificador": "pasos-laterales-con-banda-elastica",
+    "nombre": "Pasos laterales con banda elástica",
+    "parteDelCuerpo": "Glúteos",
+    "equipamiento": "Banda elástica",
+    "musculoObjetivo": "Glúteo medio",
+    "instrucciones": "Colocá una banda alrededor de los muslos o tobillos y flexioná levemente las rodillas. Dá pasos laterales manteniendo la tensión de la banda sin juntar los pies del todo. Mantené el torso erguido y las puntas de los pies hacia adelante."
+  },
+  {
+    "identificador": "plancha-frontal",
+    "nombre": "Plancha frontal",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Recto abdominal y transverso",
+    "instrucciones": "Apoyá los antebrazos y las puntas de los pies en el piso con el cuerpo recto de la cabeza a los talones. Apretá el abdomen y los glúteos y mantené la posición respirando con normalidad. No dejes que la cadera se hunda ni suba demasiado."
+  },
+  {
+    "identificador": "plancha-lateral",
+    "nombre": "Plancha lateral",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Oblicuos",
+    "instrucciones": "Apoyate sobre un antebrazo con el codo bajo el hombro y los pies apilados, elevando la cadera del piso. Mantené el cuerpo en línea recta durante el tiempo indicado y repetí del otro lado. Si es difícil, apoyá la rodilla inferior."
+  },
+  {
+    "identificador": "plancha-en-pelota-suiza",
+    "nombre": "Plancha en pelota suiza",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Pelota suiza",
+    "musculoObjetivo": "Recto abdominal y transverso",
+    "instrucciones": "Apoyá los antebrazos sobre la pelota suiza y extendé las piernas, formando una línea recta. Mantené el abdomen apretado y el cuerpo estable sin que la pelota se mueva. Respirá de forma constante y no dejes caer la cadera."
+  },
+  {
+    "identificador": "crunch-abdominal",
+    "nombre": "Crunch abdominal",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Recto abdominal",
+    "instrucciones": "Acostate boca arriba con las rodillas flexionadas y las manos al costado de la cabeza. Elevá los hombros del piso contrayendo el abdomen y bajá lentamente sin relajar del todo. No tires del cuello con las manos."
+  },
+  {
+    "identificador": "crunch-en-polea-alta",
+    "nombre": "Crunch en polea alta",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Recto abdominal",
+    "instrucciones": "Arrodillate frente a la polea alta con la cuerda a ambos lados de la cabeza. Flexioná el torso llevando los codos hacia las rodillas contrayendo el abdomen y volvé con control. Mantené la cadera quieta y no tires con los brazos."
+  },
+  {
+    "identificador": "crunch-en-pelota-suiza",
+    "nombre": "Crunch en pelota suiza",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Pelota suiza",
+    "musculoObjetivo": "Recto abdominal",
+    "instrucciones": "Sentate sobre la pelota y deslizate hasta apoyar la zona lumbar, con los pies firmes en el piso. Elevá el torso contrayendo el abdomen y bajá hasta sentir un leve estiramiento. Mantené los pies bien apoyados para no perder el equilibrio."
+  },
+  {
+    "identificador": "crunch-inverso",
+    "nombre": "Crunch inverso",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Recto abdominal (porción inferior)",
+    "instrucciones": "Acostate boca arriba con las piernas flexionadas en el aire y los brazos al costado. Elevá la cadera del piso llevando las rodillas hacia el pecho y bajá despacio. Evitá balancear las piernas con impulso."
+  },
+  {
+    "identificador": "elevacion-de-piernas-acostado",
+    "nombre": "Elevación de piernas acostado",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Recto abdominal (porción inferior)",
+    "instrucciones": "Acostate boca arriba con las piernas estiradas y las manos bajo la cadera. Elevá las piernas hasta formar un ángulo de 90 grados y bajalas sin apoyar los talones. Mantené la zona lumbar pegada al piso y flexioná las rodillas si hace falta."
+  },
+  {
+    "identificador": "elevacion-de-piernas-colgado",
+    "nombre": "Elevación de piernas colgado",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Recto abdominal y flexores de cadera",
+    "instrucciones": "Colgate de una barra con los brazos extendidos y el cuerpo quieto. Elevá las rodillas o las piernas estiradas hasta la altura de la cadera y bajá con control. Evitá balancearte y empezá con las rodillas flexionadas."
+  },
+  {
+    "identificador": "bicicleta-abdominal",
+    "nombre": "Bicicleta abdominal",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Oblicuos y recto abdominal",
+    "instrucciones": "Acostate boca arriba con las manos detrás de la cabeza y las piernas elevadas. Llevá un codo hacia la rodilla contraria mientras estirás la otra pierna, y alterná en un movimiento fluido. No tires del cuello y mantené el ritmo controlado."
+  },
+  {
+    "identificador": "giro-ruso-con-mancuerna",
+    "nombre": "Giro ruso con mancuerna",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Oblicuos",
+    "instrucciones": "Sentate con las rodillas flexionadas, inclinate un poco hacia atrás y sostené una mancuerna con ambas manos. Girá el torso hacia un lado y luego al otro, llevando la mancuerna cerca del piso. Mantené la espalda recta y elevá los pies si querés más dificultad."
+  },
+  {
+    "identificador": "lenador-en-polea",
+    "nombre": "Leñador en polea",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Polea",
+    "musculoObjetivo": "Oblicuos",
+    "instrucciones": "Parate de costado a la polea alta y tomá el agarre con ambas manos. Llevá la polea en diagonal hacia la cadera contraria girando el torso y volvé con control. Mantené los pies firmes y los brazos casi estirados."
+  },
+  {
+    "identificador": "dead-bug",
+    "nombre": "Dead bug",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Transverso del abdomen",
+    "instrucciones": "Acostate boca arriba con los brazos al techo y las rodillas flexionadas a 90 grados. Bajá lentamente un brazo y la pierna contraria sin despegar la zona lumbar del piso y alterná los lados. Respirá de forma constante y movete despacio."
+  },
+  {
+    "identificador": "bird-dog",
+    "nombre": "Bird dog",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Transverso del abdomen y erector espinal",
+    "instrucciones": "Ubicate en cuatro apoyos con la espalda neutra. Estirá un brazo hacia adelante y la pierna contraria hacia atrás, mantené un segundo y volvé, alternando los lados. Evitá rotar la cadera y mirá hacia el piso."
+  },
+  {
+    "identificador": "abdominales-en-maquina",
+    "nombre": "Abdominales en máquina",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Recto abdominal",
+    "instrucciones": "Sentate en la máquina, ajustá el respaldo y sujetá los agarres a la altura del pecho. Flexioná el torso hacia adelante contrayendo el abdomen y volvé lentamente. Usá el abdomen y no los brazos para mover la carga."
+  },
+  {
+    "identificador": "escaladores",
+    "nombre": "Escaladores",
+    "parteDelCuerpo": "Abdomen",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Recto abdominal y flexores de cadera",
+    "instrucciones": "En posición de flexión con las manos bajo los hombros, llevá una rodilla hacia el pecho y alterná piernas rápidamente. Mantené la cadera baja y el abdomen firme. Controlá el ritmo para conservar la técnica."
+  },
+  {
+    "identificador": "elevacion-de-talones-de-pie-en-maquina",
+    "nombre": "Elevación de talones de pie en máquina",
+    "parteDelCuerpo": "Pantorrillas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Gemelos",
+    "instrucciones": "Ubicá los hombros bajo las almohadillas con la punta de los pies sobre la plataforma. Subí sobre las puntas lo más alto posible, pausá y bajá hasta sentir el estiramiento. Mantené las rodillas casi estiradas y hacé un movimiento lento."
+  },
+  {
+    "identificador": "elevacion-de-talones-sentado-en-maquina",
+    "nombre": "Elevación de talones sentado en máquina",
+    "parteDelCuerpo": "Pantorrillas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Sóleo",
+    "instrucciones": "Sentate con las rodillas bajo la almohadilla y las puntas de los pies en la plataforma. Elevá los talones al máximo, pausá un instante y bajá lentamente. Realizá repeticiones altas y con recorrido completo."
+  },
+  {
+    "identificador": "elevacion-de-talones-con-mancuernas",
+    "nombre": "Elevación de talones con mancuernas",
+    "parteDelCuerpo": "Pantorrillas",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Gemelos",
+    "instrucciones": "De pie con una mancuerna en cada mano y las puntas de los pies sobre un escalón. Subí en puntas lo más alto que puedas y bajá los talones por debajo del escalón. Podés sujetarte de algo para mantener el equilibrio."
+  },
+  {
+    "identificador": "elevacion-de-talones-en-prensa",
+    "nombre": "Elevación de talones en prensa",
+    "parteDelCuerpo": "Pantorrillas",
+    "equipamiento": "Máquina",
+    "musculoObjetivo": "Gemelos",
+    "instrucciones": "Sentate en la prensa con las piernas casi extendidas y las puntas de los pies en el borde de la plataforma. Empujá con las puntas hacia adelante y volvé despacio hasta sentir el estiramiento. Mantené las rodillas sin bloquear."
+  },
+  {
+    "identificador": "elevacion-de-talones-a-una-pierna",
+    "nombre": "Elevación de talones a una pierna",
+    "parteDelCuerpo": "Pantorrillas",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Gemelos",
+    "instrucciones": "Parate sobre una pierna en el borde de un escalón con las manos apoyadas para el equilibrio. Subí sobre la punta del pie y bajá el talón por debajo del escalón. Repetí del otro lado manteniendo el ritmo lento."
+  },
+  {
+    "identificador": "trote-en-cinta",
+    "nombre": "Trote en cinta",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Cinta de correr",
+    "musculoObjetivo": "Sistema cardiovascular y cuádriceps",
+    "instrucciones": "Subí a la cinta y empezá caminando para entrar en calor, luego aumentá la velocidad hasta un trote cómodo. Mantené la postura erguida, los hombros relajados y pisadas suaves. Terminá con unos minutos de caminata para recuperar."
+  },
+  {
+    "identificador": "caminata-inclinada-en-cinta",
+    "nombre": "Caminata inclinada en cinta",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Cinta de correr",
+    "musculoObjetivo": "Glúteo mayor y gemelos",
+    "instrucciones": "Ajustá la cinta a una inclinación del 8 al 12 por ciento y caminá a paso firme. Mantené el torso erguido y evitá sujetarte de las barandas para trabajar más. Es una opción de bajo impacto para quemar calorías."
+  },
+  {
+    "identificador": "intervalos-en-cinta",
+    "nombre": "Intervalos en cinta",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Cinta de correr",
+    "musculoObjetivo": "Sistema cardiovascular y cuádriceps",
+    "instrucciones": "Alterná tramos de 30 a 60 segundos a alta velocidad con períodos de recuperación a paso suave. Hacé un buen calentamiento antes y mantené los pies bien apoyados. Terminá con una caminata de enfriamiento."
+  },
+  {
+    "identificador": "bicicleta-fija-a-ritmo-constante",
+    "nombre": "Bicicleta fija a ritmo constante",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Bicicleta fija",
+    "musculoObjetivo": "Cuádriceps y sistema cardiovascular",
+    "instrucciones": "Ajustá el asiento a la altura de la cadera para que la rodilla quede apenas flexionada al pedalear. Mantené un ritmo constante y cómodo durante 20 a 40 minutos. Conservá la espalda recta y los hombros relajados."
+  },
+  {
+    "identificador": "intervalos-en-bicicleta-fija",
+    "nombre": "Intervalos en bicicleta fija",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Bicicleta fija",
+    "musculoObjetivo": "Cuádriceps y sistema cardiovascular",
+    "instrucciones": "Pedaleá fuerte durante 30 a 60 segundos y recuperá a ritmo suave durante el doble de tiempo. Repetí de 6 a 10 veces con el asiento bien ajustado. Mantené la espalda estable y no tires del manubrio con fuerza."
+  },
+  {
+    "identificador": "remo-ergometrico-a-ritmo-constante",
+    "nombre": "Remo ergométrico a ritmo constante",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Remo ergométrico",
+    "musculoObjetivo": "Dorsal ancho y cuádriceps",
+    "instrucciones": "Sentate con los pies sujetos y empujá con las piernas, luego inclinate hacia atrás y tirá del agarre hacia el abdomen. Volvé en el orden inverso: brazos, torso y piernas. Mantené la espalda recta y un ritmo constante."
+  },
+  {
+    "identificador": "intervalos-en-remo-ergometrico",
+    "nombre": "Intervalos en remo ergométrico",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Remo ergométrico",
+    "musculoObjetivo": "Cuerpo completo y sistema cardiovascular",
+    "instrucciones": "Alterná series de 30 a 60 segundos de remo intenso con recuperaciones suaves. Priorizá la técnica: empujá primero con las piernas y luego tirá con los brazos. Evitá encorvar la espalda aunque estés cansado."
+  },
+  {
+    "identificador": "salto-de-soga",
+    "nombre": "Salto de soga",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Gemelos y sistema cardiovascular",
+    "instrucciones": "Girá la soga con las muñecas y saltá con pequeños saltos sobre las puntas de los pies. Mantené los codos pegados al cuerpo y aterrizá suave. Empezá con series cortas y descansá entre ellas."
+  },
+  {
+    "identificador": "jumping-jacks",
+    "nombre": "Jumping jacks",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Sistema cardiovascular",
+    "instrucciones": "De pie con los pies juntos, saltá abriendo las piernas y llevando los brazos sobre la cabeza, y volvé a la posición inicial. Mantené un ritmo constante y aterrizá con las rodillas levemente flexionadas. Es ideal para entrar en calor."
+  },
+  {
+    "identificador": "rodillas-altas-en-el-lugar",
+    "nombre": "Rodillas altas en el lugar",
+    "parteDelCuerpo": "Cardio",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Cuádriceps y sistema cardiovascular",
+    "instrucciones": "Trotá en el lugar llevando las rodillas hasta la altura de la cadera y los brazos acompañando el movimiento. Mantené el torso erguido y aterrizá sobre la parte delantera del pie. Mantené un ritmo rápido durante el tiempo indicado."
+  },
+  {
+    "identificador": "burpees",
+    "nombre": "Burpees",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Pectoral mayor, cuádriceps y core",
+    "instrucciones": "Desde parado, agachate apoyando las manos en el piso, llevá los pies hacia atrás y hacé una flexión. Volvé los pies hacia las manos y saltá extendiendo el cuerpo. Mantené el abdomen firme y bajá el ritmo si perdés la técnica."
+  },
+  {
+    "identificador": "balanceo-con-kettlebell",
+    "nombre": "Balanceo con kettlebell",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Glúteo mayor e isquiotibiales",
+    "instrucciones": "Con los pies al ancho de los hombros, llevá la kettlebell entre las piernas con la espalda recta y empujá la cadera hacia adelante para balancearla hasta el pecho. Dejala caer controlando el movimiento con la cadera. El impulso viene de la cadera, no de los brazos."
+  },
+  {
+    "identificador": "thruster-con-mancuernas",
+    "nombre": "Thruster con mancuernas",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Cuádriceps y deltoides anterior",
+    "instrucciones": "Sostené las mancuernas a la altura de los hombros y bajá a una sentadilla profunda. Al subir, aprovechá el impulso para empujar las mancuernas sobre la cabeza y volvé a bajarlas a los hombros. Mantené el pecho erguido y el abdomen firme."
+  },
+  {
+    "identificador": "arranque-con-kettlebell",
+    "nombre": "Arranque con kettlebell",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Glúteo mayor y deltoides",
+    "instrucciones": "Balanceá la kettlebell entre las piernas y, con el impulso de la cadera, llevala hasta arriba de la cabeza en un solo movimiento. Bajala con control del mismo modo. Practicá primero con poco peso para dominar la técnica."
+  },
+  {
+    "identificador": "levantada-turca",
+    "nombre": "Levantada turca",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Core y deltoides",
+    "instrucciones": "Acostate de espaldas sosteniendo la kettlebell con un brazo estirado hacia el techo. Incorporate paso a paso hasta quedar de pie, siempre mirando la pesa, y revertí el movimiento. Empezá con un peso liviano o sin peso hasta aprender la secuencia."
+  },
+  {
+    "identificador": "cargada-de-potencia-con-barra",
+    "nombre": "Cargada de potencia con barra",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Glúteo mayor, trapecio y cuádriceps",
+    "instrucciones": "Con la barra en el piso, extendé la cadera y las rodillas de forma explosiva y tirá hacia arriba apoyando la barra sobre los hombros. Amortiguá la recepción flexionando las rodillas. Es un movimiento técnico: aprendelo con ayuda de un entrenador."
+  },
+  {
+    "identificador": "hombre-y-mujer-maravilla-con-mancuernas",
+    "nombre": "Hombre y mujer maravilla con mancuernas",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Pectoral mayor, dorsal ancho y core",
+    "instrucciones": "Con una mancuerna en cada mano, hacé una flexión, remá una mancuerna y luego la otra. Saltá los pies hacia las manos y levantate con un press sobre la cabeza. Elegí mancuernas hexagonales y poco peso."
+  },
+  {
+    "identificador": "salto-al-cajon",
+    "nombre": "Salto al cajón",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Banco",
+    "musculoObjetivo": "Cuádriceps y glúteo mayor",
+    "instrucciones": "Parate frente a un cajón firme, flexioná las rodillas y saltá aterrizando con ambos pies sobre él. Bajá caminando para cuidar las articulaciones. Elegí una altura acorde a tu nivel."
+  },
+  {
+    "identificador": "peso-muerto-con-press",
+    "nombre": "Peso muerto con press",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Barra",
+    "musculoObjetivo": "Glúteo mayor, trapecio y deltoides",
+    "instrucciones": "Realizá un peso muerto hasta quedar erguido y llevá la barra hasta los hombros. Empujala sobre la cabeza y devolvela al piso por el mismo camino. Mantené la espalda recta en todo el movimiento y usá poco peso."
+  },
+  {
+    "identificador": "oso-trepador",
+    "nombre": "Oso trepador",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Peso corporal",
+    "musculoObjetivo": "Core y deltoides anterior",
+    "instrucciones": "Apoyá manos y puntas de los pies con las rodillas despegadas apenas del piso y la espalda plana. Avanzá moviendo mano y pie contrarios, manteniendo la cadera baja. Mantené el abdomen firme y movimientos lentos."
+  },
+  {
+    "identificador": "sentadilla-con-press-sobre-la-cabeza",
+    "nombre": "Sentadilla con press sobre la cabeza",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Mancuernas",
+    "musculoObjetivo": "Cuádriceps y deltoides anterior",
+    "instrucciones": "Sostené las mancuernas en los hombros y bajá a una sentadilla. Subí empujando los pies y las mancuernas hacia arriba hasta extender los brazos, y volvé a bajar. Mantené el torso erguido y el abdomen firme."
+  },
+  {
+    "identificador": "sentadilla-con-kettlebell-y-press",
+    "nombre": "Sentadilla con kettlebell y press",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Kettlebell",
+    "musculoObjetivo": "Cuádriceps y deltoides",
+    "instrucciones": "Sostené la kettlebell con una mano a la altura del hombro y hacé una sentadilla. Al subir, empujá la pesa por encima de la cabeza y bajala controlando el movimiento. Realizá todas las repeticiones de un lado y luego cambiá."
+  },
+  {
+    "identificador": "flexion-con-salto",
+    "nombre": "Flexión con salto",
+    "parteDelCuerpo": "Cuerpo completo",
+    "equipamiento": "Sin equipamiento",
+    "musculoObjetivo": "Pectoral mayor y core",
+    "instrucciones": "En posición de flexión, bajá el pecho y empujá con fuerza para despegar las manos del suelo. Aterrizá suave con los codos levemente flexionados. Hacelo solo si ya dominás la flexión convencional."
+  }
+]

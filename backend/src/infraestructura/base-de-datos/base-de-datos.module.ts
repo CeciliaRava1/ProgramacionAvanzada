@@ -8,19 +8,13 @@ import { CrearSesiones1792713600001 } from './migraciones/1792713600001-crear-se
 import { EsquemaDeSesion } from '../../usuarios/infraestructura/almacen-de-sesiones.js';
 import { CrearSolicitudesYVinculaciones1792800000001 } from './migraciones/1792800000001-crear-solicitudes-y-vinculaciones.js';
 import { EsquemaDeSolicitud, EsquemaDeVinculacion } from '../../usuarios/infraestructura/repositorio-de-solicitudes-typeorm.js';
-import { TrainingPlanSchema } from '../../plans/infrastructure/typeorm-training-plan.repository.js';
-import { CreateTrainingPlans1792800000002 } from './migraciones/1792800000002-create-training-plans.js';
-import { UniqueTrainingPlanStudent1792800000003 } from './migraciones/1792800000003-unique-training-plan-student.js';
-import { SoftDeleteTrainingPlans1792800000004 } from './migraciones/1792800000004-soft-delete-training-plans.js';
-import { TrainingProgramSchema } from '../../plans/infrastructure/typeorm-training-program.repository.js';
-import { CreateTrainingPrograms1792800000005 } from './migraciones/1792800000005-create-training-programs.js';
-import { TrainingRoutineSchema } from '../../plans/infrastructure/typeorm-training-routine.repository.js';
-import { CreateTrainingRoutines1792800000006 } from './migraciones/1792800000006-create-training-routines.js';
-import { ExerciseSchema } from '../../plans/infrastructure/typeorm-exercise.repository.js';
-import { RoutineExerciseSchema } from '../../plans/infrastructure/typeorm-routine-exercise.repository.js';
-import { CreateExercises1792800000007 } from './migraciones/1792800000007-create-exercises.js';
-import { AddRecommendedRir1792800000009 } from './migraciones/1792800000009-add-recommended-rir.js';
-import { AllowEmptyExerciseDetails1792800000010 } from './migraciones/1792800000010-allow-empty-exercise-details.js';
+import { EsquemaDePlan } from '../../planes/infraestructura/repositorio-de-planes-typeorm.js';
+import { EsquemaDeRutina } from '../../planes/infraestructura/repositorio-de-rutinas-typeorm.js';
+import { EsquemaDeEjercicio } from '../../planes/infraestructura/repositorio-de-ejercicios-typeorm.js';
+import { EsquemaDeEjercicioDeRutina } from '../../planes/infraestructura/repositorio-de-ejercicios-de-rutina-typeorm.js';
+import { CrearPlanesDeEntrenamiento1792800000002 } from './migraciones/1792800000002-crear-planes-de-entrenamiento.js';
+import { CrearRutinas1792800000003 } from './migraciones/1792800000003-crear-rutinas.js';
+import { CrearEjercicios1792800000004 } from './migraciones/1792800000004-crear-ejercicios.js';
 import { CrearRecuperacionesDeContrasena1792900000000 } from './migraciones/1792900000000-crear-recuperaciones-de-contrasena.js';
 
 export function validarEntornoDeBaseDeDatos(
@@ -57,8 +51,8 @@ export function validarEntornoDeBaseDeDatos(
         database: config.getOrThrow<string>('MYSQL_DATABASE'),
         username: config.getOrThrow<string>('MYSQL_USER'),
         password: config.getOrThrow<string>('MYSQL_PASSWORD'),
-        entities: [EsquemaDeUsuario, EsquemaDeSesion, EsquemaDeSolicitud, EsquemaDeVinculacion, TrainingPlanSchema, TrainingProgramSchema, TrainingRoutineSchema, ExerciseSchema, RoutineExerciseSchema],
-        migrations: [CrearUsuarios1792713600000, CrearSesiones1792713600001, CrearSolicitudesYVinculaciones1792800000001, CreateTrainingPlans1792800000002, UniqueTrainingPlanStudent1792800000003, SoftDeleteTrainingPlans1792800000004, CreateTrainingPrograms1792800000005, CreateTrainingRoutines1792800000006, CreateExercises1792800000007, AddRecommendedRir1792800000009, AllowEmptyExerciseDetails1792800000010, CrearRecuperacionesDeContrasena1792900000000],
+        entities: [EsquemaDeUsuario, EsquemaDeSesion, EsquemaDeSolicitud, EsquemaDeVinculacion, EsquemaDePlan, EsquemaDeRutina, EsquemaDeEjercicio, EsquemaDeEjercicioDeRutina],
+        migrations: [CrearUsuarios1792713600000, CrearSesiones1792713600001, CrearSolicitudesYVinculaciones1792800000001, CrearPlanesDeEntrenamiento1792800000002, CrearRutinas1792800000003, CrearEjercicios1792800000004, CrearRecuperacionesDeContrasena1792900000000],
         timezone: 'Z',
         // DATE representa un día de calendario; no debe convertirse a una hora local.
         dateStrings: ['DATE'],

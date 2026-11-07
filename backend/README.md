@@ -9,7 +9,7 @@ Desde la raíz del repositorio:
 | Acción | Comando |
 |---|---|
 | Ejecutar los tests | `docker compose run --rm backend npm test` |
-| Volver a crear tablas, catálogo y administrador | `docker compose run --rm migrar` |
+| Volver a crear tablas, catálogo de ejercicios y administrador | `docker compose run --rm migrar` |
 | Abrir una terminal dentro del contenedor | `docker compose exec backend sh` |
 
 Comprobación del backend: <http://127.0.0.1:3000/health>.
