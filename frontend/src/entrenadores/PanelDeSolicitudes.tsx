@@ -12,6 +12,7 @@ export function PanelDeSolicitudes({ alAceptar, alCambiarCantidad, alCambiarOcup
   const [mensaje, setMensaje] = useState('');
   const [accionFallida, setAccionFallida] = useState(false);
   const [idOcupado, setIdOcupado] = useState<number | null>(null);
+  const [accionEnCurso, setAccionEnCurso] = useState<AccionSobreSolicitud | null>(null);
   const [intento, setIntento] = useState(0);
   const operacion = useRef<AbortController | null>(null);
   useEffect(() => () => {
@@ -64,6 +65,7 @@ export function PanelDeSolicitudes({ alAceptar, alCambiarCantidad, alCambiarOcup
     const controlador = new AbortController();
     operacion.current = controlador;
     setIdOcupado(id);
+    setAccionEnCurso(accion);
     alCambiarOcupado(true);
     setMensaje('');
     setAccionFallida(false);
@@ -120,18 +122,29 @@ export function PanelDeSolicitudes({ alAceptar, alCambiarCantidad, alCambiarOcup
         (
           <ul className="list" aria-label="Solicitudes pendientes">
             {solicitudes.map((solicitud) => (
-              <li key={solicitud.id} className="fila-de-solicitud">
-                <p className="row-title">{solicitud.alumno.nombre} {solicitud.alumno.apellido}</p>
+              <li key={solicitud.id} className="tarjeta-de-solicitud">
+                <div className="cabecera-de-solicitud">
+                  <span className="iniciales iniciales-grandes" aria-hidden="true">
+                    {solicitud.alumno.nombre.slice(0, 1)}
+                    {solicitud.alumno.apellido.slice(0, 1)}
+                  </span>
+                  <div className="row-copy">
+                    <p className="row-title">{solicitud.alumno.nombre} {solicitud.alumno.apellido}</p>
+                    <p className="row-meta">Quiere ser tu alumno</p>
+                  </div>
+                </div>
                 <div className="acciones-de-solicitud">
-                  {(['aceptar', 'rechazar', 'cancelar'] as const).map((accion) => (
+                  {(['rechazar', 'aceptar'] as const).map((accion) => (
                     <button
                       key={accion}
                       type="button"
                       disabled={idOcupado !== null || cargando}
                       onClick={() => responder(solicitud.id, accion)}
-                      className={accion === 'aceptar' ? 'primary' : accion === 'rechazar' ? 'text-button peligro' : 'secondary'}
+                      className={accion === 'aceptar' ? 'primary' : 'secondary'}
                     >
-                      {idOcupado === solicitud.id ? 'Procesando…' : accion === 'aceptar' ? 'Aceptar' : accion === 'rechazar' ? 'Rechazar' : 'Cancelar'}
+                      {idOcupado === solicitud.id && accionEnCurso === accion
+                        ? (accion === 'aceptar' ? 'Aceptando…' : 'Rechazando…')
+                        : (accion === 'aceptar' ? 'Aceptar' : 'Rechazar')}
                     </button>
                   ))}
                 </div>
