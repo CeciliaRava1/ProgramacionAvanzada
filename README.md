@@ -67,7 +67,7 @@ Los tests del backend usan la base MySQL del compose.
 |---|---|
 | `mysql` | Base de datos MySQL 8.4. Datos en el volumen `mysql_data`. |
 | `mailpit` | Bandeja de correo de desarrollo: recibe los correos del backend (SMTP interno en el puerto 1025) y los muestra en el puerto 8025. |
-| `migrar` | Crea las tablas, importa el catálogo y crea el administrador inicial. Se ejecuta al iniciar y termina. |
+| `migrar` | Crea las tablas, siembra el catálogo de ejercicios (`backend/datos/ejercicios.json`) y crea el administrador inicial. Se ejecuta al iniciar y termina. |
 | `backend` | NestJS en el puerto 3000, con recarga automática al editar `backend/src`. |
 | `frontend` | React con Vite en el puerto 5173, con recarga automática al editar `frontend/src`. |
 

@@ -50,7 +50,7 @@ services:
       timeout: 5s
       retries: 10
 
-  # Crea las tablas, importa el catálogo y el administrador inicial. Termina al finalizar.
+  # Crea las tablas, siembra el catálogo de ejercicios (backend/datos) y el administrador inicial. Termina al finalizar.
   migrar:
     build: ./backend
     command: ["npm", "run", "bd:preparar"]
@@ -61,6 +61,7 @@ services:
     volumes:
       # El mismo código que el backend: así las migraciones nuevas se aplican sin reconstruir la imagen.
       - ./backend/src:/app/src
+      - ./backend/datos:/app/datos
     restart: "no"
 
   backend:
@@ -78,6 +79,7 @@ services:
       - "127.0.0.1:3000:3000"
     volumes:
       - ./backend/src:/app/src
+      - ./backend/datos:/app/datos
       - ./backend/test:/app/test
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
