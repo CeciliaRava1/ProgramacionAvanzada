@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { createTrainingProgram, getTrainingPrograms, getTrainingProgramFieldErrors, parseProgramDate, formatProgramDate, type TrainingProgram, type TrainingProgramFieldErrors } from './training-programs.ts';
 import { TrainingRoutinesPanel } from './TrainingRoutinesPanel.tsx';
-import type { TrainerRoute, NavigateTrainer } from '../trainers/trainer-navigation.ts';
-import { Icon } from '../ui/Icon.tsx';
+import type { RutaDelEntrenador, NavegarEntrenador } from '../entrenadores/navegacion-del-entrenador.ts';
+import { Icono } from '../interfaz/Icono.tsx';
 
 export function TrainingProgramPanel({ studentId, studentName, planId, disabled, route, onNavigate, onSavingChange }: {
   studentId: number;
   studentName: string;
   planId: number;
   disabled: boolean;
-  route: TrainerRoute;
-  onNavigate: NavigateTrainer;
+  route: RutaDelEntrenador;
+  onNavigate: NavegarEntrenador;
   onSavingChange: (saving: boolean) => void;
 }) {
   const [programs, setPrograms] = useState<TrainingProgram[] | null>(null);
@@ -120,7 +120,7 @@ export function TrainingProgramPanel({ studentId, studentName, planId, disabled,
     {form &&
       <>
         <button type="button" className="back" disabled={saving} onClick={back}>
-          <Icon name="back" />
+          <Icono nombre="atras" />
           {studentName}
         </button>
         <header className="page-head">
@@ -161,7 +161,7 @@ export function TrainingProgramPanel({ studentId, studentName, planId, disabled,
           className="primary"
           disabled={disabled}
           onClick={() => onNavigate({ screen: 'program-form', studentId })}
-        ><Icon name="plus" />Crear programa</button>
+        ><Icono nombre="mas" />Crear programa</button>
       </div>}
     {form && programs !== null &&
       <form onSubmit={submit} noValidate className="edit-form">

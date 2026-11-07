@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { ExercisePicker } from './ExercisePicker.tsx';
 import { RoutineExerciseEditor } from './RoutineExerciseEditor.tsx';
 import { getRoutineExercises, saveRoutineExercise, routineExerciseSummary, formatRestTime, isExercise, RoutineExerciseError, type RoutineContext, type RoutineExercise, type RoutineExerciseInput } from './routine-exercises.ts';
-import { trainerHref, type TrainerRoute, type NavigateTrainer } from '../trainers/trainer-navigation.ts';
-import { Icon } from '../ui/Icon.tsx';
-import { Dialog } from '../ui/Dialog.tsx';
+import { hrefDelEntrenador, type RutaDelEntrenador, type NavegarEntrenador } from '../entrenadores/navegacion-del-entrenador.ts';
+import { Icono } from '../interfaz/Icono.tsx';
+import { Dialogo } from '../interfaz/Dialogo.tsx';
 
 export function RoutineExercisesPanel({ context, studentName, routineName, disabled, route, onNavigate, onBusyChange }: {
   context: RoutineContext;
   studentName: string;
   routineName: string;
   disabled: boolean;
-  route: TrainerRoute;
-  onNavigate: NavigateTrainer;
+  route: RutaDelEntrenador;
+  onNavigate: NavegarEntrenador;
   onBusyChange: (saving: boolean) => void;
 }) {
   const [entries, setEntries] = useState<RoutineExercise[] | null>(null);
@@ -30,7 +30,7 @@ export function RoutineExercisesPanel({ context, studentName, routineName, disab
     operation.current?.abort();
     onBusyChange(false);
   }, [onBusyChange]);
-  const routeKey = trainerHref(route);
+  const routeKey = hrefDelEntrenador(route);
   useEffect(() => {
     setSaveError('');
     setUncertain(false);
@@ -141,7 +141,7 @@ export function RoutineExercisesPanel({ context, studentName, routineName, disab
               {[item.restSeconds === null ? '' : 'Descanso ' + formatRestTime(item.restSeconds), item.recommendedRir === null ? '' : 'RIR ' + item.recommendedRir].filter(Boolean).join(' · ')}
             </span>}
         </span>
-        <Icon name="chevron" />
+        <Icono nombre="flecha" />
       </button>
     </li>)}
   </ul>;
@@ -160,16 +160,16 @@ export function RoutineExercisesPanel({ context, studentName, routineName, disab
       </div>}
     <div className="section-head">
       <h2>Ejercicios{entries && <span className="muted small"> · {entries.length}</span>}</h2>
-      <button type="button" className="primary" disabled={unavailable} onClick={catalog}><Icon name="plus" />Agregar ejercicio</button>
+      <button type="button" className="primary" disabled={unavailable} onClick={catalog}><Icono nombre="mas" />Agregar ejercicio</button>
     </div>
     {message && <p role="status" className="notice text-brand">{message}</p>}
     {!loading && !loadError && entries?.length === 0 && <div className="empty"><p>Todavía no hay ejercicios en esta rutina.</p></div>}
     {list}
-    <Dialog
-      open={!overview}
-      title={configuring ? route.entryId ? 'Editar indicaciones' : 'Indicaciones' : 'Agregar ejercicio'}
-      busy={saving}
-      onClose={back}
+    <Dialogo
+      abierto={!overview}
+      titulo={configuring ? route.entryId ? 'Editar indicaciones' : 'Indicaciones' : 'Agregar ejercicio'}
+      ocupado={saving}
+      alCerrar={back}
     >
       <p className="dialog-context">{routineName} · {studentName}</p>
       {loadError &&
@@ -191,7 +191,7 @@ export function RoutineExercisesPanel({ context, studentName, routineName, disab
       </div>
       {configuring && exercise &&
         <>
-          {!entry && !uncertain && <button type="button" className="back" disabled={saving} onClick={catalog}><Icon name="back" />Catálogo</button>}
+          {!entry && !uncertain && <button type="button" className="back" disabled={saving} onClick={catalog}><Icono nombre="atras" />Catálogo</button>}
           <h3 className="dialog-exercise-name">{exercise.name}</h3>
           <RoutineExerciseEditor
             key={routeKey}
@@ -213,6 +213,6 @@ export function RoutineExercisesPanel({ context, studentName, routineName, disab
         </div>}
       {uncertain &&
         <p role="alert" className="notice text-danger">Cerrá esta ventana y comprobá el resultado en la rutina antes de guardar otra vez.</p>}
-    </Dialog>
+    </Dialogo>
   </section>;
 }

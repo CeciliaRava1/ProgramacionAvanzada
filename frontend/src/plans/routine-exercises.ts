@@ -1,4 +1,4 @@
-import { isRecordWithKeys } from '../validation.ts';
+import { esRegistroConClaves } from '../validacion.ts';
 
 export interface Exercise {
   id: number;
@@ -108,7 +108,7 @@ const isId = (value: unknown): value is number =>
 export function isExercise(value: unknown): value is Exercise {
   const keys = ['id', 'name', 'bodyPart', 'equipment', 'target', 'instructions'];
 
-  return isRecordWithKeys(value, keys) &&
+  return esRegistroConClaves(value, keys) &&
     isId(value.id) &&
     keys.slice(1).every(key => {
       const text = value[key];
@@ -117,7 +117,7 @@ export function isExercise(value: unknown): value is Exercise {
 }
 
 export function isRoutineExercise(value: unknown, routineId: number): value is RoutineExercise {
-  if (!isRecordWithKeys(value, [
+  if (!esRegistroConClaves(value, [
     'id', 'routineId', 'exerciseId', 'exercise', 'setCount',
     'recommendedRepetitions', 'recommendedWeightKg', 'restSeconds', 'recommendedRir',
   ])) {
@@ -147,7 +147,7 @@ export function isRoutineExercise(value: unknown, routineId: number): value is R
 }
 
 function isExercisePage(value: unknown): value is ExercisePage {
-  return isRecordWithKeys(value, ['items', 'total', 'bodyParts', 'equipment']) &&
+  return esRegistroConClaves(value, ['items', 'total', 'bodyParts', 'equipment']) &&
     Array.isArray(value.items) &&
     value.items.length <= 20 &&
     value.items.every(isExercise) &&

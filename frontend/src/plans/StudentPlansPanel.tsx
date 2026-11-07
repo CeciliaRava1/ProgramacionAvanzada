@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import type { AssignedStudent } from '../trainers/assigned-students.ts';
-import type { TrainerRoute, NavigateTrainer } from '../trainers/trainer-navigation.ts';
-import { Icon } from '../ui/Icon.tsx';
+import type { AlumnoAsignado } from '../entrenadores/alumnos-asignados.ts';
+import type { RutaDelEntrenador, NavegarEntrenador } from '../entrenadores/navegacion-del-entrenador.ts';
+import { Icono } from '../interfaz/Icono.tsx';
 import { createTrainingPlan, updateTrainingPlan, deleteTrainingPlan, getTrainingPlans, getTrainingPlanFieldErrors, type TrainingPlan, type TrainingPlanFieldErrors } from './training-plans.ts';
 import { TrainingProgramPanel } from './TrainingProgramPanel.tsx';
 
 export function StudentPlansPanel({ student, route, onNavigate, onBusyChange }: {
-  student: AssignedStudent;
-  route: TrainerRoute;
-  onNavigate: NavigateTrainer;
+  student: AlumnoAsignado;
+  route: RutaDelEntrenador;
+  onNavigate: NavegarEntrenador;
   onBusyChange: (busy: boolean) => void;
 }) {
   const [plans, setPlans] = useState<TrainingPlan[] | null>(null);
@@ -180,7 +180,7 @@ export function StudentPlansPanel({ student, route, onNavigate, onBusyChange }: 
     form = route.screen === 'plan-form',
     deleting = route.screen === 'delete-plan',
     overview = route.screen === 'student';
-  const studentName = student.firstName + ' ' + student.lastName;
+  const studentName = student.nombre + ' ' + student.apellido;
 
   return <section aria-busy={saving}>
     {(overview || form || deleting || !plan) &&
@@ -189,9 +189,9 @@ export function StudentPlansPanel({ student, route, onNavigate, onBusyChange }: 
           type="button"
           className="back"
           disabled={saving}
-          onClick={overview || !plan && !form && !deleting ? () => onNavigate({ screen: 'students' }) : back}
+          onClick={overview || !plan && !form && !deleting ? () => onNavigate({ screen: 'alumnos' }) : back}
         >
-          <Icon name="back" />
+          <Icono nombre="atras" />
           {overview || !plan && !form && !deleting ? 'Alumnos' : studentName}
         </button>
         <header className="page-head">
@@ -226,12 +226,12 @@ export function StudentPlansPanel({ student, route, onNavigate, onBusyChange }: 
             disabled={loading}
             onClick={() => onNavigate({ screen: 'plan-form', studentId: student.id })}
           >
-            <Icon name="edit" />
+            <Icono nombre="editar" />
           </button>
         </div>
         <p className="objective">{plan.objective}</p>
         <details className="plan-options">
-          <summary><Icon name="down" />Más opciones del plan</summary>
+          <summary><Icono nombre="abajo" />Más opciones del plan</summary>
           <button
             type="button"
             className="text-button danger"
@@ -248,7 +248,7 @@ export function StudentPlansPanel({ student, route, onNavigate, onBusyChange }: 
           type="button"
           className="primary"
           onClick={() => onNavigate({ screen: 'plan-form', studentId: student.id })}
-        ><Icon name="plus" />Crear plan</button>
+        ><Icono nombre="mas" />Crear plan</button>
       </div>}
     {form && plans !== null &&
       <form onSubmit={submit} noValidate className="edit-form">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { searchExercises, type Exercise, type ExercisePage, type ExerciseFilters } from './routine-exercises.ts';
-import { Icon } from '../ui/Icon.tsx';
+import { Icono } from '../interfaz/Icono.tsx';
 
 export function ExercisePicker({ active, disabled, onPick }: {
   active: boolean;
@@ -50,7 +50,7 @@ export function ExercisePicker({ active, disabled, onPick }: {
   return <section aria-label="Catálogo de ejercicios" aria-busy={loading}>
     <label htmlFor="exercise-catalog-search">Buscar ejercicio</label>
     <div className="search-field">
-      <Icon name="search" />
+      <Icono nombre="buscar" />
       <input
         id="exercise-catalog-search"
         type="search"
@@ -63,7 +63,7 @@ export function ExercisePicker({ active, disabled, onPick }: {
       />
     </div>
     <details className="filters">
-      <summary><Icon name="down" />Filtros{(filters.bodyPart || filters.equipment) && <span className="badge">Activos</span>}</summary>
+      <summary><Icono nombre="abajo" />Filtros{(filters.bodyPart || filters.equipment) && <span className="badge">Activos</span>}</summary>
       <div className="filters-grid">
         {(['bodyPart', 'equipment'] as const).map(field => <div key={field}>
           <label htmlFor={'catalog-' + field}>{field === 'bodyPart' ? 'Grupo corporal' : 'Equipamiento'}</label>
@@ -103,7 +103,7 @@ export function ExercisePicker({ active, disabled, onPick }: {
               <span className="row-title">{exercise.name}</span>
               <span className="row-meta">{exercise.target} · {exercise.equipment}</span>
             </span>
-            <span className="catalog-add"><Icon name="plus" /></span>
+            <span className="catalog-add"><Icono nombre="mas" /></span>
           </button>
         </li>)}
       </ul>}

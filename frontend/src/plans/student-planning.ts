@@ -2,7 +2,7 @@ import { isTrainingPlan, type TrainingPlan } from './training-plans.ts';
 import { isTrainingProgram, type TrainingProgram } from './training-programs.ts';
 import { isTrainingRoutine, type TrainingRoutine } from './training-routines.ts';
 import { isRoutineExercise, type RoutineExercise } from './routine-exercises.ts';
-import { isRecordWithKeys } from '../validation.ts';
+import { esRegistroConClaves } from '../validacion.ts';
 
 export interface StudentPlanningView {
   plan: TrainingPlan | null;
@@ -31,7 +31,7 @@ function invalid(): never {
 }
 
 function isStudentPlanningView(value: unknown, studentId: number): value is StudentPlanningView {
-  if (!isRecordWithKeys(value, ['plan', 'program', 'routines']) || !Array.isArray(value.routines)) {
+  if (!esRegistroConClaves(value, ['plan', 'program', 'routines']) || !Array.isArray(value.routines)) {
     return false;
   }
 
@@ -59,7 +59,7 @@ function isStudentRoutineView(
   routineId: number,
   programId: number,
 ): value is StudentRoutineView {
-  return isRecordWithKeys(value, ['routine', 'exercises']) &&
+  return esRegistroConClaves(value, ['routine', 'exercises']) &&
     isTrainingRoutine(value.routine, programId) &&
     value.routine.id === routineId &&
     Array.isArray(value.exercises) &&

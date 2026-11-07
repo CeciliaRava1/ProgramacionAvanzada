@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getStudentPlanning, getStudentRoutine, StudentPlanningError, type StudentPlanningView, type StudentRoutineView } from './student-planning.ts';
 import { formatProgramDate } from './training-programs.ts';
 import { formatRestTime, routineExerciseSummary } from './routine-exercises.ts';
-import { Icon } from '../ui/Icon.tsx';
+import { Icono } from '../interfaz/Icono.tsx';
 
 export function StudentPlanningPanel({ studentId, routineId, onOpenRoutine, onBack }: {
   studentId: number;
@@ -80,7 +80,7 @@ export function StudentPlanningPanel({ studentId, routineId, onOpenRoutine, onBa
 
   if (routineId !== undefined) {
     return <section aria-label="Consulta de rutina" className="student-planning" aria-busy={loading}>
-      <button type="button" className="back" onClick={onBack}><Icon name="back" />Mi plan</button>
+      <button type="button" className="back" onClick={onBack}><Icono nombre="atras" />Mi plan</button>
       <header className="page-head">
         <div>
           <h1 id="page-title" tabIndex={-1}>{error?.status === 404 ? 'Rutina no disponible' : details?.routine.name ?? 'Rutina'}</h1>
@@ -104,7 +104,7 @@ export function StudentPlanningPanel({ studentId, routineId, onOpenRoutine, onBa
                     {[entry.restSeconds === null ? '' : 'Descanso ' + formatRestTime(entry.restSeconds), entry.recommendedRir === null ? '' : 'RIR ' + entry.recommendedRir].filter(Boolean).join(' · ')}
                   </p>}
                 <details className="exercise-description">
-                  <summary><Icon name="chevron" />Cómo se realiza</summary>
+                  <summary><Icono nombre="flecha" />Cómo se realiza</summary>
                   <p>{entry.exercise.instructions}</p>
                 </details>
               </article>
@@ -145,7 +145,7 @@ export function StudentPlanningPanel({ studentId, routineId, onOpenRoutine, onBa
                       <span className="row-title">{routine.name}</span>
                       {routine.description && <span className="row-meta">{routine.description}</span>}
                     </span>
-                    <Icon name="chevron" />
+                    <Icono nombre="flecha" />
                   </button>
                 </li>)}
               </ul>

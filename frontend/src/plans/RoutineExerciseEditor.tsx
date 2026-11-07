@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Icon } from '../ui/Icon.tsx';
+import { Icono } from '../interfaz/Icono.tsx';
 import { formatRestTime, parseRestTime, getRoutineExerciseFieldErrors, type Exercise, type RoutineExercise, type RoutineExerciseInput, type RoutineExerciseFieldErrors } from './routine-exercises.ts';
 
 export function RoutineExerciseEditor({ exercise, entry, saving, blocked, error, onBack, onSave }: {
@@ -88,7 +88,7 @@ export function RoutineExerciseEditor({ exercise, entry, saving, blocked, error,
   return <section aria-label="Indicaciones del ejercicio">
     <p className="muted small">{exercise.target} · {exercise.equipment}</p>
     <details className="exercise-description">
-      <summary><Icon name="chevron" />Cómo se realiza</summary>
+      <summary><Icono nombre="flecha" />Cómo se realiza</summary>
       <p>{exercise.instructions}</p>
     </details>
     <form onSubmit={submit} noValidate className="edit-form" aria-busy={saving}>

@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { createTrainingRoutine, updateTrainingRoutine, getTrainingRoutines, TrainingRoutineError, type TrainingRoutine, type TrainingRoutineInput } from './training-routines.ts';
 import { TrainingRoutineEditor } from './TrainingRoutineEditor.tsx';
 import { RoutineExercisesPanel } from './RoutineExercisesPanel.tsx';
-import type { TrainerRoute, NavigateTrainer } from '../trainers/trainer-navigation.ts';
-import { Icon } from '../ui/Icon.tsx';
+import type { RutaDelEntrenador, NavegarEntrenador } from '../entrenadores/navegacion-del-entrenador.ts';
+import { Icono } from '../interfaz/Icono.tsx';
 
 export function TrainingRoutinesPanel({ studentId, studentName, planId, programId, programName, disabled, route, onNavigate, onSavingChange }: {
   studentId: number;
@@ -12,8 +12,8 @@ export function TrainingRoutinesPanel({ studentId, studentName, planId, programI
   programId: number;
   programName: string;
   disabled: boolean;
-  route: TrainerRoute;
-  onNavigate: NavigateTrainer;
+  route: RutaDelEntrenador;
+  onNavigate: NavegarEntrenador;
   onSavingChange: (saving: boolean) => void;
 }) {
   const [routines, setRoutines] = useState<TrainingRoutine[] | null>(null);
@@ -125,7 +125,7 @@ export function TrainingRoutinesPanel({ studentId, studentName, planId, programI
             setMessage('');
             onNavigate({ screen: 'routine-form', studentId });
           }}
-        ><Icon name="plus" />Crear rutina</button>
+        ><Icono nombre="mas" />Crear rutina</button>
       </div>}
     {loading && routines === null && <p role="status" className="notice muted">Consultando rutinas…</p>}
     {loadError &&
@@ -155,14 +155,14 @@ export function TrainingRoutinesPanel({ studentId, studentName, planId, programI
               <span className="row-title">{routine.name}</span>
               {routine.description && <span className="row-meta">{routine.description}</span>}
             </span>
-            <Icon name="chevron" />
+            <Icono nombre="flecha" />
           </button>
         </li>)}
       </ul>}
     {form && (!route.routineId || selected) &&
       <>
         <button type="button" className="back" disabled={saving} onClick={back}>
-          <Icon name="back" />
+          <Icono nombre="atras" />
           {selected ? selected.name : 'Rutinas'}
         </button>
         <header className="page-head">
@@ -188,7 +188,7 @@ export function TrainingRoutinesPanel({ studentId, studentName, planId, programI
       </div>}
     {!overview && !form && selected &&
       <>
-        <button type="button" className="back" onClick={() => onNavigate({ screen: 'student', studentId })}><Icon name="back" />Rutinas</button>
+        <button type="button" className="back" onClick={() => onNavigate({ screen: 'student', studentId })}><Icono nombre="atras" />Rutinas</button>
         <header className="page-head">
           <div>
             <h1 id="page-title" tabIndex={-1}>{selected.name}</h1>
@@ -201,7 +201,7 @@ export function TrainingRoutinesPanel({ studentId, studentName, planId, programI
             disabled={unavailable}
             onClick={() => onNavigate({ screen: 'routine-form', studentId, routineId: selected.id })}
           >
-            <Icon name="edit" />
+            <Icono nombre="editar" />
           </button>
         </header>
         {selected.description && <p className="routine-description">{selected.description}</p>}
