@@ -1,9 +1,9 @@
 import { Module, type MiddlewareConsumer, type NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
-import { UsersModule } from '../users/users.module.js';
-import { TrainerRequestRepository } from '../users/domain/trainer-request.repository.js';
-import { createSessionMiddleware } from '../users/presentation/session.middleware.js';
+import { UsuariosModule } from '../usuarios/usuarios.module.js';
+import { RepositorioDeSolicitudes } from '../usuarios/dominio/repositorio-de-solicitudes.js';
+import { crearMiddlewareDeSesion } from '../usuarios/presentacion/middleware-de-sesion.js';
 import { TrainingPlans } from './application/training-plans.js';
 import { TrainingPlanRepository } from './domain/training-plan.repository.js';
 import { TypeOrmTrainingPlanRepository } from './infrastructure/typeorm-training-plan.repository.js';
@@ -28,7 +28,7 @@ import { StudentPlanning } from './application/student-planning.js';
 import { StudentPlanningController } from './presentation/student-planning.controller.js';
 
 @Module({
-  imports: [ConfigModule, UsersModule],
+  imports: [ConfigModule, UsuariosModule],
   controllers: [PlansController, TrainingProgramsController, TrainingRoutinesController, ExercisesController, RoutineExercisesController, StudentPlanningController],
   providers: [
     { provide: StudentPlanning, inject: [TrainingPlanRepository, TrainingProgramRepository, TrainingRoutineRepository, RoutineExerciseRepository], useFactory: (plans: TrainingPlanRepository, programs: TrainingProgramRepository, routines: TrainingRoutineRepository, entries: RoutineExerciseRepository) => new StudentPlanning(plans, programs, routines, entries) },
@@ -37,7 +37,7 @@ import { StudentPlanningController } from './presentation/student-planning.contr
     { provide: ExerciseCatalog, inject: [ExerciseRepository], useFactory: (catalog: ExerciseRepository) => new ExerciseCatalog(catalog) },
     { provide: RoutineExercises, inject: [RoutineExerciseRepository, ExerciseRepository, TrainingRoutines], useFactory: (entries: RoutineExerciseRepository, catalog: ExerciseRepository, routines: TrainingRoutines) => new RoutineExercises(entries, catalog, routines) },
     { provide: TrainingPlanRepository, inject: [DataSource], useFactory: (dataSource: DataSource) => new TypeOrmTrainingPlanRepository(dataSource) },
-    { provide: TrainingPlans, inject: [TrainingPlanRepository, TrainerRequestRepository], useFactory: (plans: TrainingPlanRepository, assignments: TrainerRequestRepository) => new TrainingPlans(plans, assignments) },
+    { provide: TrainingPlans, inject: [TrainingPlanRepository, RepositorioDeSolicitudes], useFactory: (plans: TrainingPlanRepository, assignments: RepositorioDeSolicitudes) => new TrainingPlans(plans, assignments) },
     { provide: TrainingProgramRepository, inject: [DataSource], useFactory: (dataSource: DataSource) => new TypeOrmTrainingProgramRepository(dataSource) },
     { provide: TrainingPrograms, inject: [TrainingProgramRepository, TrainingPlans], useFactory: (programs: TrainingProgramRepository, plans: TrainingPlans) => new TrainingPrograms(programs, plans) },
     { provide: TrainingRoutineRepository, inject: [DataSource], useFactory: (dataSource: DataSource) => new TypeOrmTrainingRoutineRepository(dataSource) },
@@ -48,6 +48,6 @@ export class PlansModule implements NestModule {
   constructor(private readonly config: ConfigService, private readonly dataSource: DataSource) {}
 
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(createSessionMiddleware(this.config, this.dataSource)).forRoutes(PlansController, TrainingProgramsController, TrainingRoutinesController, ExercisesController, RoutineExercisesController, StudentPlanningController);
+    consumer.apply(crearMiddlewareDeSesion(this.config, this.dataSource)).forRoutes(PlansController, TrainingProgramsController, TrainingRoutinesController, ExercisesController, RoutineExercisesController, StudentPlanningController);
   }
 }

@@ -4,7 +4,7 @@ const { readFile } = require('node:fs/promises');
 const { randomUUID } = require('node:crypto');
 
 test('el catálogo importable contiene solo textos y referencias estables, sin medios', async () => {
-  const { parseExerciseCatalog } = await import('../dist/infrastructure/database/import-exercises.js');
+  const { parseExerciseCatalog } = await import('../dist/infraestructura/base-de-datos/import-exercises.js');
   const rows = JSON.parse(await readFile(new URL('../data/exercises.json', 'file:///' + __filename.replaceAll('\\', '/')), 'utf8'));
   assert.equal(parseExerciseCatalog(rows).length, 1324);
   const row = rows[0];
@@ -27,9 +27,9 @@ test('el catálogo valida filtros y paginación y no devuelve errores internos',
 test('MySQL encuentra palabras en cualquier orden y entre nombre, músculo y equipo', { timeout: 30000 }, async t => {
   const { NestFactory } = await import('@nestjs/core');
   const { DataSource } = await import('typeorm');
-  const { DatabaseModule } = await import('../dist/infrastructure/database/database.module.js');
+  const { BaseDeDatosModule } = await import('../dist/infraestructura/base-de-datos/base-de-datos.module.js');
   const { ExerciseSchema, TypeOrmExerciseRepository } = await import('../dist/plans/infrastructure/typeorm-exercise.repository.js');
-  const app = await NestFactory.createApplicationContext(DatabaseModule, { logger: false, abortOnError: false });
+  const app = await NestFactory.createApplicationContext(BaseDeDatosModule, { logger: false, abortOnError: false });
   const db = app.get(DataSource), marker = randomUUID(), rows = [];
   t.after(async () => { try { for (const row of rows) await db.getRepository(ExerciseSchema).delete({ id: row.id }); } finally { await app.close(); } });
   for (const [name, equipment, target] of [['Press', 'barbell', 'pectorals'], ['Row', 'dumbbell', 'lats']]) rows.push(await db.getRepository(ExerciseSchema).save({ source: 'test', sourceId: randomUUID(), name: name + ' ' + marker, bodyPart: 'chest', equipment, target, instructions: 'Instrucciones de prueba.' }));

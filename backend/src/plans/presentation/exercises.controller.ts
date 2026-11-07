@@ -1,14 +1,14 @@
 import { BadRequestException, Controller, Get, Inject, InternalServerErrorException, Query, UseGuards } from '@nestjs/common';
-import { RequireRole, RoleGuard } from '../../users/presentation/role.guard.js';
+import { RequerirRol, GuardiaDeRol } from '../../usuarios/presentacion/guardia-de-rol.js';
 import { ExerciseCatalog } from '../application/exercise-catalog.js';
 
 @Controller('users/exercises')
-@UseGuards(RoleGuard)
+@UseGuards(GuardiaDeRol)
 export class ExercisesController {
   constructor(@Inject(ExerciseCatalog) private readonly catalog: ExerciseCatalog) {}
 
   @Get()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   async search(@Query() query: Record<string, unknown>) {
     if (Object.keys(query).some(key => !['q', 'bodyPart', 'equipment', 'offset'].includes(key))) throw new BadRequestException('Filtros no válidos.');
     for (const field of ['q', 'bodyPart', 'equipment']) {

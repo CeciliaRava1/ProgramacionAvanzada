@@ -11,10 +11,10 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main.js",
-    "db:migrate": "npm run build && node dist/infrastructure/database/migrate.js",
-    "db:import-exercises": "npm run build && node dist/infrastructure/database/import-exercises.js",
-    "db:seed": "npm run build && node dist/infrastructure/database/seed.js",
-    "db:setup": "npm run build && node dist/infrastructure/database/migrate.js && node dist/infrastructure/database/import-exercises.js && node dist/infrastructure/database/seed.js",
+    "bd:migrar": "npm run build && node dist/infraestructura/base-de-datos/migrar.js",
+    "bd:importar-ejercicios": "npm run build && node dist/infraestructura/base-de-datos/import-exercises.js",
+    "bd:sembrar": "npm run build && node dist/infraestructura/base-de-datos/semilla.js",
+    "bd:preparar": "npm run build && node dist/infraestructura/base-de-datos/migrar.js && node dist/infraestructura/base-de-datos/import-exercises.js && node dist/infraestructura/base-de-datos/semilla.js",
     "test": "npm run build && node --test test/*.test.cjs"
   },
   "dependencies": {

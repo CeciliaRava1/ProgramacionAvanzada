@@ -51,7 +51,7 @@ test('presentación toma la identidad de la sesión, valida identificadores y oc
   const { TrainingRoutineNotFoundError } = await import('../dist/plans/domain/training-routine.js');
   const calls = [];
   const controller = new StudentPlanningController({ get: async (...args) => calls.push(args), getRoutine: async (...args) => calls.push(args) });
-  const request = { session: { userId: 2 }, query: { studentId: 99, routineId: 99 } };
+  const request = { session: { usuarioId: 2 }, query: { studentId: 99, routineId: 99 } };
   await controller.get(request);
   await controller.getRoutine('5', request);
   assert.deepEqual(calls, [[2], [2, 5]]);
@@ -69,13 +69,13 @@ test('HTTP y MySQL permiten consultar solo la planificación propia sin conceder
   const { NestFactory } = await import('@nestjs/core');
   const { DataSource } = await import('typeorm');
   const { AppModule } = await import('../dist/app.module.js');
-  const { UserSchema } = await import('../dist/users/infrastructure/typeorm-user.repository.js');
+  const { EsquemaDeUsuario } = await import('../dist/usuarios/infraestructura/repositorio-de-usuarios-typeorm.js');
   const { TrainingPlanSchema } = await import('../dist/plans/infrastructure/typeorm-training-plan.repository.js');
   const { TrainingProgramSchema } = await import('../dist/plans/infrastructure/typeorm-training-program.repository.js');
   const { TrainingRoutineSchema } = await import('../dist/plans/infrastructure/typeorm-training-routine.repository.js');
   const { RoutineExerciseSchema } = await import('../dist/plans/infrastructure/typeorm-routine-exercise.repository.js');
   const { ExerciseSchema } = await import('../dist/plans/infrastructure/typeorm-exercise.repository.js');
-  const { hashPassword } = await import('../dist/users/infrastructure/hash-password.js');
+  const { hashearContrasena } = await import('../dist/usuarios/infraestructura/hash-de-contrasena.js');
   const app = await NestFactory.create(AppModule, { logger: false, abortOnError: false });
   await app.listen(0, '127.0.0.1');
   const db = app.get(DataSource), accounts = [], plans = [], programs = [], routines = [];
@@ -86,23 +86,23 @@ test('HTTP y MySQL permiten consultar solo la planificación propia sin conceder
       for (const program of programs) await db.getRepository(TrainingProgramSchema).delete({ id: program.id });
       for (const plan of plans) await db.getRepository(TrainingPlanSchema).delete({ id: plan.id });
       for (const account of accounts) {
-        await db.query("DELETE FROM sessions WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.userId')) = ?", [String(account.id)]);
-        await db.getRepository(UserSchema).delete({ id: account.id });
+        await db.query("DELETE FROM sesiones WHERE JSON_UNQUOTE(JSON_EXTRACT(datos, '$.usuarioId')) = ?", [String(account.id)]);
+        await db.getRepository(EsquemaDeUsuario).delete({ id: account.id });
       }
       if (exercise) await db.getRepository(ExerciseSchema).delete({ id: exercise.id });
     } finally { await app.close(); }
   });
-  const password = 'Clave123', passwordHash = await hashPassword(password);
-  for (const role of ['student', 'student', 'trainer', 'admin']) accounts.push(await db.getRepository(UserSchema).save({ firstName: 'Prueba', lastName: 'Planificación', email: `student-planning-${randomUUID()}@example.test`, role, passwordHash }));
+  const password = 'Clave123', passwordHash = await hashearContrasena(password);
+  for (const role of ['alumno', 'alumno', 'entrenador', 'administrador']) accounts.push(await db.getRepository(EsquemaDeUsuario).save({ nombre: 'Prueba', apellido: 'Planificación', correo: `student-planning-${randomUUID()}@example.test`, rol: role, hashDeContrasena: passwordHash }));
   const [student, otherStudent] = accounts;
-  const call = (path, cookie, method = 'GET', body) => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/users/${path}`, {
+  const call = (path, cookie, method = 'GET', body) => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/${path === 'sesion' ? 'usuarios' : 'users'}/${path}`, {
     method, headers: { Origin: 'http://127.0.0.1:5173', ...(cookie ? { Cookie: cookie } : {}), ...(body ? { 'Content-Type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}),
   });
   const cookies = [];
   for (const account of accounts) {
-    const response = await call('session', null, 'POST', { email: account.email, password });
+    const response = await call('sesion', null, 'POST', { correo: account.correo, contrasena: password });
     assert.equal(response.status, 200); await response.arrayBuffer();
-    cookies.push(response.headers.getSetCookie().find(header => /Path=\/users;/i.test(header)).split(';')[0]);
+    cookies.push(response.headers.getSetCookie().find(header => /Path=\/;/i.test(header)).split(';')[0]);
   }
   const [studentCookie, otherCookie, trainerCookie, adminCookie] = cookies;
   for (const path of ['me/planning', 'me/planning/routines/1']) {

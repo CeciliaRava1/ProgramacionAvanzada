@@ -4,7 +4,7 @@ import {
   InternalServerErrorException, NotFoundException, Param, Post, Put, Req, UseGuards,
 } from '@nestjs/common';
 import type { Request } from 'express';
-import { RequireRole, RoleGuard } from '../../users/presentation/role.guard.js';
+import { RequerirRol, GuardiaDeRol } from '../../usuarios/presentacion/guardia-de-rol.js';
 import { PlanAccessError, TrainingPlans } from '../application/training-plans.js';
 import { InvalidTrainingPlanError, TrainingPlanAlreadyExistsError, TrainingPlanNotFoundError } from '../domain/training-plan.js';
 
@@ -28,29 +28,29 @@ function planDetails(body: unknown): {
 }
 
 @Controller('users/students/:studentId/plans')
-@UseGuards(RoleGuard)
+@UseGuards(GuardiaDeRol)
 export class PlansController {
   constructor(@Inject(TrainingPlans) private readonly plans: TrainingPlans) { }
 
   @Get()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   list(@Param('studentId') rawId: string, @Req() request: Request) {
     const id = parseRouteId(rawId);
 
-    return this.run(() => this.plans.list(request.session.userId!, id));
+    return this.run(() => this.plans.list(request.session.usuarioId!, id));
   }
 
   @Post()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   create(@Param('studentId') rawId: string, @Body() body: unknown, @Req() request: Request) {
     const id = parseRouteId(rawId);
     const details = planDetails(body);
 
-    return this.run(() => this.plans.create(request.session.userId!, id, details));
+    return this.run(() => this.plans.create(request.session.usuarioId!, id, details));
   }
 
   @Put(':planId')
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   update(
     @Param('studentId') rawStudentId: string,
     @Param('planId') rawPlanId: string,
@@ -61,17 +61,17 @@ export class PlansController {
       studentId = parseRouteId(rawStudentId),
       details = planDetails(body);
 
-    return this.run(() => this.plans.update(request.session.userId!, studentId, id, details));
+    return this.run(() => this.plans.update(request.session.usuarioId!, studentId, id, details));
   }
 
   @Delete(':planId')
   @HttpCode(204)
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   remove(@Param('studentId') rawStudentId: string, @Param('planId') rawPlanId: string, @Req() request: Request) {
     const id = parseRouteId(rawPlanId),
       studentId = parseRouteId(rawStudentId);
 
-    return this.run(() => this.plans.remove(request.session.userId!, studentId, id));
+    return this.run(() => this.plans.remove(request.session.usuarioId!, studentId, id));
   }
 
   private async run<T>(action: () => Promise<T>): Promise<T> {

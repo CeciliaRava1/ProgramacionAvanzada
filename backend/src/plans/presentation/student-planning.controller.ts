@@ -1,26 +1,26 @@
 import { BadRequestException, Controller, Get, Inject, InternalServerErrorException, NotFoundException, Param, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import { RequireRole, RoleGuard } from '../../users/presentation/role.guard.js';
+import { RequerirRol, GuardiaDeRol } from '../../usuarios/presentacion/guardia-de-rol.js';
 import { StudentPlanning } from '../application/student-planning.js';
 import { TrainingRoutineNotFoundError } from '../domain/training-routine.js';
 
 @Controller('users/me/planning')
-@UseGuards(RoleGuard)
+@UseGuards(GuardiaDeRol)
 export class StudentPlanningController {
   constructor(@Inject(StudentPlanning) private readonly planning: StudentPlanning) {}
 
   @Get()
-  @RequireRole('student')
+  @RequerirRol('alumno')
   get(@Req() request: Request) {
-    return this.run(() => this.planning.get(request.session.userId!));
+    return this.run(() => this.planning.get(request.session.usuarioId!));
   }
 
   @Get('routines/:routineId')
-  @RequireRole('student')
+  @RequerirRol('alumno')
   getRoutine(@Param('routineId') rawId: string, @Req() request: Request) {
     const id = /^\d+$/u.test(rawId) ? Number(rawId) : NaN;
     if (!Number.isSafeInteger(id) || id < 1 || id > 4_294_967_295) throw new BadRequestException('El identificador debe ser válido.');
-    return this.run(() => this.planning.getRoutine(request.session.userId!, id));
+    return this.run(() => this.planning.getRoutine(request.session.usuarioId!, id));
   }
 
   private async run<T>(action: () => Promise<T>): Promise<T> {

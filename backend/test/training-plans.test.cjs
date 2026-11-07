@@ -13,17 +13,17 @@ test('el plan normaliza nombre y objetivo y valida sus límites sin categorías 
 
 test('los casos de uso autorizan antes de consultar o guardar y devuelven solo datos del plan', async () => {
   const { TrainingPlans, PlanAccessError } = await import('../dist/plans/application/training-plans.js');
-  let assignment = { studentId: 2, trainerId: 1 }, reads = 0, writes = 0;
+  let assignment = { alumnoId: 2, entrenadorId: 1 }, reads = 0, writes = 0;
   const saved = { id: 3, studentId: 2, name: 'Plan', objective: 'Salud' };
   const service = new TrainingPlans({
     save: async (input) => { writes++; assert.deepEqual(input, { studentId: 2, name: 'Plan', objective: 'Salud' }); return { ...saved, private: 'no devolver' }; },
     findByStudent: async (id) => { reads++; assert.equal(id, 2); return writes ? [{ ...saved, private: 'no devolver' }] : []; },
-  }, { findAssignment: async (id) => { assert.equal(id, 2); return assignment; } });
+  }, { buscarVinculacion: async (id) => { assert.equal(id, 2); return assignment; } });
   assert.deepEqual(await service.create(1, 2, { name: ' Plan ', objective: ' Salud ' }), saved);
   assert.deepEqual(await service.list(1, 2), [saved]);
   const { TrainingPlanAlreadyExistsError } = await import('../dist/plans/domain/training-plan.js');
   await assert.rejects(service.create(1, 2, { name: 'Otro', objective: 'Otro' }), TrainingPlanAlreadyExistsError);
-  for (assignment of [null, { studentId: 2, trainerId: 9 }]) {
+  for (assignment of [null, { alumnoId: 2, entrenadorId: 9 }]) {
     await assert.rejects(service.list(1, 2), PlanAccessError);
     await assert.rejects(service.create(1, 2, { name: 'Plan', objective: 'Salud' }), PlanAccessError);
   }
@@ -36,7 +36,7 @@ test('el controlador valida formato, ignora identidades externas y no expone err
   const { PlanAccessError } = await import('../dist/plans/application/training-plans.js');
   const calls = [];
   const controller = new PlansController({ create: async (...args) => { calls.push(args); }, update: async (...args) => { calls.push(args); }, remove: async (...args) => { calls.push(args); }, list: async () => { throw new Error('SQL y credenciales'); } });
-  const req = { session: { userId: 4 }, query: { trainerId: 9 } };
+  const req = { session: { usuarioId: 4 }, query: { trainerId: 9 } };
   for (const id of ['x', '-1', '0', '1.2', '4294967296']) assert.throws(() => controller.list(id, req), (error) => error.getStatus() === 400);
   for (const body of [null, [], {}, { name: 2, objective: 'Salud' }, { name: 'Plan', objective: null }, { name: 'Plan', objective: 'Salud', trainerId: 9 }]) {
     assert.throws(() => controller.create('2', body, req), (error) => error.getStatus() === 400);
@@ -62,7 +62,7 @@ test('editar y eliminar autorizan primero, conservan el identificador y distingu
   const service = new TrainingPlans({
     update: async (...args) => { calls.push(['update', ...args]); return available ? { id: 3, studentId: 2, ...args[2], deletedAt: null } : null; },
     remove: async (...args) => { calls.push(['remove', ...args]); return available; },
-  }, { findAssignment: async () => ({ studentId: 2, trainerId }) });
+  }, { buscarVinculacion: async () => ({ alumnoId: 2, entrenadorId: trainerId }) });
   assert.deepEqual(await service.update(1, 2, 3, { name: ' Plan editado ', objective: ' Salud ' }), { id: 3, studentId: 2, name: 'Plan editado', objective: 'Salud' });
   await service.remove(1, 2, 3);
   assert.deepEqual(calls, [['update', 3, 2, { name: 'Plan editado', objective: 'Salud' }], ['remove', 3, 2]]);
@@ -82,38 +82,38 @@ test('HTTP y MySQL editan, eliminan lógicamente y permiten reemplazar sin react
   const { NestFactory } = await import('@nestjs/core');
   const { DataSource } = await import('typeorm');
   const { AppModule } = await import('../dist/app.module.js');
-  const { UserSchema } = await import('../dist/users/infrastructure/typeorm-user.repository.js');
-  const { TrainerAssignmentSchema } = await import('../dist/users/infrastructure/typeorm-trainer-request.repository.js');
+  const { EsquemaDeUsuario } = await import('../dist/usuarios/infraestructura/repositorio-de-usuarios-typeorm.js');
+  const { EsquemaDeVinculacion } = await import('../dist/usuarios/infraestructura/repositorio-de-solicitudes-typeorm.js');
   const { TrainingPlanSchema } = await import('../dist/plans/infrastructure/typeorm-training-plan.repository.js');
-  const { hashPassword } = await import('../dist/users/infrastructure/hash-password.js');
+  const { hashearContrasena } = await import('../dist/usuarios/infraestructura/hash-de-contrasena.js');
   const start = async () => { const instance = await NestFactory.create(AppModule, { logger: false, abortOnError: false }); await instance.listen(0, '127.0.0.1'); return instance; };
   let app = await start(), db = app.get(DataSource);
-  let users = db.getRepository(UserSchema), plans = db.getRepository(TrainingPlanSchema), assignments = db.getRepository(TrainerAssignmentSchema);
+  let users = db.getRepository(EsquemaDeUsuario), plans = db.getRepository(TrainingPlanSchema), assignments = db.getRepository(EsquemaDeVinculacion);
   const accounts = [];
   t.after(async () => {
     try {
-      for (const account of accounts.filter((user) => user.role === 'student')) {
-        await plans.delete({ studentId: account.id }); await assignments.delete({ studentId: account.id });
+      for (const account of accounts.filter((user) => user.rol === 'alumno')) {
+        await plans.delete({ studentId: account.id }); await assignments.delete({ alumnoId: account.id });
       }
       for (const account of accounts) {
-        await db.query("DELETE FROM sessions WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.userId')) = ?", [String(account.id)]);
+        await db.query("DELETE FROM sesiones WHERE JSON_UNQUOTE(JSON_EXTRACT(datos, '$.usuarioId')) = ?", [String(account.id)]);
         await users.delete({ id: account.id });
       }
     } finally { await app.close(); }
   });
-  const password = 'Clave123', passwordHash = await hashPassword(password);
-  for (const role of ['trainer', 'trainer', 'student', 'student', 'admin']) accounts.push(await users.save({ firstName: 'Prueba', lastName: 'EditarPlan', email: `training-plan-test-${randomUUID()}@example.test`, role, passwordHash }));
+  const password = 'Clave123', passwordHash = await hashearContrasena(password);
+  for (const role of ['entrenador', 'entrenador', 'alumno', 'alumno', 'administrador']) accounts.push(await users.save({ nombre: 'Prueba', apellido: 'EditarPlan', correo: `training-plan-test-${randomUUID()}@example.test`, rol: role, hashDeContrasena: passwordHash }));
   const [trainer, otherTrainer, student, otherStudent, admin] = accounts;
-  await assignments.insert([{ studentId: student.id, trainerId: trainer.id }, { studentId: otherStudent.id, trainerId: trainer.id }]);
-  const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/users/${path}`, {
+  await assignments.insert([{ alumnoId: student.id, entrenadorId: trainer.id }, { alumnoId: otherStudent.id, entrenadorId: trainer.id }]);
+  const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/${path === 'sesion' ? 'usuarios' : 'users'}/${path}`, {
     method, headers: { Origin: origin, ...(cookie ? { Cookie: cookie } : {}), ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
   });
   const cookies = [];
   for (const account of [trainer, otherTrainer, student, admin]) {
-    const response = await call('session', 'POST', null, { email: account.email, password });
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password });
     assert.equal(response.status, 200); await response.arrayBuffer();
-    cookies.push(response.headers.getSetCookie().find((header) => /Path=\/users;/i.test(header)).split(';')[0]);
+    cookies.push(response.headers.getSetCookie().find((header) => /Path=\/;/i.test(header)).split(';')[0]);
   }
   const [trainerCookie, otherTrainerCookie, studentCookie, adminCookie] = cookies;
   const route = `students/${student.id}/plans`, input = { name: 'Plan original', objective: 'Objetivo original' };
@@ -147,7 +147,7 @@ test('HTTP y MySQL editan, eliminan lógicamente y permiten reemplazar sin react
   assert.deepEqual(await (await call(route, 'GET', trainerCookie)).json(), [replacement]);
   assert.equal(await plans.createQueryBuilder('plan').withDeleted().where('plan.studentId = :id', { id: student.id }).getCount(), 2);
   await app.close(); app = await start(); db = app.get(DataSource);
-  users = db.getRepository(UserSchema); plans = db.getRepository(TrainingPlanSchema); assignments = db.getRepository(TrainerAssignmentSchema);
+  users = db.getRepository(EsquemaDeUsuario); plans = db.getRepository(TrainingPlanSchema); assignments = db.getRepository(EsquemaDeVinculacion);
   assert.deepEqual(await (await call(route, 'GET', trainerCookie)).json(), [replacement]);
   assert.ok((await plans.createQueryBuilder('plan').withDeleted().addSelect('plan.deletedAt').where('plan.id = :id', { id: saved.id }).getOneOrFail()).deletedAt instanceof Date);
 });
@@ -156,39 +156,39 @@ test('HTTP y MySQL crean planes vacíos, conservan datos y restringen acceso al 
   const { NestFactory } = await import('@nestjs/core');
   const { DataSource } = await import('typeorm');
   const { AppModule } = await import('../dist/app.module.js');
-  const { UserSchema } = await import('../dist/users/infrastructure/typeorm-user.repository.js');
-  const { TrainerAssignmentSchema } = await import('../dist/users/infrastructure/typeorm-trainer-request.repository.js');
+  const { EsquemaDeUsuario } = await import('../dist/usuarios/infraestructura/repositorio-de-usuarios-typeorm.js');
+  const { EsquemaDeVinculacion } = await import('../dist/usuarios/infraestructura/repositorio-de-solicitudes-typeorm.js');
   const { TrainingPlanSchema } = await import('../dist/plans/infrastructure/typeorm-training-plan.repository.js');
-  const { hashPassword } = await import('../dist/users/infrastructure/hash-password.js');
+  const { hashearContrasena } = await import('../dist/usuarios/infraestructura/hash-de-contrasena.js');
   const start = async () => { const instance = await NestFactory.create(AppModule, { logger: false, abortOnError: false }); await instance.listen(0, '127.0.0.1'); return instance; };
   let app = await start(), db = app.get(DataSource);
-  let users = db.getRepository(UserSchema), plans = db.getRepository(TrainingPlanSchema), assignments = db.getRepository(TrainerAssignmentSchema);
+  let users = db.getRepository(EsquemaDeUsuario), plans = db.getRepository(TrainingPlanSchema), assignments = db.getRepository(EsquemaDeVinculacion);
   const accounts = [];
   t.after(async () => {
     try {
-      for (const account of accounts.filter((user) => user.role === 'student')) {
+      for (const account of accounts.filter((user) => user.rol === 'alumno')) {
         await plans.delete({ studentId: account.id });
-        await assignments.delete({ studentId: account.id });
+        await assignments.delete({ alumnoId: account.id });
       }
       for (const account of accounts) {
-        await db.query("DELETE FROM sessions WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.userId')) = ?", [String(account.id)]);
+        await db.query("DELETE FROM sesiones WHERE JSON_UNQUOTE(JSON_EXTRACT(datos, '$.usuarioId')) = ?", [String(account.id)]);
         await users.delete({ id: account.id });
       }
     } finally { await app.close(); }
   });
-  const password = 'Clave123', passwordHash = await hashPassword(password);
-  for (const role of ['trainer', 'trainer', 'student', 'student', 'admin']) accounts.push(await users.save({ firstName: 'Prueba', lastName: 'Planes', email: `training-plan-test-${randomUUID()}@example.test`, role, passwordHash }));
+  const password = 'Clave123', passwordHash = await hashearContrasena(password);
+  for (const role of ['entrenador', 'entrenador', 'alumno', 'alumno', 'administrador']) accounts.push(await users.save({ nombre: 'Prueba', apellido: 'Planes', correo: `training-plan-test-${randomUUID()}@example.test`, rol: role, hashDeContrasena: passwordHash }));
   const [trainer, otherTrainer, student, otherStudent, admin] = accounts;
-  await assignments.insert([{ studentId: student.id, trainerId: trainer.id }, { studentId: otherStudent.id, trainerId: otherTrainer.id }]);
-  const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/users/${path}`, {
+  await assignments.insert([{ alumnoId: student.id, entrenadorId: trainer.id }, { alumnoId: otherStudent.id, entrenadorId: otherTrainer.id }]);
+  const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/${path === 'sesion' ? 'usuarios' : 'users'}/${path}`, {
     method, headers: { Origin: origin, ...(cookie ? { Cookie: cookie } : {}), ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
   });
   const cookies = [];
   for (const account of [trainer, otherTrainer, student, admin]) {
-    const response = await call('session', 'POST', null, { email: account.email, password });
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password });
     assert.equal(response.status, 200); await response.arrayBuffer();
-    cookies.push(response.headers.getSetCookie().find((header) => /Path=\/users;/i.test(header)).split(';')[0]);
+    cookies.push(response.headers.getSetCookie().find((header) => /Path=\/;/i.test(header)).split(';')[0]);
   }
   const [trainerCookie, otherTrainerCookie, studentCookie, adminCookie] = cookies;
   const route = `students/${student.id}/plans`, input = { name: ' PLAN DE FUERZA ', objective: ' Salud y bienestar ' };
@@ -221,17 +221,17 @@ test('HTTP y MySQL crean planes vacíos, conservan datos y restringen acceso al 
   assert.equal((await call(route + `?trainerId=${trainer.id}`, 'GET', otherTrainerCookie)).status, 403);
   assert.equal((await (await call(otherRoute, 'GET', otherTrainerCookie)).json()).length, 1);
   await app.close(); app = await start(); db = app.get(DataSource);
-  users = db.getRepository(UserSchema); plans = db.getRepository(TrainingPlanSchema); assignments = db.getRepository(TrainerAssignmentSchema);
+  users = db.getRepository(EsquemaDeUsuario); plans = db.getRepository(TrainingPlanSchema); assignments = db.getRepository(EsquemaDeVinculacion);
   response = await call(route, 'GET', trainerCookie);
   assert.equal(response.status, 200); assert.deepEqual(await response.json(), [saved]);
-  await assignments.delete({ studentId: student.id });
+  await assignments.delete({ alumnoId: student.id });
   assert.equal((await call(route, 'GET', trainerCookie)).status, 403);
   assert.equal((await call(route, 'POST', trainerCookie, input)).status, 403);
   assert.equal(await plans.countBy({ studentId: student.id }), 1);
 });
 
 test('la migración de unicidad se detiene ante duplicados sin borrar ni alterar datos', async () => {
-  const { UniqueTrainingPlanStudent1792800000003 } = await import('../dist/infrastructure/database/migrations/1792800000003-unique-training-plan-student.js');
+  const { UniqueTrainingPlanStudent1792800000003 } = await import('../dist/infraestructura/base-de-datos/migraciones/1792800000003-unique-training-plan-student.js');
   const calls = [];
   await assert.rejects(new UniqueTrainingPlanStudent1792800000003().up({ query: async (sql) => { calls.push(sql); return [{ student_id: 1 }]; } }), /varios planes/);
   assert.equal(calls.length, 1);

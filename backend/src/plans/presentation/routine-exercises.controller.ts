@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, ForbiddenException, Get, Inject, InternalServerErrorException, NotFoundException, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import { RequireRole, RoleGuard } from '../../users/presentation/role.guard.js';
+import { RequerirRol, GuardiaDeRol } from '../../usuarios/presentacion/guardia-de-rol.js';
 import { PlanAccessError } from '../application/training-plans.js';
 import { RoutineExercises } from '../application/routine-exercises.js';
 import { TrainingPlanNotFoundError } from '../domain/training-plan.js';
@@ -46,35 +46,35 @@ function details(body: unknown, creating: boolean): RoutineExerciseInput & {
 }
 
 @Controller('users/students/:studentId/plans/:planId/programs/:programId/routines/:routineId/exercises')
-@UseGuards(RoleGuard)
+@UseGuards(GuardiaDeRol)
 export class RoutineExercisesController {
   constructor(@Inject(RoutineExercises) private readonly entries: RoutineExercises) { }
 
   @Get()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   list(@Param() params: Record<string, string>, @Req() request: Request) {
     const { studentId, planId, programId, routineId } = this.ids(params);
 
-    return this.run(() => this.entries.list(request.session.userId!, studentId, planId, programId, routineId));
+    return this.run(() => this.entries.list(request.session.usuarioId!, studentId, planId, programId, routineId));
   }
 
   @Post()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   create(@Param() params: Record<string, string>, @Body() body: unknown, @Req() request: Request) {
     const { studentId, planId, programId, routineId } = this.ids(params),
       input = details(body, true);
 
-    return this.run(() => this.entries.create(request.session.userId!, studentId, planId, programId, routineId, input.exerciseId!, input));
+    return this.run(() => this.entries.create(request.session.usuarioId!, studentId, planId, programId, routineId, input.exerciseId!, input));
   }
 
   @Put(':id')
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   update(@Param() params: Record<string, string>, @Body() body: unknown, @Req() request: Request) {
     const { studentId, planId, programId, routineId } = this.ids(params),
       id = positiveId(params.id),
       input = details(body, false);
 
-    return this.run(() => this.entries.update(request.session.userId!, studentId, planId, programId, routineId, id, input));
+    return this.run(() => this.entries.update(request.session.usuarioId!, studentId, planId, programId, routineId, id, input));
   }
 
   private ids(params: Record<string, string>) {

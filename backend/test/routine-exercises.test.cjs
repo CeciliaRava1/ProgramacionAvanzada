@@ -39,14 +39,14 @@ test('HTTP y MySQL conservan catálogo, permisos, pertenencia e indicaciones al 
   const { NestFactory } = await import('@nestjs/core');
   const { DataSource } = await import('typeorm');
   const { AppModule } = await import('../dist/app.module.js');
-  const { UserSchema } = await import('../dist/users/infrastructure/typeorm-user.repository.js');
-  const { TrainerAssignmentSchema } = await import('../dist/users/infrastructure/typeorm-trainer-request.repository.js');
+  const { EsquemaDeUsuario } = await import('../dist/usuarios/infraestructura/repositorio-de-usuarios-typeorm.js');
+  const { EsquemaDeVinculacion } = await import('../dist/usuarios/infraestructura/repositorio-de-solicitudes-typeorm.js');
   const { TrainingPlanSchema } = await import('../dist/plans/infrastructure/typeorm-training-plan.repository.js');
   const { TrainingProgramSchema } = await import('../dist/plans/infrastructure/typeorm-training-program.repository.js');
   const { TrainingRoutineSchema } = await import('../dist/plans/infrastructure/typeorm-training-routine.repository.js');
   const { ExerciseSchema } = await import('../dist/plans/infrastructure/typeorm-exercise.repository.js');
   const { RoutineExerciseSchema, TypeOrmRoutineExerciseRepository } = await import('../dist/plans/infrastructure/typeorm-routine-exercise.repository.js');
-  const { hashPassword } = await import('../dist/users/infrastructure/hash-password.js');
+  const { hashearContrasena } = await import('../dist/usuarios/infraestructura/hash-de-contrasena.js');
   const app = await NestFactory.create(AppModule, { logger: false, abortOnError: false });
   await app.listen(0, '127.0.0.1'); const db = app.get(DataSource), accounts = [], plans = [], programs = [], routines = [];
   let exercise;
@@ -55,23 +55,23 @@ test('HTTP y MySQL conservan catálogo, permisos, pertenencia e indicaciones al 
       for (const routine of routines) { await db.getRepository(RoutineExerciseSchema).delete({ routineId: routine.id }); await db.getRepository(TrainingRoutineSchema).delete({ id: routine.id }); }
       for (const program of programs) await db.getRepository(TrainingProgramSchema).delete({ id: program.id });
       for (const plan of plans) await db.getRepository(TrainingPlanSchema).delete({ id: plan.id });
-      for (const account of accounts) { await db.getRepository(TrainerAssignmentSchema).delete({ studentId: account.id }); await db.query("DELETE FROM sessions WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.userId')) = ?", [String(account.id)]); }
-      for (const account of accounts) await db.getRepository(UserSchema).delete({ id: account.id });
+      for (const account of accounts) { await db.getRepository(EsquemaDeVinculacion).delete({ alumnoId: account.id }); await db.query("DELETE FROM sesiones WHERE JSON_UNQUOTE(JSON_EXTRACT(datos, '$.usuarioId')) = ?", [String(account.id)]); }
+      for (const account of accounts) await db.getRepository(EsquemaDeUsuario).delete({ id: account.id });
       if (exercise) await db.getRepository(ExerciseSchema).delete({ id: exercise.id });
     } finally { await app.close(); }
   });
-  const password = 'Clave123', passwordHash = await hashPassword(password), marker = randomUUID();
-  for (const role of ['trainer', 'trainer', 'student', 'admin']) accounts.push(await db.getRepository(UserSchema).save({ firstName: 'Prueba', lastName: 'Ejercicios', email: `routine-exercise-${randomUUID()}@example.test`, role, passwordHash }));
+  const password = 'Clave123', passwordHash = await hashearContrasena(password), marker = randomUUID();
+  for (const role of ['entrenador', 'entrenador', 'alumno', 'administrador']) accounts.push(await db.getRepository(EsquemaDeUsuario).save({ nombre: 'Prueba', apellido: 'Ejercicios', correo: `routine-exercise-${randomUUID()}@example.test`, rol: role, hashDeContrasena: passwordHash }));
   const [trainer, otherTrainer, student] = accounts;
-  await db.getRepository(TrainerAssignmentSchema).insert({ studentId: student.id, trainerId: trainer.id });
+  await db.getRepository(EsquemaDeVinculacion).insert({ alumnoId: student.id, entrenadorId: trainer.id });
   plans.push(await db.getRepository(TrainingPlanSchema).save({ studentId: student.id, name: 'Plan prueba', objective: 'Prueba' }));
   programs.push(await db.getRepository(TrainingProgramSchema).save({ planId: plans[0].id, name: 'Programa', startDate: '2026-05-11', endDate: '2026-06-05' }));
   routines.push(...await db.getRepository(TrainingRoutineSchema).save([{ programId: programs[0].id, name: 'Rutina A', description: null }, { programId: programs[0].id, name: 'Rutina B', description: null }]));
   exercise = await db.getRepository(ExerciseSchema).save({ source: 'test', sourceId: marker, name: marker, bodyPart: 'test', equipment: 'test', target: 'test', instructions: 'Instrucción de prueba.' });
-  const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/users/${path}`, { method, headers: { Origin: origin, ...(cookie ? { Cookie: cookie } : {}), ...(body ? { 'Content-Type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
+  const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/${path === 'sesion' ? 'usuarios' : 'users'}/${path}`, { method, headers: { Origin: origin, ...(cookie ? { Cookie: cookie } : {}), ...(body ? { 'Content-Type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
   const cookies = [];
   for (const account of accounts) {
-    const response = await call('session', 'POST', null, { email: account.email, password }); assert.equal(response.status, 200); await response.arrayBuffer(); cookies.push(response.headers.getSetCookie().find(header => /Path=\/users;/i.test(header)).split(';')[0]);
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password }); assert.equal(response.status, 200); await response.arrayBuffer(); cookies.push(response.headers.getSetCookie().find(header => /Path=\/;/i.test(header)).split(';')[0]);
   }
   const [trainerCookie, otherCookie, studentCookie, adminCookie] = cookies;
   assert.equal((await call('exercises')).status, 401);

@@ -1,7 +1,7 @@
 import { parseRouteId } from './parse-route-id.js';
 import { BadRequestException, Body, ConflictException, Controller, ForbiddenException, Get, Inject, InternalServerErrorException, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import { RequireRole, RoleGuard } from '../../users/presentation/role.guard.js';
+import { RequerirRol, GuardiaDeRol } from '../../usuarios/presentacion/guardia-de-rol.js';
 import { PlanAccessError } from '../application/training-plans.js';
 import { TrainingPrograms } from '../application/training-programs.js';
 import { TrainingPlanNotFoundError } from '../domain/training-plan.js';
@@ -9,21 +9,21 @@ import { InvalidTrainingProgramError, TrainingProgramAlreadyExistsError } from '
 
 
 @Controller('users/students/:studentId/plans/:planId/programs')
-@UseGuards(RoleGuard)
+@UseGuards(GuardiaDeRol)
 export class TrainingProgramsController {
   constructor(@Inject(TrainingPrograms) private readonly programs: TrainingPrograms) { }
 
   @Get()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   list(@Param('studentId') rawStudentId: string, @Param('planId') rawPlanId: string, @Req() request: Request) {
     const studentId = parseRouteId(rawStudentId),
       planId = parseRouteId(rawPlanId);
 
-    return this.run(() => this.programs.list(request.session.userId!, studentId, planId));
+    return this.run(() => this.programs.list(request.session.usuarioId!, studentId, planId));
   }
 
   @Post()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   create(
     @Param('studentId') rawStudentId: string,
     @Param('planId') rawPlanId: string,
@@ -47,7 +47,7 @@ export class TrainingProgramsController {
 
     const details = { name: input.name, startDate: input.startDate, endDate: input.endDate };
 
-    return this.run(() => this.programs.create(request.session.userId!, studentId, planId, details));
+    return this.run(() => this.programs.create(request.session.usuarioId!, studentId, planId, details));
   }
 
   private async run<T>(action: () => Promise<T>): Promise<T> {

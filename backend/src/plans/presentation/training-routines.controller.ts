@@ -1,7 +1,7 @@
 import { parseRouteId } from './parse-route-id.js';
 import { BadRequestException, Body, Controller, ForbiddenException, Get, Inject, InternalServerErrorException, NotFoundException, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import { RequireRole, RoleGuard } from '../../users/presentation/role.guard.js';
+import { RequerirRol, GuardiaDeRol } from '../../usuarios/presentacion/guardia-de-rol.js';
 import { PlanAccessError } from '../application/training-plans.js';
 import { TrainingRoutines } from '../application/training-routines.js';
 import { TrainingPlanNotFoundError } from '../domain/training-plan.js';
@@ -24,12 +24,12 @@ function routineDetails(body: unknown): TrainingRoutineInput {
 }
 
 @Controller('users/students/:studentId/plans/:planId/programs/:programId/routines')
-@UseGuards(RoleGuard)
+@UseGuards(GuardiaDeRol)
 export class TrainingRoutinesController {
   constructor(@Inject(TrainingRoutines) private readonly routines: TrainingRoutines) { }
 
   @Get()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   list(
     @Param('studentId') rawStudentId: string,
     @Param('planId') rawPlanId: string,
@@ -40,11 +40,11 @@ export class TrainingRoutinesController {
       planId = parseRouteId(rawPlanId),
       programId = parseRouteId(rawProgramId);
 
-    return this.run(() => this.routines.list(request.session.userId!, studentId, planId, programId));
+    return this.run(() => this.routines.list(request.session.usuarioId!, studentId, planId, programId));
   }
 
   @Post()
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   create(
     @Param('studentId') rawStudentId: string,
     @Param('planId') rawPlanId: string,
@@ -57,11 +57,11 @@ export class TrainingRoutinesController {
       programId = parseRouteId(rawProgramId);
     const details = routineDetails(body);
 
-    return this.run(() => this.routines.create(request.session.userId!, studentId, planId, programId, details));
+    return this.run(() => this.routines.create(request.session.usuarioId!, studentId, planId, programId, details));
   }
 
   @Put(':routineId')
-  @RequireRole('trainer')
+  @RequerirRol('entrenador')
   update(
     @Param('studentId') rawStudentId: string,
     @Param('planId') rawPlanId: string,
@@ -76,7 +76,7 @@ export class TrainingRoutinesController {
       id = parseRouteId(rawRoutineId);
     const details = routineDetails(body);
 
-    return this.run(() => this.routines.update(request.session.userId!, studentId, planId, programId, id, details));
+    return this.run(() => this.routines.update(request.session.usuarioId!, studentId, planId, programId, id, details));
   }
 
   private async run<T>(action: () => Promise<T>): Promise<T> {

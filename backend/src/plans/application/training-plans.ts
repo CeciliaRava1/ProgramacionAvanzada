@@ -1,4 +1,4 @@
-import { TrainerRequestRepository } from '../../users/domain/trainer-request.repository.js';
+import { RepositorioDeSolicitudes } from '../../usuarios/dominio/repositorio-de-solicitudes.js';
 import { createTrainingPlan, TrainingPlanAlreadyExistsError, TrainingPlanNotFoundError } from '../domain/training-plan.js';
 import { TrainingPlanRepository, type SavedTrainingPlan } from '../domain/training-plan.repository.js';
 
@@ -9,7 +9,7 @@ function publicPlan({ id, studentId, name, objective }: SavedTrainingPlan): Save
 }
 
 export class TrainingPlans {
-  constructor(private readonly plans: TrainingPlanRepository, private readonly assignments: TrainerRequestRepository) {}
+  constructor(private readonly plans: TrainingPlanRepository, private readonly assignments: RepositorioDeSolicitudes) {}
 
   async create(trainerId: number, studentId: number, input: { name: string; objective: string }): Promise<SavedTrainingPlan> {
     await this.authorize(trainerId, studentId);
@@ -37,7 +37,7 @@ export class TrainingPlans {
   }
 
   private async authorize(trainerId: number, studentId: number): Promise<void> {
-    const assignment = await this.assignments.findAssignment(studentId);
-    if (assignment?.trainerId !== trainerId) throw new PlanAccessError('No tenés permiso para acceder a los planes de este alumno.');
+    const assignment = await this.assignments.buscarVinculacion(studentId);
+    if (assignment?.entrenadorId !== trainerId) throw new PlanAccessError('No tenés permiso para acceder a los planes de este alumno.');
   }
 }

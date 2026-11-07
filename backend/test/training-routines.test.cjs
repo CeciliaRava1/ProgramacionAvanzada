@@ -38,7 +38,7 @@ test('el controlador valida campos e identificadores, usa la sesión y oculta er
   const { PlanAccessError } = await import('../dist/plans/application/training-plans.js');
   const { TrainingPlanNotFoundError } = await import('../dist/plans/domain/training-plan.js');
   const { TrainingProgramNotFoundError, TrainingRoutineNotFoundError, InvalidTrainingRoutineError } = await import('../dist/plans/domain/training-routine.js');
-  const calls = [], req = { session: { userId: 1 }, query: { trainerId: 99 } };
+  const calls = [], req = { session: { usuarioId: 1 }, query: { trainerId: 99 } };
   const controller = new TrainingRoutinesController({ list: async (...args) => { calls.push(args); }, create: async (...args) => { calls.push(args); }, update: async (...args) => { calls.push(args); } });
   for (const id of ['x', '0', '-1', '1.2', '4294967296']) for (const ids of [[id, '3', '4'], ['2', id, '4'], ['2', '3', id]]) assert.throws(() => controller.list(...ids, req), (error) => error.getStatus() === 400);
   for (const body of [null, [], {}, { name: 1 }, { name: 'Push', description: 2 }, ...['trainerId', 'studentId', 'planId', 'programId', 'id', 'dayNumber', 'exercises'].map((field) => ({ name: 'Push', [field]: 1 }))]) assert.throws(() => controller.create('2', '3', '4', body, req), (error) => error.getStatus() === 400);
@@ -74,40 +74,40 @@ test('HTTP y MySQL guardan varias rutinas y protegen identidad, pertenencia, per
   const { NestFactory } = await import('@nestjs/core');
   const { DataSource } = await import('typeorm');
   const { AppModule } = await import('../dist/app.module.js');
-  const { UserSchema } = await import('../dist/users/infrastructure/typeorm-user.repository.js');
-  const { TrainerAssignmentSchema } = await import('../dist/users/infrastructure/typeorm-trainer-request.repository.js');
+  const { EsquemaDeUsuario } = await import('../dist/usuarios/infraestructura/repositorio-de-usuarios-typeorm.js');
+  const { EsquemaDeVinculacion } = await import('../dist/usuarios/infraestructura/repositorio-de-solicitudes-typeorm.js');
   const { TrainingPlanSchema } = await import('../dist/plans/infrastructure/typeorm-training-plan.repository.js');
   const { TrainingProgramSchema } = await import('../dist/plans/infrastructure/typeorm-training-program.repository.js');
   const { TrainingRoutineSchema, TypeOrmTrainingRoutineRepository } = await import('../dist/plans/infrastructure/typeorm-training-routine.repository.js');
   const { TrainingProgramNotFoundError } = await import('../dist/plans/domain/training-routine.js');
-  const { hashPassword } = await import('../dist/users/infrastructure/hash-password.js');
+  const { hashearContrasena } = await import('../dist/usuarios/infraestructura/hash-de-contrasena.js');
   const start = async () => { const instance = await NestFactory.create(AppModule, { logger: false, abortOnError: false }); await instance.listen(0, '127.0.0.1'); return instance; };
   let app = await start(), db = app.get(DataSource);
-  let users = db.getRepository(UserSchema), plans = db.getRepository(TrainingPlanSchema), programs = db.getRepository(TrainingProgramSchema), routines = db.getRepository(TrainingRoutineSchema);
+  let users = db.getRepository(EsquemaDeUsuario), plans = db.getRepository(TrainingPlanSchema), programs = db.getRepository(TrainingProgramSchema), routines = db.getRepository(TrainingRoutineSchema);
   const accounts = [];
   t.after(async () => {
     try {
-      for (const account of accounts.filter((user) => user.role === 'student')) {
+      for (const account of accounts.filter((user) => user.rol === 'alumno')) {
         await db.query('DELETE FROM training_routines WHERE program_id IN (SELECT id FROM training_programs WHERE plan_id IN (SELECT id FROM training_plans WHERE student_id = ?))', [account.id]);
         await db.query('DELETE FROM training_programs WHERE plan_id IN (SELECT id FROM training_plans WHERE student_id = ?)', [account.id]);
-        await plans.delete({ studentId: account.id }); await db.getRepository(TrainerAssignmentSchema).delete({ studentId: account.id });
+        await plans.delete({ studentId: account.id }); await db.getRepository(EsquemaDeVinculacion).delete({ alumnoId: account.id });
       }
-      for (const account of accounts) { await db.query("DELETE FROM sessions WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.userId')) = ?", [String(account.id)]); await users.delete({ id: account.id }); }
+      for (const account of accounts) { await db.query("DELETE FROM sesiones WHERE JSON_UNQUOTE(JSON_EXTRACT(datos, '$.usuarioId')) = ?", [String(account.id)]); await users.delete({ id: account.id }); }
     } finally { await app.close(); }
   });
-  const password = 'Clave123', passwordHash = await hashPassword(password);
-  for (const role of ['trainer', 'trainer', 'student', 'student', 'admin']) accounts.push(await users.save({ firstName: 'Prueba', lastName: 'Rutinas', email: `training-routine-test-${randomUUID()}@example.test`, role, passwordHash }));
+  const password = 'Clave123', passwordHash = await hashearContrasena(password);
+  for (const role of ['entrenador', 'entrenador', 'alumno', 'alumno', 'administrador']) accounts.push(await users.save({ nombre: 'Prueba', apellido: 'Rutinas', correo: `training-routine-test-${randomUUID()}@example.test`, rol: role, hashDeContrasena: passwordHash }));
   const [trainer, otherTrainer, student, otherStudent, admin] = accounts;
-  await db.getRepository(TrainerAssignmentSchema).insert([{ studentId: student.id, trainerId: trainer.id }, { studentId: otherStudent.id, trainerId: trainer.id }]);
+  await db.getRepository(EsquemaDeVinculacion).insert([{ alumnoId: student.id, entrenadorId: trainer.id }, { alumnoId: otherStudent.id, entrenadorId: trainer.id }]);
   const [plan, otherPlan] = await plans.save([{ studentId: student.id, name: 'Plan prueba', objective: 'Objetivo' }, { studentId: otherStudent.id, name: 'Otro plan', objective: 'Objetivo' }]);
   const [program, otherProgram] = await programs.save([{ planId: plan.id, name: 'Programa', startDate: '2026-05-11', endDate: '2026-06-05' }, { planId: otherPlan.id, name: 'Otro programa', startDate: '2026-05-11', endDate: '2026-06-05' }]);
-  const call = (route, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/users/${route}`, {
+  const call = (route, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/${route === 'sesion' ? 'usuarios' : 'users'}/${route}`, {
     method, headers: { Origin: origin, ...(cookie ? { Cookie: cookie } : {}), ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }),
   });
   const cookies = [];
   for (const account of [trainer, otherTrainer, student, admin]) {
-    const response = await call('session', 'POST', null, { email: account.email, password });
-    assert.equal(response.status, 200); await response.arrayBuffer(); cookies.push(response.headers.getSetCookie().find((header) => /Path=\/users;/i.test(header)).split(';')[0]);
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password });
+    assert.equal(response.status, 200); await response.arrayBuffer(); cookies.push(response.headers.getSetCookie().find((header) => /Path=\/;/i.test(header)).split(';')[0]);
   }
   const [trainerCookie, otherTrainerCookie, studentCookie, adminCookie] = cookies;
   const route = `students/${student.id}/plans/${plan.id}/programs/${program.id}/routines`;
@@ -148,7 +148,7 @@ test('HTTP y MySQL guardan varias rutinas y protegen identidad, pertenencia, per
   expected[0].description = null; assert.deepEqual(await response.json(), expected[0]);
   assert.equal(await routines.countBy({ programId: program.id }), 6);
   await app.close(); app = await start(); db = app.get(DataSource);
-  users = db.getRepository(UserSchema); plans = db.getRepository(TrainingPlanSchema); programs = db.getRepository(TrainingProgramSchema); routines = db.getRepository(TrainingRoutineSchema);
+  users = db.getRepository(EsquemaDeUsuario); plans = db.getRepository(TrainingPlanSchema); programs = db.getRepository(TrainingProgramSchema); routines = db.getRepository(TrainingRoutineSchema);
   response = await call(route, 'GET', trainerCookie); assert.equal(response.status, 200); assert.deepEqual(await response.json(), expected);
   assert.equal((await call(`students/${student.id}/plans/${plan.id}`, 'DELETE', trainerCookie)).status, 204);
   assert.deepEqual(await routines.find({ where: { programId: program.id }, order: { id: 'ASC' } }), expected);
