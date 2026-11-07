@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { obtenerAlumnosAsignados, type AlumnoAsignado } from './alumnos-asignados.ts';
 import { PanelDeSolicitudes } from './PanelDeSolicitudes.tsx';
-import { StudentPlansPanel } from '../plans/StudentPlansPanel.tsx';
+import { PanelDePlanDelAlumno } from '../planes/PanelDePlanDelAlumno.tsx';
 import type { RutaDelEntrenador, NavegarEntrenador } from './navegacion-del-entrenador.ts';
 import { Icono } from '../interfaz/Icono.tsx';
 
@@ -50,21 +50,21 @@ export function PanelDeAlumnosDelEntrenador({ ruta, alNavegar, alCambiarOcupado 
     };
   }, [intento]);
 
-  const seleccionado = alumnos?.find(alumno => alumno.id === ruta.studentId);
+  const seleccionado = alumnos?.find(alumno => alumno.id === ruta.alumnoId);
 
-  if (ruta.studentId !== undefined) {
+  if (ruta.alumnoId !== undefined) {
     if (seleccionado) {
-      return <StudentPlansPanel
+      return <PanelDePlanDelAlumno
         key={seleccionado.id}
-        student={seleccionado}
-        route={ruta}
-        onNavigate={alNavegar}
-        onBusyChange={alCambiarOcupado}
+        alumno={seleccionado}
+        ruta={ruta}
+        alNavegar={alNavegar}
+        alCambiarOcupado={alCambiarOcupado}
       />;
     }
 
     return <>
-      <button type="button" className="back" onClick={() => alNavegar({ screen: 'alumnos' })}><Icono nombre="atras" />Alumnos</button>
+      <button type="button" className="back" onClick={() => alNavegar({ pantalla: 'alumnos' })}><Icono nombre="atras" />Alumnos</button>
       <h1 id="page-title" tabIndex={-1}>Alumno</h1>
       {cargando
         ? <p role="status" className="notice muted">Consultando alumno…</p>
@@ -78,19 +78,19 @@ export function PanelDeAlumnosDelEntrenador({ ruta, alNavegar, alCambiarOcupado 
     <nav aria-label="Alumnos y solicitudes" className="pestanas">
       <button
         type="button"
-        aria-current={ruta.screen === 'alumnos' ? 'page' : undefined}
-        onClick={() => alNavegar({ screen: 'alumnos' })}
+        aria-current={ruta.pantalla === 'alumnos' ? 'page' : undefined}
+        onClick={() => alNavegar({ pantalla: 'alumnos' })}
       >Alumnos{alumnos && <span className="badge">{alumnos.length}</span>}</button>
       <button
         type="button"
-        aria-current={ruta.screen === 'solicitudes' ? 'page' : undefined}
-        onClick={() => alNavegar({ screen: 'solicitudes' })}
+        aria-current={ruta.pantalla === 'solicitudes' ? 'page' : undefined}
+        onClick={() => alNavegar({ pantalla: 'solicitudes' })}
       >Solicitudes{cantidadDeSolicitudes !== null && <span className="badge">{cantidadDeSolicitudes}</span>}</button>
     </nav>
-    <div hidden={ruta.screen !== 'solicitudes'}>
+    <div hidden={ruta.pantalla !== 'solicitudes'}>
       <PanelDeSolicitudes alAceptar={alAceptar} alCambiarCantidad={setCantidadDeSolicitudes} alCambiarOcupado={alCambiarOcupado} />
     </div>
-    <section hidden={ruta.screen !== 'alumnos'} aria-label="Alumnos vinculados" aria-busy={cargando}>
+    <section hidden={ruta.pantalla !== 'alumnos'} aria-label="Alumnos vinculados" aria-busy={cargando}>
       {cargando && <p className="notice muted" role="status">Consultando alumnos…</p>}
       {error &&
         <div className="notice">
@@ -108,7 +108,7 @@ export function PanelDeAlumnosDelEntrenador({ ruta, alNavegar, alCambiarOcupado 
             <button
               type="button"
               className="fila-de-persona"
-              onClick={() => alNavegar({ screen: 'student', studentId: alumno.id })}
+              onClick={() => alNavegar({ pantalla: 'alumno', alumnoId: alumno.id })}
             >
               <span className="iniciales" aria-hidden="true">
                 {alumno.nombre.slice(0, 1)}

@@ -3,8 +3,8 @@ import { cerrarSesion, type UsuarioDeSesion } from './sesion.ts';
 import { PanelDeCuentas } from '../administracion/PanelDeCuentas.tsx';
 import { PanelDeEntrenadorDelAlumno } from '../entrenadores/PanelDeEntrenadorDelAlumno.tsx';
 import { PanelDeAlumnosDelEntrenador } from '../entrenadores/PanelDeAlumnosDelEntrenador.tsx';
-import { StudentPlanningPanel } from '../plans/StudentPlanningPanel.tsx';
-import { parseStudentRoute, studentHref, type StudentRoute } from '../plans/student-navigation.ts';
+import { PanelDePlanificacionDelAlumno } from '../planes/PanelDePlanificacionDelAlumno.tsx';
+import { interpretarRutaDelAlumno, hrefDelAlumno, type RutaDelAlumno } from '../planes/navegacion-del-alumno.ts';
 import { esFormularioDelEntrenador, hrefDelEntrenador, interpretarRutaDelEntrenador, type NavegarEntrenador } from '../entrenadores/navegacion-del-entrenador.ts';
 import { Icono } from '../interfaz/Icono.tsx';
 import { ConfiguracionDeApariencia } from '../interfaz/ConfiguracionDeApariencia.tsx';
@@ -19,8 +19,8 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
   alCambiarTema: (tema: Tema) => void;
 }) {
   const [ruta, setRuta] = useState(() => interpretarRutaDelEntrenador(location.hash));
-  // La navegación del alumno (pantallas 'home', 'trainers', 'settings' y 'routine') es del módulo de planes.
-  const [rutaDelAlumno, setRutaDelAlumno] = useState(() => parseStudentRoute(location.hash));
+  // La navegación del alumno (inicio, entrenadores, configuración y una rutina) es del módulo de planes.
+  const [rutaDelAlumno, setRutaDelAlumno] = useState(() => interpretarRutaDelAlumno(location.hash));
   const referenciaDeRuta = useRef(ruta);
   referenciaDeRuta.current = ruta;
   const estadoDeRuta = useRef<unknown>(history.state);
@@ -51,12 +51,12 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
       location.hash = hash;
     }
 
-    estadoDeRuta.current = ejercicio ? { exercise: ejercicio } : null;
+    estadoDeRuta.current = ejercicio ? { ejercicio } : null;
     history.replaceState(estadoDeRuta.current, '', hash);
     setRuta(siguiente);
   }, []);
-  const navegarComoAlumno = useCallback((siguiente: StudentRoute) => {
-    const hash = studentHref(siguiente);
+  const navegarComoAlumno = useCallback((siguiente: RutaDelAlumno) => {
+    const hash = hrefDelAlumno(siguiente);
 
     if (location.hash !== hash) {
       location.hash = hash;
@@ -65,7 +65,7 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
     history.replaceState(null, '', hash);
     setRutaDelAlumno(siguiente);
   }, []);
-  const cambiarVistaDelAlumno = useCallback((mostrarLista: boolean) => navegarComoAlumno({ screen: mostrarLista ? 'trainers' : 'home' }), [navegarComoAlumno]);
+  const cambiarVistaDelAlumno = useCallback((mostrarLista: boolean) => navegarComoAlumno({ pantalla: mostrarLista ? 'entrenadores' : 'inicio' }), [navegarComoAlumno]);
   useEffect(() => {
     if (usuario.rol === 'entrenador' && !location.hash) {
       history.replaceState(null, '', '#alumnos');
@@ -73,7 +73,7 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
 
     const cambio = () => {
       if (usuario.rol === 'alumno') {
-        setRutaDelAlumno(parseStudentRoute(location.hash));
+        setRutaDelAlumno(interpretarRutaDelAlumno(location.hash));
 
         return;
       }
@@ -92,11 +92,11 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
     return () => window.removeEventListener('hashchange', cambio);
   }, [usuario.rol]);
   const esAlumno = usuario.rol === 'alumno';
-  const idDeRutinaDelAlumno = rutaDelAlumno.screen === 'routine' ? rutaDelAlumno.routineId : undefined;
-  const pantallaActual = esAlumno ? rutaDelAlumno.screen : ruta.screen === 'catalog' || ruta.screen === 'exercise' ? 'routine' : ruta.screen;
+  const idDeRutinaDelAlumno = rutaDelAlumno.pantalla === 'rutina' ? rutaDelAlumno.rutinaId : undefined;
+  const pantallaActual = esAlumno ? rutaDelAlumno.pantalla : ruta.pantalla === 'catalogo' || ruta.pantalla === 'ejercicio' ? 'rutina' : ruta.pantalla;
   useEffect(() => {
     const cuadro = requestAnimationFrame(() => {
-      if (!esAlumno && (referenciaDeRuta.current.screen === 'catalog' || referenciaDeRuta.current.screen === 'exercise')) {
+      if (!esAlumno && (referenciaDeRuta.current.pantalla === 'catalogo' || referenciaDeRuta.current.pantalla === 'ejercicio')) {
         return;
       }
 
@@ -105,7 +105,7 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
     });
 
     return () => cancelAnimationFrame(cuadro);
-  }, [pantallaActual, ruta.studentId, ruta.routineId, idDeRutinaDelAlumno, esAlumno, vista]);
+  }, [pantallaActual, ruta.alumnoId, ruta.rutinaId, idDeRutinaDelAlumno, esAlumno, vista]);
   useEffect(() => {
     if (!menuAbierto) {
       return;
@@ -164,17 +164,17 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
   }
 
   const esEntrenador = usuario.rol === 'entrenador';
-  const enConfiguracion = esAlumno ? rutaDelAlumno.screen === 'settings' : ruta.screen === 'configuracion';
+  const enConfiguracion = esAlumno ? rutaDelAlumno.pantalla === 'configuracion' : ruta.pantalla === 'configuracion';
   const esAdministrador = usuario.rol === 'administrador';
   const enFormulario = !enConfiguracion && esEntrenador && esFormularioDelEntrenador(ruta);
-  const enInicio = !enConfiguracion && (esAlumno ? rutaDelAlumno.screen === 'home' : esEntrenador ? ruta.screen === 'inicio' : vista === 'inicio');
+  const enInicio = !enConfiguracion && (esAlumno ? rutaDelAlumno.pantalla === 'inicio' : esEntrenador ? ruta.pantalla === 'inicio' : vista === 'inicio');
   const etiquetaDelDestino = esEntrenador ? 'Alumnos' : 'Entrenadores';
   const irAlInicio = () => {
     if (esAlumno) {
-      navegarComoAlumno({ screen: 'home' });
+      navegarComoAlumno({ pantalla: 'inicio' });
     } else {
       if (esEntrenador || enConfiguracion) {
-        navegar({ screen: 'inicio' });
+        navegar({ pantalla: 'inicio' });
       }
 
       if (!esEntrenador) {
@@ -184,14 +184,14 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
   };
   const irAlDestino = () => {
     if (esAlumno) {
-      navegarComoAlumno({ screen: 'trainers' });
+      navegarComoAlumno({ pantalla: 'entrenadores' });
     } else if (esEntrenador) {
-      navegar({ screen: 'alumnos' });
+      navegar({ pantalla: 'alumnos' });
     }
   };
   const irAVistaDeAdministrador = (siguiente: 'entrenadores' | 'alumnos') => {
     if (enConfiguracion) {
-      navegar({ screen: 'inicio' });
+      navegar({ pantalla: 'inicio' });
     }
 
     setVista(siguiente);
@@ -200,9 +200,9 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
     setMenuAbierto(false);
 
     if (esAlumno) {
-      navegarComoAlumno({ screen: 'settings' });
+      navegarComoAlumno({ pantalla: 'configuracion' });
     } else {
-      navegar({ screen: 'configuracion' });
+      navegar({ pantalla: 'configuracion' });
     }
   };
   const navegacion = <>
@@ -210,7 +210,7 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
       type="button"
       className="elemento-de-navegacion"
       disabled={ocupado}
-      aria-current={enInicio ? 'page' : esAlumno && rutaDelAlumno.screen === 'routine' ? 'true' : undefined}
+      aria-current={enInicio ? 'page' : esAlumno && rutaDelAlumno.pantalla === 'rutina' ? 'true' : undefined}
       onClick={irAlInicio}
     ><Icono nombre="inicio" />Inicio</button>
     {esAdministrador && <>
@@ -232,7 +232,7 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
         type="button"
         className="elemento-de-navegacion"
         disabled={ocupado}
-        aria-current={(esAlumno ? rutaDelAlumno.screen === 'trainers' : !enInicio && !enConfiguracion) ? 'page' : undefined}
+        aria-current={(esAlumno ? rutaDelAlumno.pantalla === 'entrenadores' : !enInicio && !enConfiguracion) ? 'page' : undefined}
         onClick={irAlDestino}
       >
         <Icono nombre="usuarios" />
@@ -307,14 +307,14 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
             ? <>
               <header className="page-head"><h1 id="page-title" tabIndex={-1}>Hola, {usuario.nombre}</h1></header>
               <div className="enlaces-de-inicio">
-                <button className="routine-row" onClick={() => navegar({ screen: 'alumnos' })}>
+                <button className="fila-de-rutina" onClick={() => navegar({ pantalla: 'alumnos' })}>
                   <span className="row-copy">
                     <span className="row-title">Mis alumnos</span>
                     <span className="row-meta">Planes y rutinas</span>
                   </span>
                   <Icono nombre="flecha" />
                 </button>
-                <button className="routine-row" onClick={() => navegar({ screen: 'solicitudes' })}>
+                <button className="fila-de-rutina" onClick={() => navegar({ pantalla: 'solicitudes' })}>
                   <span className="row-copy">
                     <span className="row-title">Solicitudes</span>
                     <span className="row-meta">Vinculación con alumnos</span>
@@ -330,14 +330,14 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
             ? <>
               <header className="page-head"><h1 id="page-title" tabIndex={-1}>Hola, {usuario.nombre}</h1></header>
               <div className="enlaces-de-inicio">
-                <button className="routine-row" onClick={() => irAVistaDeAdministrador('entrenadores')}>
+                <button className="fila-de-rutina" onClick={() => irAVistaDeAdministrador('entrenadores')}>
                   <span className="row-copy">
                     <span className="row-title">Entrenadores</span>
                     <span className="row-meta">Alta, modificación y baja de cuentas</span>
                   </span>
                   <Icono nombre="flecha" />
                 </button>
-                <button className="routine-row" onClick={() => irAVistaDeAdministrador('alumnos')}>
+                <button className="fila-de-rutina" onClick={() => irAVistaDeAdministrador('alumnos')}>
                   <span className="row-copy">
                     <span className="row-title">Alumnos</span>
                     <span className="row-meta">Alta, modificación y baja de cuentas</span>
@@ -349,19 +349,19 @@ export function PantallaDeSesion({ usuario, estadoDelBackend, tema, preferenciaG
             : <PanelDeCuentas key={vista} tipo={vista} />)}
         {esAlumno && !enConfiguracion &&
           <>
-            {rutaDelAlumno.screen !== 'routine' &&
+            {rutaDelAlumno.pantalla !== 'rutina' &&
               <header className="page-head"><h1 id="page-title" tabIndex={-1}>{enInicio ? 'Hola, ' + usuario.nombre : 'Entrenadores'}</h1></header>}
-            {rutaDelAlumno.screen !== 'trainers' &&
-              <StudentPlanningPanel
-                key={idDeRutinaDelAlumno ?? 'planning'}
-                studentId={usuario.id}
-                routineId={idDeRutinaDelAlumno}
-                onOpenRoutine={id => navegarComoAlumno({ screen: 'routine', routineId: id })}
-                onBack={irAlInicio}
+            {rutaDelAlumno.pantalla !== 'entrenadores' &&
+              <PanelDePlanificacionDelAlumno
+                key={idDeRutinaDelAlumno ?? 'planificacion'}
+                alumnoId={usuario.id}
+                rutinaId={idDeRutinaDelAlumno}
+                alAbrirRutina={id => navegarComoAlumno({ pantalla: 'rutina', rutinaId: id })}
+                alVolver={irAlInicio}
               />}
-            {rutaDelAlumno.screen !== 'routine' &&
+            {rutaDelAlumno.pantalla !== 'rutina' &&
               <PanelDeEntrenadorDelAlumno
-                mostrarLista={rutaDelAlumno.screen === 'trainers'}
+                mostrarLista={rutaDelAlumno.pantalla === 'entrenadores'}
                 alCambiarMostrarLista={cambiarVistaDelAlumno}
                 alCambiarPuedeElegir={setPuedeElegirEntrenador}
               />}

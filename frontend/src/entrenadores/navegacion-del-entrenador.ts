@@ -1,35 +1,41 @@
-import type { Exercise } from '../plans/routine-exercises.ts';
+import type { Ejercicio } from '../planes/ejercicios-de-rutina.ts';
 
-// Las pantallas 'student', 'plan-form', 'delete-plan', 'program-form', 'routine', 'routine-form', 'catalog'
-// y 'exercise' pertenecen al módulo de planes y conservan su nombre; las demás son del entrenador.
-export type PantallaDelEntrenador = 'inicio' | 'configuracion' | 'alumnos' | 'solicitudes' | 'student' | 'plan-form' | 'delete-plan' | 'program-form' | 'routine' | 'routine-form' | 'catalog' | 'exercise';
-export interface RutaDelEntrenador { screen: PantallaDelEntrenador; studentId?: number; routineId?: number; entryId?: number; exerciseId?: number }
-export type NavegarEntrenador = (ruta: RutaDelEntrenador, ejercicio?: Exercise) => void;
+export type PantallaDelEntrenador =
+  | 'inicio' | 'configuracion' | 'alumnos' | 'solicitudes'
+  | 'alumno' | 'formulario-de-plan' | 'eliminar-plan' | 'rutina' | 'formulario-de-rutina' | 'catalogo' | 'ejercicio';
+export interface RutaDelEntrenador {
+  pantalla: PantallaDelEntrenador;
+  alumnoId?: number;
+  rutinaId?: number;
+  ejercicioDeRutinaId?: number;
+  ejercicioId?: number;
+}
+export type NavegarEntrenador = (ruta: RutaDelEntrenador, ejercicio?: Ejercicio) => void;
 
 const identificador = (valor: string | undefined) => valor && /^[1-9]\d*$/.test(valor) && Number(valor) <= 4294967295 ? Number(valor) : undefined;
 
 export function interpretarRutaDelEntrenador(hash: string): RutaDelEntrenador {
-  const [pantalla, alumno, rutina, entrada, ejercicio, sobrante] = hash.replace(/^#/, '').split('/');
-  const studentId = identificador(alumno), routineId = identificador(rutina), entryId = identificador(entrada), exerciseId = identificador(ejercicio);
-  if (['inicio', 'configuracion', 'alumnos', 'solicitudes'].includes(pantalla) && alumno === undefined) return { screen: pantalla as PantallaDelEntrenador };
-  if (['student', 'plan-form', 'delete-plan', 'program-form'].includes(pantalla) && studentId && rutina === undefined) return { screen: pantalla as PantallaDelEntrenador, studentId };
-  if (pantalla === 'routine-form' && studentId && entrada === undefined && (rutina === undefined || routineId)) return { screen: pantalla, studentId, ...(routineId ? { routineId } : {}) };
-  if (['routine', 'catalog'].includes(pantalla) && studentId && routineId && entrada === undefined) return { screen: pantalla as PantallaDelEntrenador, studentId, routineId };
-  if (pantalla === 'exercise' && studentId && routineId && sobrante === undefined) {
-    if (entryId && ejercicio === undefined) return { screen: pantalla, studentId, routineId, entryId };
-    if (entrada === '' && exerciseId) return { screen: pantalla, studentId, routineId, exerciseId };
+  const [pantalla, alumno, rutina, elemento, ejercicio, sobrante] = hash.replace(/^#/, '').split('/');
+  const alumnoId = identificador(alumno), rutinaId = identificador(rutina), ejercicioDeRutinaId = identificador(elemento), ejercicioId = identificador(ejercicio);
+  if (['inicio', 'configuracion', 'alumnos', 'solicitudes'].includes(pantalla) && alumno === undefined) return { pantalla: pantalla as PantallaDelEntrenador };
+  if (['alumno', 'formulario-de-plan', 'eliminar-plan'].includes(pantalla) && alumnoId && rutina === undefined) return { pantalla: pantalla as PantallaDelEntrenador, alumnoId };
+  if (pantalla === 'formulario-de-rutina' && alumnoId && elemento === undefined && (rutina === undefined || rutinaId)) return { pantalla, alumnoId, ...(rutinaId ? { rutinaId } : {}) };
+  if (['rutina', 'catalogo'].includes(pantalla) && alumnoId && rutinaId && elemento === undefined) return { pantalla: pantalla as PantallaDelEntrenador, alumnoId, rutinaId };
+  if (pantalla === 'ejercicio' && alumnoId && rutinaId && sobrante === undefined) {
+    if (ejercicioDeRutinaId && ejercicio === undefined) return { pantalla, alumnoId, rutinaId, ejercicioDeRutinaId };
+    if (elemento === '' && ejercicioId) return { pantalla, alumnoId, rutinaId, ejercicioId };
   }
-  return { screen: 'alumnos' };
+  return { pantalla: 'alumnos' };
 }
 
 export function hrefDelEntrenador(ruta: RutaDelEntrenador): string {
-  let hash = '#' + ruta.screen;
-  if (ruta.studentId !== undefined) hash += '/' + ruta.studentId;
-  if (ruta.routineId !== undefined) hash += '/' + ruta.routineId;
-  if (ruta.screen === 'exercise') hash += ruta.entryId !== undefined ? '/' + ruta.entryId : '//' + ruta.exerciseId;
+  let hash = '#' + ruta.pantalla;
+  if (ruta.alumnoId !== undefined) hash += '/' + ruta.alumnoId;
+  if (ruta.rutinaId !== undefined) hash += '/' + ruta.rutinaId;
+  if (ruta.pantalla === 'ejercicio') hash += ruta.ejercicioDeRutinaId !== undefined ? '/' + ruta.ejercicioDeRutinaId : '//' + ruta.ejercicioId;
   return hash;
 }
 
 export function esFormularioDelEntrenador(ruta: RutaDelEntrenador) {
-  return ['plan-form', 'delete-plan', 'program-form', 'routine-form'].includes(ruta.screen);
+  return ['formulario-de-plan', 'eliminar-plan', 'formulario-de-rutina'].includes(ruta.pantalla);
 }
