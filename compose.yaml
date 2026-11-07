@@ -1,12 +1,30 @@
 name: gymhelper
 
+# Variables comunes del backend y del servicio que prepara la base de datos.
+x-backend-environment: &backend-environment
+  BD_HOST: mysql
+  BD_PUERTO: "3306"
+  MYSQL_DATABASE: ${MYSQL_DATABASE:-gymhelper}
+  MYSQL_USER: ${MYSQL_USER:-gymhelper_app}
+  MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Falta MYSQL_PASSWORD en el archivo .env}
+  SECRETO_DE_SESION: ${SECRETO_DE_SESION:?Falta SECRETO_DE_SESION en el archivo .env}
+  ADMIN_INICIAL_CORREO: ${ADMIN_INICIAL_CORREO:-admin@example.test}
+  ADMIN_INICIAL_CONTRASENA: ${ADMIN_INICIAL_CONTRASENA:-Admin1234}
+  ORIGEN_DEL_FRONTEND: ${ORIGEN_DEL_FRONTEND:-http://127.0.0.1:5173}
+  HOST: 0.0.0.0
+  PORT: "3000"
+  # Docker Desktop (Windows) no propaga eventos de archivos a los contenedores: se consulta por polling.
+  TSC_WATCHFILE: PriorityPollingInterval
+  TSC_WATCHDIRECTORY: DynamicPriorityPolling
+
 services:
   mysql:
     image: mysql:8.4.11
-    env_file:
-      - ./backend/.env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Falta MYSQL_ROOT_PASSWORD en el archivo .env de la raiz}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Falta MYSQL_ROOT_PASSWORD en el archivo .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-gymhelper}
+      MYSQL_USER: ${MYSQL_USER:-gymhelper_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Falta MYSQL_PASSWORD en el archivo .env}
     ports:
       - "127.0.0.1:3306:3306"
     volumes:
@@ -17,6 +35,56 @@ services:
       timeout: 5s
       start_period: 30s
       retries: 20
+
+  # Crea las tablas, importa el catálogo y el administrador inicial. Termina al finalizar.
+  migrar:
+    build: ./backend
+    command: ["npm", "run", "bd:preparar"]
+    environment: *backend-environment
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      # El mismo código que el backend: así las migraciones nuevas se aplican sin reconstruir la imagen.
+      - ./backend/src:/app/src
+    restart: "no"
+
+  backend:
+    build: ./backend
+    command: ["npm", "run", "start:dev"]
+    environment: *backend-environment
+    depends_on:
+      mysql:
+        condition: service_healthy
+      migrar:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/test:/app/test
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      start_period: 60s
+      retries: 20
+
+  frontend:
+    build: ./frontend
+    command: ["npm", "run", "dev"]
+    environment:
+      VITE_HOST: 0.0.0.0
+      VITE_USE_POLLING: "true"
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/test:/app/test
+      - ./frontend/index.html:/app/index.html
 
 volumes:
   mysql_data:
