@@ -101,7 +101,7 @@ test('HTTP y MySQL protegen programas, creaciones simultáneas, persistencia y p
   });
   const cookies = [];
   for (const account of [trainer, otherTrainer, student, admin]) {
-    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password, rol: account.rol });
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password });
     assert.equal(response.status, 200); await response.arrayBuffer();
     cookies.push(response.headers.getSetCookie().find((header) => /Path=\/;/i.test(header)).split(';')[0]);
   }

@@ -6,7 +6,6 @@ import {
   ContrasenaNuevaInvalidaError, RestablecerContrasena, SolicitarRecuperacion,
 } from '../aplicacion/recuperar-contrasena.js';
 import { EnlaceDeRecuperacionInvalidoError } from '../dominio/recuperacion-de-contrasena.js';
-import { esRolDeUsuario } from '../dominio/usuario.js';
 
 /** Mismo cuerpo exista o no la cuenta: no permite averiguar qué correos están registrados. */
 const RESPUESTA_NEUTRA = { message: 'Si existe una cuenta con esos datos, te enviamos un correo con el enlace para cambiar la contraseña.' };
@@ -30,13 +29,12 @@ export class RecuperacionController {
   @UseGuards(ThrottlerGuard)
   async pedir(@Body() cuerpo: unknown) {
     const entrada = comoObjeto(cuerpo);
-    if (Object.keys(entrada).some((clave) => !['correo', 'rol'].includes(clave)) ||
-        typeof entrada.correo !== 'string' || entrada.correo.trim().length < 1 || [...entrada.correo.trim()].length > 254 ||
-        !esRolDeUsuario(entrada.rol)) {
-      throw new BadRequestException('Ingresá un correo y un rol válidos.');
+    if (Object.keys(entrada).some((clave) => clave !== 'correo') ||
+        typeof entrada.correo !== 'string' || entrada.correo.trim().length < 1 || [...entrada.correo.trim()].length > 254) {
+      throw new BadRequestException('Ingresá un correo válido.');
     }
     // No se espera el envío: así la respuesta tarda lo mismo exista o no la cuenta, y un fallo de SMTP no revela nada.
-    void this.solicitar.ejecutar(entrada.correo, entrada.rol).catch((error: unknown) => {
+    void this.solicitar.ejecutar(entrada.correo).catch((error: unknown) => {
       this.registro.error('No se pudo enviar el enlace de recuperación.', error instanceof Error ? error.stack : undefined);
     });
     return RESPUESTA_NEUTRA;

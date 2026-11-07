@@ -1,5 +1,5 @@
 import { DataSource, EntitySchema, IsNull, QueryFailedError } from 'typeorm';
-import type { RolDeUsuario, Turno, Usuario } from '../dominio/usuario.js';
+import type { Turno, Usuario } from '../dominio/usuario.js';
 import {
   CorreoYaRegistradoError, RepositorioDeUsuarios, type CambiosDeCuenta, type RolGestionado, type UsuarioGuardado,
 } from '../dominio/repositorio-de-usuarios.js';
@@ -24,15 +24,15 @@ export const EsquemaDeUsuario = new EntitySchema<Usuario>({
     horario: { type: 'varchar', length: 32, nullable: true, transformer: transformadorDeHorario },
     fechaBaja: { name: 'fecha_baja', type: 'datetime', precision: 3, nullable: true },
   },
-  uniques: [{ name: 'UQ_usuarios_correo_rol', columns: ['correo', 'rol'] }],
+  uniques: [{ name: 'UQ_usuarios_correo', columns: ['correo'] }],
   checks: [{ name: 'CHK_usuarios_rol', expression: "rol IN ('alumno', 'entrenador', 'administrador')" }],
 });
 
-/** UNIQUE (correo, rol) resuelve también dos operaciones simultáneas con el mismo correo y rol. */
+/** UNIQUE resuelve también dos operaciones simultáneas con el mismo correo. */
 function traducirCorreoDuplicado(error: unknown): unknown {
   if (error instanceof QueryFailedError &&
       error.driverError.code === 'ER_DUP_ENTRY' &&
-      String(error.driverError.sqlMessage).includes('UQ_usuarios_correo_rol')) {
+      String(error.driverError.sqlMessage).includes('UQ_usuarios_correo')) {
     return new CorreoYaRegistradoError();
   }
   return error;
@@ -41,8 +41,8 @@ function traducirCorreoDuplicado(error: unknown): unknown {
 export class RepositorioDeUsuariosTypeOrm extends RepositorioDeUsuarios {
   constructor(private readonly dataSource: DataSource) { super(); }
 
-  buscarPorCorreoYRol(correo: string, rol: RolDeUsuario): Promise<Usuario | null> {
-    return this.dataSource.getRepository(EsquemaDeUsuario).findOneBy({ correo, rol });
+  buscarPorCorreo(correo: string): Promise<Usuario | null> {
+    return this.dataSource.getRepository(EsquemaDeUsuario).findOneBy({ correo });
   }
 
   buscarPorId(id: number): Promise<Usuario | null> {

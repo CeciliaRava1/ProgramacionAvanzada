@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { iniciarSesion, type RolDeUsuario, type UsuarioDeSesion } from './sesion.ts';
-import { SelectorDeRol } from './SelectorDeRol.tsx';
+import { iniciarSesion, type UsuarioDeSesion } from './sesion.ts';
 import { CampoContrasena } from '../interfaz/CampoContrasena.tsx';
 
 /** Conserva la contraseña solo durante el envío; la sesión la administra el backend. */
-export function FormularioDeInicioDeSesion({ alIniciarSesion, rolInicial = 'alumno' }: {
-  rolInicial?: RolDeUsuario;
+export function FormularioDeInicioDeSesion({ alIniciarSesion }: {
   alIniciarSesion: (usuario: UsuarioDeSesion) => void;
 }) {
-  const [rol, setRol] = useState<RolDeUsuario>(rolInicial);
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [mensaje, setMensaje] = useState('');
@@ -35,7 +32,7 @@ export function FormularioDeInicioDeSesion({ alIniciarSesion, rolInicial = 'alum
     setMensaje('');
 
     try {
-      const usuario = await iniciarSesion(correo, contrasena, rol, controlador.signal);
+      const usuario = await iniciarSesion(correo, contrasena, controlador.signal);
 
       if (!controlador.signal.aborted) {
         setContrasena('');
@@ -60,7 +57,6 @@ export function FormularioDeInicioDeSesion({ alIniciarSesion, rolInicial = 'alum
       <form className="mt-6" onSubmit={enviar} aria-busy={enviando}>
         <fieldset disabled={enviando} className="form-fields">
           <legend className="sr-only">Datos de acceso</legend>
-          <SelectorDeRol prefijoDeId="inicio" valor={rol} alCambiar={setRol} />
           <div>
             <label htmlFor="inicio-correo" className="mb-2 block text-sm font-medium">Correo electrónico</label>
             <input

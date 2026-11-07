@@ -5,7 +5,7 @@ import { PantallaDeSesion } from './autenticacion/PantallaDeSesion.tsx';
 import { PantallaDePedirRecuperacion } from './autenticacion/PantallaDePedirRecuperacion.tsx';
 import { PantallaDeRestablecer } from './autenticacion/PantallaDeRestablecer.tsx';
 import { interpretarRutaDeAcceso, type RutaDeAcceso } from './autenticacion/recuperacion.ts';
-import { obtenerSesion, type RolDeUsuario, type UsuarioDeSesion } from './autenticacion/sesion.ts';
+import { obtenerSesion, type UsuarioDeSesion } from './autenticacion/sesion.ts';
 import { AvisoFlotante } from './interfaz/AvisoFlotante.tsx';
 import { guardarPreferenciaDeTema, leerPreferenciaDeTema, type Tema } from './interfaz/tema.ts';
 
@@ -41,7 +41,6 @@ export default function App() {
   const [estadoDeSesion, setEstadoDeSesion] = useState<'cargando' | 'lista' | 'error'>('cargando');
   const [intentoDeSesion, setIntentoDeSesion] = useState(0);
   const [rutaDeAcceso, setRutaDeAcceso] = useState<RutaDeAcceso>(() => leerRutaDeAcceso(null));
-  const [rolDeRetorno, setRolDeRetorno] = useState<RolDeUsuario>('alumno');
   const [aviso, setAviso] = useState('');
   const cerrarAviso = useCallback(() => setAviso(''), []);
 
@@ -52,11 +51,7 @@ export default function App() {
     return () => window.removeEventListener('hashchange', cambio);
   }, []);
 
-  function terminarRestablecimiento(rol: RolDeUsuario | null) {
-    if (rol) {
-      setRolDeRetorno(rol);
-    }
-
+  function terminarRestablecimiento() {
     setAviso('Cambiaste tu contraseña. Ya podés iniciar sesión.');
     history.replaceState(null, '', location.pathname);
     setRutaDeAcceso({ pantalla: 'inicio' });
@@ -104,10 +99,10 @@ export default function App() {
       <div className="armazon-de-la-app"><header className="barra-superior"><span className="marca">Gym<span>Helper</span></span></header><main className="escenario-de-acceso"><div className="acceso">
         {estadoDeSesion === 'cargando' && <p role="status" className="muted">Comprobando sesión…</p>}
         {estadoDeSesion === 'error' && <div><p role="alert" className="text-danger">No se pudo consultar tu sesión. Revisá la conexión.</p><button type="button" className="primary" onClick={() => setIntentoDeSesion(valor => valor + 1)}>Reintentar</button></div>}
-        {estadoDeSesion === 'lista' && rutaDeAcceso.pantalla === 'inicio' && <FormularioDeInicioDeSesion key={rolDeRetorno} rolInicial={rolDeRetorno} alIniciarSesion={(actual) => { history.replaceState(null, '', location.pathname); setUsuario(actual); }} />}
+        {estadoDeSesion === 'lista' && rutaDeAcceso.pantalla === 'inicio' && <FormularioDeInicioDeSesion alIniciarSesion={(actual) => { history.replaceState(null, '', location.pathname); setUsuario(actual); }} />}
         {estadoDeSesion === 'lista' && rutaDeAcceso.pantalla === 'recuperar' && <PantallaDePedirRecuperacion />}
         {estadoDeSesion === 'lista' && rutaDeAcceso.pantalla === 'restablecer' &&
-          <PantallaDeRestablecer token={rutaDeAcceso.token} alRestablecer={() => terminarRestablecimiento(rutaDeAcceso.rol)} />}
+          <PantallaDeRestablecer token={rutaDeAcceso.token} alRestablecer={terminarRestablecimiento} />}
         {estado !== 'conectado' && <p className={'notice small ' + (estado === 'no_disponible' ? 'text-danger' : 'muted')} role="status">{mensajes[estado]}</p>}
       </div></main><AvisoFlotante mensaje={aviso} alCerrar={cerrarAviso} /></div>}
   </div>;

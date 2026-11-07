@@ -90,7 +90,7 @@ test('HTTP y MySQL protegen solicitudes, participación, concurrencia y persiste
   });
   const cookies = [];
   for (const cuenta of cuentas) {
-    const respuesta = await llamar('sesion', 'POST', null, { correo: cuenta.correo, contrasena, rol: cuenta.rol });
+    const respuesta = await llamar('sesion', 'POST', null, { correo: cuenta.correo, contrasena });
     assert.equal(respuesta.status, 200);
     await respuesta.arrayBuffer();
     cookies.push(respuesta.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera)).split(';')[0]);

@@ -1,9 +1,8 @@
-import { ROLES, type RolDeUsuario } from './sesion.ts';
 
 export type RutaDeAcceso =
   | { pantalla: 'inicio' }
   | { pantalla: 'recuperar' }
-  | { pantalla: 'restablecer'; token: string | null; rol: RolDeUsuario | null };
+  | { pantalla: 'restablecer'; token: string | null };
 
 /** Interpreta el hash de la URL cuando todavía no hay sesión: recuperar o restablecer la contraseña. */
 export function interpretarRutaDeAcceso(hash: string): RutaDeAcceso {
@@ -11,12 +10,10 @@ export function interpretarRutaDeAcceso(hash: string): RutaDeAcceso {
   if (ruta === '/recuperar') return { pantalla: 'recuperar' };
   if (ruta !== '/restablecer') return { pantalla: 'inicio' };
   const parametros = new URLSearchParams(consulta);
-  const rol = parametros.get('rol');
   const token = parametros.get('token');
   return {
     pantalla: 'restablecer',
     token: token && token.length <= 200 ? token : null,
-    rol: ROLES.includes(rol as RolDeUsuario) ? rol as RolDeUsuario : null,
   };
 }
 
@@ -53,8 +50,8 @@ async function enviarJson(ruta: string, cuerpo: unknown, senal: AbortSignal): Pr
 }
 
 /** La respuesta es la misma exista o no la cuenta, así que no se distingue ningún caso. */
-export async function pedirRecuperacion(correo: string, rol: RolDeUsuario, senal: AbortSignal): Promise<void> {
-  const respuesta = await enviarJson('', { correo: correo.trim(), rol }, senal);
+export async function pedirRecuperacion(correo: string, senal: AbortSignal): Promise<void> {
+  const respuesta = await enviarJson('', { correo: correo.trim() }, senal);
   if (respuesta.status === 429) throw new ErrorDeRecuperacion('Demasiados intentos. Esperá un minuto antes de volver a intentar.');
   if (respuesta.status === 400) throw new ErrorDeRecuperacion('Revisá el correo ingresado.');
   if (respuesta.status !== 202) throw new ErrorDeRecuperacion('No se pudo pedir el enlace. Intentá nuevamente.');

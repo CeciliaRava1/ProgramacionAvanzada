@@ -100,7 +100,7 @@ test('HTTP y MySQL permiten consultar solo la planificación propia sin conceder
   });
   const cookies = [];
   for (const account of accounts) {
-    const response = await call('sesion', null, 'POST', { correo: account.correo, contrasena: password, rol: account.rol });
+    const response = await call('sesion', null, 'POST', { correo: account.correo, contrasena: password });
     assert.equal(response.status, 200); await response.arrayBuffer();
     cookies.push(response.headers.getSetCookie().find(header => /Path=\/;/i.test(header)).split(';')[0]);
   }

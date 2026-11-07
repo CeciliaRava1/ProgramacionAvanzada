@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { pedirRecuperacion } from './recuperacion.ts';
-import { SelectorDeRol } from './SelectorDeRol.tsx';
-import type { RolDeUsuario } from './sesion.ts';
 
 /** Pide el enlace para cambiar la contraseña; el mensaje final es el mismo exista o no la cuenta. */
 export function PantallaDePedirRecuperacion() {
-  const [rol, setRol] = useState<RolDeUsuario>('alumno');
   const [correo, setCorreo] = useState('');
   const [estado, setEstado] = useState<'reposo' | 'enviando' | 'enviado' | 'error'>('reposo');
   const [mensaje, setMensaje] = useState('');
@@ -32,7 +29,7 @@ export function PantallaDePedirRecuperacion() {
     setMensaje('');
 
     try {
-      await pedirRecuperacion(correo, rol, controlador.signal);
+      await pedirRecuperacion(correo, controlador.signal);
 
       if (!controlador.signal.aborted) {
         setEstado('enviado');
@@ -64,7 +61,6 @@ export function PantallaDePedirRecuperacion() {
     <form className="mt-6" onSubmit={enviar} noValidate aria-busy={estado === 'enviando'}>
       <fieldset disabled={estado === 'enviando'} className="form-fields">
         <legend className="sr-only">Datos de la cuenta</legend>
-        <SelectorDeRol prefijoDeId="recuperacion" valor={rol} alCambiar={setRol} leyenda="Tipo de cuenta" />
         <div>
           <label htmlFor="recuperacion-correo" className="mb-2 block text-sm font-medium">Correo electrónico</label>
           <input

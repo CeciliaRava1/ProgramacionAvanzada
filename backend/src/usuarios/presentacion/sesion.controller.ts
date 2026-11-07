@@ -6,7 +6,6 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { CredencialesInvalidasError, IniciarSesion } from '../aplicacion/iniciar-sesion.js';
 import { RepositorioDeUsuarios } from '../dominio/repositorio-de-usuarios.js';
-import { esRolDeUsuario } from '../dominio/usuario.js';
 import { NOMBRE_DE_COOKIE_DE_SESION, RUTA_DE_COOKIE_DE_SESION } from './middleware-de-sesion.js';
 
 @Controller('usuarios/sesion')
@@ -22,14 +21,13 @@ export class SesionController {
   async crear(@Body() cuerpo: unknown, @Req() peticion: Request) {
     if (typeof cuerpo !== 'object' || cuerpo === null || Array.isArray(cuerpo)) throw new BadRequestException('Ingresá correo y contraseña.');
     const entrada = cuerpo as Record<string, unknown>;
-    if (Object.keys(entrada).some((clave) => !['correo', 'contrasena', 'rol'].includes(clave)) ||
+    if (Object.keys(entrada).some((clave) => !['correo', 'contrasena'].includes(clave)) ||
         typeof entrada.correo !== 'string' || entrada.correo.trim().length < 1 || [...entrada.correo.trim()].length > 254 ||
-        typeof entrada.contrasena !== 'string' || entrada.contrasena.length < 1 || [...entrada.contrasena].length > 128 ||
-        !esRolDeUsuario(entrada.rol)) {
-      throw new BadRequestException('Ingresá un correo, una contraseña y un rol válidos.');
+        typeof entrada.contrasena !== 'string' || entrada.contrasena.length < 1 || [...entrada.contrasena].length > 128) {
+      throw new BadRequestException('Ingresá un correo y una contraseña válidos.');
     }
     try {
-      const usuario = await this.iniciarSesion.ejecutar(entrada.correo, entrada.contrasena, entrada.rol);
+      const usuario = await this.iniciarSesion.ejecutar(entrada.correo, entrada.contrasena);
       // Renovar el identificador evita conservar una sesión anterior al autenticarse.
       await new Promise<void>((resolver, rechazar) => peticion.session.regenerate((error) => error ? rechazar(error) : resolver()));
       peticion.session.usuarioId = usuario.id;

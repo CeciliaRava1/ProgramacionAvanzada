@@ -71,7 +71,7 @@ test('HTTP y MySQL conservan catálogo, permisos, pertenencia e indicaciones al 
   const call = (path, method = 'GET', cookie, body, origin = 'http://127.0.0.1:5173') => fetch(`http://127.0.0.1:${app.getHttpServer().address().port}/${path === 'sesion' ? 'usuarios' : 'users'}/${path}`, { method, headers: { Origin: origin, ...(cookie ? { Cookie: cookie } : {}), ...(body ? { 'Content-Type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
   const cookies = [];
   for (const account of accounts) {
-    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password, rol: account.rol }); assert.equal(response.status, 200); await response.arrayBuffer(); cookies.push(response.headers.getSetCookie().find(header => /Path=\/;/i.test(header)).split(';')[0]);
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password }); assert.equal(response.status, 200); await response.arrayBuffer(); cookies.push(response.headers.getSetCookie().find(header => /Path=\/;/i.test(header)).split(';')[0]);
   }
   const [trainerCookie, otherCookie, studentCookie, adminCookie] = cookies;
   assert.equal((await call('exercises')).status, 401);

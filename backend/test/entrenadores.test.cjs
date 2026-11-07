@@ -76,7 +76,7 @@ test('HTTP y MySQL permiten consultar entrenadores solo a alumnos y conservan el
   });
   const cookies = [];
   for (const cuenta of cuentas) {
-    const respuesta = await llamar('/usuarios/sesion', 'POST', null, { correo: cuenta.correo, contrasena, rol: cuenta.rol });
+    const respuesta = await llamar('/usuarios/sesion', 'POST', null, { correo: cuenta.correo, contrasena });
     assert.equal(respuesta.status, 200);
     cookies.push(respuesta.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera)).split(';')[0]);
   }

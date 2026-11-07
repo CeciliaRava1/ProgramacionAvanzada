@@ -60,7 +60,7 @@ test('HTTP y MySQL muestran solo alumnos vinculados al entrenador de la sesión'
   });
   const cookies = [];
   for (const cuenta of [entrenador, otroEntrenador, alumno, administrador]) {
-    const respuesta = await llamar('sesion', null, 'POST', { correo: cuenta.correo, contrasena, rol: cuenta.rol });
+    const respuesta = await llamar('sesion', null, 'POST', { correo: cuenta.correo, contrasena });
     assert.equal(respuesta.status, 200);
     await respuesta.arrayBuffer();
     cookies.push(respuesta.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera)).split(';')[0]);

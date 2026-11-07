@@ -1,4 +1,4 @@
-import type { DatosDeUsuario, RolDeUsuario, Turno, Usuario } from './usuario.js';
+import type { DatosDeUsuario, Turno, Usuario } from './usuario.js';
 
 export type UsuarioGuardado = Usuario & { id: number };
 export type RolGestionado = 'alumno' | 'entrenador';
@@ -16,8 +16,7 @@ export class CorreoYaRegistradoError extends Error {
 
 /** Operaciones de cuentas que necesita la aplicación, sin conocer TypeORM. */
 export abstract class RepositorioDeUsuarios {
-  /** Un mismo correo puede tener una cuenta por rol; se busca por ambos. */
-  abstract buscarPorCorreoYRol(correo: string, rol: RolDeUsuario): Promise<Usuario | null>;
+  abstract buscarPorCorreo(correo: string): Promise<Usuario | null>;
   abstract buscarPorId(id: number): Promise<Usuario | null>;
   /** Entrenadores activos; las cuentas dadas de baja no se ofrecen a los alumnos. */
   abstract buscarEntrenadores(): Promise<UsuarioGuardado[]>;

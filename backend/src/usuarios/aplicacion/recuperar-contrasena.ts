@@ -4,7 +4,6 @@ import {
   EnlaceDeRecuperacionInvalidoError, EnviadorDeCorreo, RepositorioDeRecuperaciones, VIGENCIA_DEL_ENLACE_MS,
 } from '../dominio/recuperacion-de-contrasena.js';
 import { RepositorioDeUsuarios } from '../dominio/repositorio-de-usuarios.js';
-import type { RolDeUsuario } from '../dominio/usuario.js';
 
 export class ContrasenaNuevaInvalidaError extends Error {}
 
@@ -25,20 +24,20 @@ export class SolicitarRecuperacion {
     private readonly ahora: () => Date = () => new Date(),
   ) {}
 
-  async ejecutar(correo: string, rol: RolDeUsuario): Promise<void> {
-    const usuario = await this.usuarios.buscarPorCorreoYRol(correo.trim().toLowerCase(), rol);
+  async ejecutar(correo: string): Promise<void> {
+    const usuario = await this.usuarios.buscarPorCorreo(correo.trim().toLowerCase());
     if (!usuario?.id || usuario.fechaBaja) return;
 
     const token = this.generarToken();
     await this.recuperaciones.crear(usuario.id, hashearToken(token), new Date(this.ahora().getTime() + VIGENCIA_DEL_ENLACE_MS));
-    const enlace = `${this.urlDelFrontend}/#/restablecer?token=${encodeURIComponent(token)}&rol=${rol}`;
+    const enlace = `${this.urlDelFrontend}/#/restablecer?token=${encodeURIComponent(token)}`;
     await this.enviador.enviar({
       para: usuario.correo,
       asunto: 'Recuperá tu contraseña de GymHelper',
       texto: [
         `Hola ${usuario.nombre}:`,
         '',
-        `Recibimos un pedido para cambiar la contraseña de tu cuenta de ${rol}. Entrá a este enlace para elegir una nueva:`,
+        `Recibimos un pedido para cambiar la contraseña de tu cuenta de GymHelper. Entrá a este enlace para elegir una nueva:`,
         '',
         enlace,
         '',

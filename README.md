@@ -46,7 +46,7 @@ Cuando termine de iniciar:
 - Aplicación: <http://127.0.0.1:5173>
 - Backend: <http://127.0.0.1:3000/health>
 - Correos de desarrollo (Mailpit): <http://127.0.0.1:8025>. Ahí aparece el enlace de "¿Olvidaste tu contraseña?"; no se envía nada afuera.
-- Acceso de prueba: **admin@example.test / Admin1234**, eligiendo "Administrador" en el inicio de sesión (solo desarrollo local). Si ya existe un administrador, se conservan sus credenciales.
+- Acceso de prueba: **admin@example.test / Admin1234** (solo desarrollo local). Si ya existe un administrador, se conservan sus credenciales.
 
 Usá siempre `127.0.0.1` y no `localhost`: el backend solo acepta ese origen.
 
@@ -91,6 +91,6 @@ Se usa Gitflow: la rama `develop` es la base y cada tarea sale de ahí en una ra
 
 ## Cuentas y acceso
 
-- Un mismo correo puede tener una cuenta de alumno y otra de entrenador, cada una con su contraseña. Al iniciar sesión se elige el tipo de cuenta.
+- Cada correo pertenece a una sola cuenta (alumno, entrenador o administrador): el inicio de sesión pide solo correo y contraseña, y el sistema entra con el tipo de cuenta que corresponde.
 - Recuperar la contraseña: "¿Olvidaste tu contraseña?" envía un enlace por correo que sirve una sola vez y vence en 1 hora. En desarrollo el correo se lee en Mailpit (<http://127.0.0.1:8025>).
 - Después de actualizar, la base local se recrea con `docker compose down -v`, porque cambió el esquema de `usuarios`.

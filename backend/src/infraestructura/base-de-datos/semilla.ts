@@ -40,6 +40,10 @@ export async function sembrarAdministradorInicial(
     correo,
   });
 
+  if (await usuarios.findOneBy({ correo: datos.correo })) {
+    throw new ErrorDeSemilla('El correo inicial ya pertenece a otra cuenta. Elegí otro ADMIN_INICIAL_CORREO.');
+  }
+
   const hashDeContrasena = await hashearContrasena(contrasena);
   await usuarios.save({ ...datos, rol: 'administrador', hashDeContrasena, horario: null });
 
