@@ -17,18 +17,18 @@ test('recupera la sesión con cookies y distingue la ausencia de sesión de un f
 
 test('iniciar sesión envía credenciales exactas y solo acepta datos públicos válidos', async (t) => {
   const simulacion = t.mock.method(globalThis, 'fetch', async () => Response.json(usuario));
-  assert.deepEqual(await iniciarSesion(usuario.correo, ' una clave anterior ', t.signal), usuario);
+  assert.deepEqual(await iniciarSesion(usuario.correo, ' una clave anterior ', 'alumno', t.signal), usuario);
   const opciones = simulacion.mock.calls[0].arguments[1];
   assert.equal(opciones.method, 'POST');
   assert.equal(opciones.credentials, 'include');
-  assert.deepEqual(JSON.parse(opciones.body), { correo: usuario.correo, contrasena: ' una clave anterior ' });
+  assert.deepEqual(JSON.parse(opciones.body), { correo: usuario.correo, contrasena: ' una clave anterior ', rol: 'alumno' });
 });
 
 test('credenciales incorrectas y límite de intentos tienen mensajes conocidos', async (t) => {
   t.mock.method(globalThis, 'fetch', async () => Response.json({ message: 'Detalle interno' }, { status: 401 }));
-  await assert.rejects(iniciarSesion(usuario.correo, 'Clave123', t.signal), /Correo o contraseña incorrectos/);
+  await assert.rejects(iniciarSesion(usuario.correo, 'Clave123', 'alumno', t.signal), /Correo o contraseña incorrectos/);
   t.mock.method(globalThis, 'fetch', async () => Response.json({}, { status: 429 }));
-  await assert.rejects(iniciarSesion(usuario.correo, 'Clave123', t.signal), /Demasiados intentos/);
+  await assert.rejects(iniciarSesion(usuario.correo, 'Clave123', 'alumno', t.signal), /Demasiados intentos/);
 });
 
 test('acepta los tres roles y rechaza identidades incompletas, roles desconocidos o respuestas con contraseñas', async (t) => {
@@ -54,5 +54,5 @@ test('una respuesta no JSON o un fallo de red no confirma el acceso', async (t) 
   t.mock.method(globalThis, 'fetch', async () => new Response('HTML'));
   await assert.rejects(obtenerSesion(t.signal), /no es válida/);
   t.mock.method(globalThis, 'fetch', async () => { throw new TypeError('Sin conexión'); });
-  await assert.rejects(iniciarSesion(usuario.correo, 'Clave123', t.signal), /No se pudo confirmar/);
+  await assert.rejects(iniciarSesion(usuario.correo, 'Clave123', 'alumno', t.signal), /No se pudo confirmar/);
 });

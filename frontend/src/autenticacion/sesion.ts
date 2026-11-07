@@ -8,14 +8,16 @@ export interface UsuarioDeSesion {
   rol: RolDeUsuario;
 }
 
-const ROLES: readonly RolDeUsuario[] = ['alumno', 'entrenador', 'administrador'];
+export const ROLES: readonly RolDeUsuario[] = ['alumno', 'entrenador', 'administrador'];
 
-async function pedirSesion(metodo: 'GET' | 'POST' | 'DELETE', senal: AbortSignal, entrada?: { correo: string; contrasena: string }): Promise<Response> {
+export const ETIQUETAS_DE_ROL: Record<RolDeUsuario, string> = { alumno: 'Alumno', entrenador: 'Entrenador', administrador: 'Administrador' };
+
+async function pedirSesion(metodo: 'GET' | 'POST' | 'DELETE', senal: AbortSignal, entrada?: { correo: string; contrasena: string; rol: RolDeUsuario }): Promise<Response> {
   try {
     return await fetch('http://127.0.0.1:3000/usuarios/sesion', {
       method: metodo,
       credentials: 'include',
-      ...(entrada ? { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ correo: entrada.correo, contrasena: entrada.contrasena }) } : {}),
+      ...(entrada ? { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ correo: entrada.correo, contrasena: entrada.contrasena, rol: entrada.rol }) } : {}),
       signal: AbortSignal.any([senal, AbortSignal.timeout(15000)]),
     });
   } catch {
@@ -45,8 +47,8 @@ export async function obtenerSesion(senal: AbortSignal): Promise<UsuarioDeSesion
   return leerUsuario(respuesta);
 }
 
-export async function iniciarSesion(correo: string, contrasena: string, senal: AbortSignal): Promise<UsuarioDeSesion> {
-  const respuesta = await pedirSesion('POST', senal, { correo, contrasena });
+export async function iniciarSesion(correo: string, contrasena: string, rol: RolDeUsuario, senal: AbortSignal): Promise<UsuarioDeSesion> {
+  const respuesta = await pedirSesion('POST', senal, { correo, contrasena, rol });
   if (respuesta.status === 401) throw new Error('Correo o contraseña incorrectos');
   if (respuesta.status === 429) throw new Error('Demasiados intentos. Esperá un minuto antes de volver a intentar.');
   if (respuesta.status === 400) throw new Error('Revisá el correo y la contraseña ingresados.');
