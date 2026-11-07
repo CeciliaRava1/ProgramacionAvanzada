@@ -1,0 +1,111 @@
+@startuml usecaseDiagramV2
+left to right direction
+
+actor "Administrador" as Admin
+actor "Entrenador" as Entrenador
+actor "Alumno" as Alumno
+actor "Usuario" as Usuario
+
+Admin --|> Usuario
+Entrenador --|> Usuario
+Alumno --|> Usuario
+
+rectangle "Sistema de seguimiento de entrenamiento" {
+
+  ' ===== COMUN =====
+  usecase "Iniciar sesión" as UC_Login
+  usecase "Cerrar sesión" as UC_Logout
+  usecase "Cambiar contraseña" as UC_CambiarPass
+  usecase "Recuperar contraseña" as UC_RecuperarPass
+
+  ' ===== ADMINISTRADOR =====
+  usecase "Gestionar alumnos\n(alta, modificación, consulta, baja lógica)" as UC_GestAlumnos
+  usecase "Gestionar entrenadores\n(alta, modificación, consulta, baja lógica)" as UC_GestEntrenadores
+  usecase "Consultar métricas del gimnasio\n(alumnos activos, vinculaciones,\nalumnos por entrenador)" as UC_MetAdmin
+
+  ' ===== VINCULACION =====
+  usecase "Consultar entrenadores" as UC_ConsEntrenadores
+  usecase "Solicitar entrenador" as UC_Solicitar
+  usecase "Consultar solicitudes" as UC_ConsSolicitudes
+  usecase "Aceptar solicitud" as UC_Aceptar
+  usecase "Rechazar solicitud" as UC_Rechazar
+  usecase "Cancelar solicitud pendiente" as UC_CancelarSol
+  usecase "Finalizar vinculación" as UC_FinVinc
+
+  ' ===== ENTRENADOR =====
+  usecase "Consultar mis alumnos" as UC_MisAlumnos
+  usecase "Gestionar plan de un alumno\n(crear, modificar, consultar, eliminar)" as UC_GestPlan
+  usecase "Gestionar rutina semanal del plan\n(crear, modificar, consultar, eliminar)" as UC_GestRutina
+  usecase "Buscar ejercicios del catálogo" as UC_BuscarEjercicio
+  usecase "Configurar ejercicio de la rutina\n(series, repeticiones, RIR)" as UC_ConfigEjercicio
+  usecase "Consultar entrenamientos de un alumno" as UC_SegAlumno
+  usecase "Consultar métricas de un alumno" as UC_MetAlumno
+
+  ' ===== ALUMNO =====
+  usecase "Definir fecha de inicio del plan" as UC_FechaInicio
+  usecase "Elegir días de entrenamiento\n(entre 2 y 6 por semana)" as UC_ElegirDias
+  usecase "Consultar mi plan y mi rutina" as UC_MiPlan
+  usecase "Registrar y modificar entrenamiento\n(series, repeticiones, peso y RIR realizados)" as UC_RegEntr
+  usecase "Consultar historial de entrenamientos" as UC_Historial
+  usecase "Consultar mis métricas" as UC_MisMetricas
+
+  ' ===== ALERTAS =====
+  usecase "Ver alertas de vencimiento del plan" as UC_Alertas
+}
+
+' --- Usuario ---
+Usuario --> UC_Login
+Usuario --> UC_Logout
+Usuario --> UC_CambiarPass
+Usuario --> UC_RecuperarPass
+
+' --- Administrador ---
+Admin --> UC_GestAlumnos
+Admin --> UC_GestEntrenadores
+Admin --> UC_MetAdmin
+
+' --- Entrenador ---
+Entrenador --> UC_ConsSolicitudes
+Entrenador --> UC_FinVinc
+Entrenador --> UC_MisAlumnos
+Entrenador --> UC_GestPlan
+Entrenador --> UC_GestRutina
+Entrenador --> UC_SegAlumno
+Entrenador --> UC_MetAlumno
+Entrenador --> UC_Alertas
+
+UC_Aceptar ..> UC_ConsSolicitudes : <<extend>>
+UC_Rechazar ..> UC_ConsSolicitudes : <<extend>>
+Entrenador --> UC_Aceptar
+Entrenador --> UC_Rechazar
+
+UC_GestRutina ..> UC_ConfigEjercicio : <<include>>
+UC_ConfigEjercicio ..> UC_BuscarEjercicio : <<include>>
+Entrenador --> UC_BuscarEjercicio
+
+' --- Alumno ---
+Alumno --> UC_ConsEntrenadores
+Alumno --> UC_Solicitar
+Alumno --> UC_CancelarSol
+Alumno --> UC_FinVinc
+Alumno --> UC_FechaInicio
+Alumno --> UC_ElegirDias
+Alumno --> UC_MiPlan
+Alumno --> UC_RegEntr
+Alumno --> UC_Historial
+Alumno --> UC_MisMetricas
+Alumno --> UC_Alertas
+
+UC_RegEntr ..> UC_MiPlan : <<include>>
+
+note right of UC_FinVinc
+  Conserva plan y entrenamientos.
+  El entrenador pierde acceso a los datos.
+end note
+
+note right of UC_GestEntrenadores
+  Baja lógica: se finalizan sus
+  vinculaciones y el alumno conserva todo.
+end note
+
+@enduml

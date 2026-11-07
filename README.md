@@ -178,6 +178,7 @@ Variables del archivo `.env`:
 ## Estructura del proyecto
 
 ```
+docs/                     Historias de usuario (Gherkin) y diagrama de casos de uso
 compose.yaml              Servicios de Docker
 .env.example              Plantilla de configuración
 backend/                  NestJS + TypeORM + MySQL
