@@ -8,7 +8,7 @@ declare module 'express-session' {
   interface SessionData { usuarioId?: number; }
 }
 
-export const NOMBRE_DE_COOKIE_DE_SESION = 'gymhelper.sid';
+export const NOMBRE_DE_COOKIE_DE_SESION = 'gymhelper.sesion';
 // La cookie debe llegar a todas las rutas con sesión: las de /usuarios y las del módulo de planes (/users).
 export const RUTA_DE_COOKIE_DE_SESION = '/';
 
