@@ -77,25 +77,17 @@ test('conserva un administrador previo aunque no estén configuradas las credenc
   assert.deepEqual(usuarios.filas, [cuenta]);
 });
 
-test('un correo ocupado por un alumno o entrenador no cambia su rol ni sus credenciales', async () => {
+test('un correo usado por un alumno o entrenador no impide crear el administrador ni cambia esas cuentas', async () => {
   const { sembrarAdministradorInicial } = await import('../dist/infraestructura/base-de-datos/semilla.js');
 
   for (const rol of ['alumno', 'entrenador']) {
-    const cuenta = {
-      id: 1,
-      nombre: 'Cuenta',
-      apellido: 'Existente',
-      correo: 'ocupado@example.test',
-      rol,
-      hashDeContrasena: 'hash-existente',
-    };
+    const cuenta = { id: 1, nombre: 'Cuenta', apellido: 'Existente', correo: 'ocupado@example.test', rol, hashDeContrasena: 'hash-existente' };
     const usuarios = usuariosEnMemoria([cuenta]);
 
-    await assert.rejects(sembrarAdministradorInicial(usuarios.repositorio, {
-      correo: ' OCUPADO@example.test ',
-      contrasena: 'Clave123',
-    }), /ya pertenece a otra cuenta/);
-    assert.deepEqual(usuarios.filas, [cuenta]);
+    assert.equal(await sembrarAdministradorInicial(usuarios.repositorio, { correo: ' OCUPADO@example.test ', contrasena: 'Clave123' }), true);
+    assert.deepEqual(usuarios.filas[0], cuenta);
+    assert.equal(usuarios.filas.length, 2);
+    assert.equal(usuarios.filas[1].rol, 'administrador');
   }
 });
 

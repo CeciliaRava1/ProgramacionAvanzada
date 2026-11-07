@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import type { EntradaDeRegistro } from '../aplicacion/registrar-usuario.js';
+import { errorDeContrasena } from '../dominio/contrasena.js';
 import type { Turno } from '../dominio/usuario.js';
 
 /** Valida la entrada externa y rechaza campos como rol o hashDeContrasena. */
@@ -23,12 +24,8 @@ export function parsearRegistroDeUsuario(cuerpo: unknown, rol: 'alumno' | 'entre
     erroresDeCampo.horario = 'El horario debe ser una lista de turnos.';
   }
   if (typeof entrada.contrasena === 'string') {
-    const largo = [...entrada.contrasena].length;
-    if (largo > 128) {
-      erroresDeCampo.contrasena = 'La contraseña es demasiado larga.';
-    } else if (largo < 8 || /\s/u.test(entrada.contrasena)) {
-      erroresDeCampo.contrasena = 'Usá al menos 8 caracteres, sin espacios.';
-    }
+    const error = errorDeContrasena(entrada.contrasena);
+    if (error) erroresDeCampo.contrasena = error;
   }
   if (Object.keys(erroresDeCampo).length > 0) {
     throw new BadRequestException({ message: 'Revisá los datos ingresados.', erroresDeCampo });

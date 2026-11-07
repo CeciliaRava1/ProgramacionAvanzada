@@ -111,7 +111,7 @@ test('HTTP y MySQL editan, eliminan lógicamente y permiten reemplazar sin react
   });
   const cookies = [];
   for (const account of [trainer, otherTrainer, student, admin]) {
-    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password });
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password, rol: account.rol });
     assert.equal(response.status, 200); await response.arrayBuffer();
     cookies.push(response.headers.getSetCookie().find((header) => /Path=\/;/i.test(header)).split(';')[0]);
   }
@@ -186,7 +186,7 @@ test('HTTP y MySQL crean planes vacíos, conservan datos y restringen acceso al 
   });
   const cookies = [];
   for (const account of [trainer, otherTrainer, student, admin]) {
-    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password });
+    const response = await call('sesion', 'POST', null, { correo: account.correo, contrasena: password, rol: account.rol });
     assert.equal(response.status, 200); await response.arrayBuffer();
     cookies.push(response.headers.getSetCookie().find((header) => /Path=\/;/i.test(header)).split(';')[0]);
   }

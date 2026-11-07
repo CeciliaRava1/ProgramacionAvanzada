@@ -16,7 +16,7 @@ export class CrearUsuarios1792713600000 implements MigrationInterface {
         horario VARCHAR(32) NULL,
         fecha_baja DATETIME(3) NULL,
         PRIMARY KEY (id),
-        CONSTRAINT UQ_usuarios_correo UNIQUE (correo),
+        CONSTRAINT UQ_usuarios_correo_rol UNIQUE (correo, rol),
         CONSTRAINT CHK_usuarios_rol CHECK (rol IN ('alumno', 'entrenador', 'administrador')),
         CONSTRAINT CHK_usuarios_horario CHECK (
           horario IS NULL OR horario REGEXP '^(manana|tarde|noche)(,(manana|tarde|noche))*$'

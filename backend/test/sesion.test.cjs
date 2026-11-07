@@ -5,15 +5,15 @@ const { randomUUID, createHash } = require('node:crypto');
 test('el caso de uso normaliza el correo y solo devuelve datos públicos', async () => {
   const { IniciarSesion } = await import('../dist/usuarios/aplicacion/iniciar-sesion.js');
   const usuario = { id: 1, nombre: 'Nombre', apellido: 'Apellido', correo: 'alumno@example.test', rol: 'entrenador', hashDeContrasena: 'hash' };
-  const iniciarSesion = new IniciarSesion({ buscarPorCorreo: async (correo) => { assert.equal(correo, usuario.correo); return usuario; } }, async (contrasena, hash) => contrasena === 'Clave123' && hash === 'hash');
-  const resultado = await iniciarSesion.ejecutar(' ALUMNO@example.test ', 'Clave123');
+  const iniciarSesion = new IniciarSesion({ buscarPorCorreoYRol: async (correo, rol) => { assert.equal(correo, usuario.correo); assert.equal(rol, 'entrenador'); return usuario; } }, async (contrasena, hash) => contrasena === 'Clave123' && hash === 'hash');
+  const resultado = await iniciarSesion.ejecutar(' ALUMNO@example.test ', 'Clave123', 'entrenador');
   assert.equal(resultado.rol, 'entrenador');
   assert.equal('hashDeContrasena' in resultado, false);
-  await assert.rejects(iniciarSesion.ejecutar(usuario.correo, 'incorrecta'), /Correo o contraseña incorrectos/);
-  const inexistente = new IniciarSesion({ buscarPorCorreo: async () => null }, async (_contrasena, hash) => { assert.equal(hash, undefined); return false; });
-  await assert.rejects(inexistente.ejecutar(usuario.correo, 'Clave123'), /Correo o contraseña incorrectos/);
-  const dadaDeBaja = new IniciarSesion({ buscarPorCorreo: async () => ({ ...usuario, fechaBaja: new Date() }) }, async () => true);
-  await assert.rejects(dadaDeBaja.ejecutar(usuario.correo, 'Clave123'), /Correo o contraseña incorrectos/);
+  await assert.rejects(iniciarSesion.ejecutar(usuario.correo, 'incorrecta', 'entrenador'), /Correo o contraseña incorrectos/);
+  const inexistente = new IniciarSesion({ buscarPorCorreoYRol: async () => null }, async (_contrasena, hash) => { assert.equal(hash, undefined); return false; });
+  await assert.rejects(inexistente.ejecutar(usuario.correo, 'Clave123', 'entrenador'), /Correo o contraseña incorrectos/);
+  const dadaDeBaja = new IniciarSesion({ buscarPorCorreoYRol: async () => ({ ...usuario, fechaBaja: new Date() }) }, async () => true);
+  await assert.rejects(dadaDeBaja.ejecutar(usuario.correo, 'Clave123', 'entrenador'), /Correo o contraseña incorrectos/);
 });
 
 test('verifica hashes existentes, conserva contraseñas antiguas con espacios y rechaza hashes malformados', { timeout: 15000 }, async () => {
@@ -64,7 +64,7 @@ test('la sesión persiste, se renueva, rota, vence y se invalida al cerrar', { t
     method: metodo, headers: { Origin: origen, ...(cookie ? { Cookie: cookie } : {}), ...(cuerpo ? { 'Content-Type': 'application/json' } : {}) },
     ...(cuerpo ? { body: JSON.stringify(cuerpo) } : {}),
   });
-  const iniciarSesion = (cookie) => llamar('POST', cookie, { correo, contrasena: 'Clave123' });
+  const iniciarSesion = (cookie) => llamar('POST', cookie, { correo, contrasena: 'Clave123', rol: 'alumno' });
   const cookieDe = (respuesta) => {
     const cabecera = respuesta.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera));
     assert.ok(cabecera);
@@ -85,13 +85,13 @@ test('la sesión persiste, se renueva, rota, vence y se invalida al cerrar', { t
   assert.equal(anonima.status, 401);
   assert.equal(anonima.headers.get('set-cookie'), null);
   assert.equal((await llamar('POST', null, { correo, contrasena: 'Clave123' }, 'http://otro.example')).status, 403);
-  for (const cuerpo of [{ correo, contrasena: 'incorrecta' }, { correo: 'inexistente-' + correo, contrasena: 'Clave123' }]) {
+  for (const cuerpo of [{ correo, contrasena: 'incorrecta', rol: 'alumno' }, { correo: 'inexistente-' + correo, contrasena: 'Clave123', rol: 'alumno' }]) {
     const respuesta = await llamar('POST', null, cuerpo);
     assert.equal(respuesta.status, 401);
     assert.equal((await respuesta.json()).message, 'Correo o contraseña incorrectos');
     assert.equal(respuesta.headers.get('set-cookie'), null);
   }
-  assert.equal((await llamar('POST', null, { correo, contrasena: 'Clave123', rol: 'administrador' })).status, 400);
+  assert.equal((await llamar('POST', null, { correo, contrasena: 'Clave123' })).status, 400);
   const respuesta = await iniciarSesion();
   assert.equal(respuesta.status, 200);
   assert.equal(respuesta.headers.get('cache-control'), 'no-store');

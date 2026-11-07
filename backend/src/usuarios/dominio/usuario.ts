@@ -1,5 +1,9 @@
 export type RolDeUsuario = 'alumno' | 'entrenador' | 'administrador';
 
+export function esRolDeUsuario(valor: unknown): valor is RolDeUsuario {
+  return valor === 'alumno' || valor === 'entrenador' || valor === 'administrador';
+}
+
 /** Turnos en los que un entrenador puede atender, en el orden en que se muestran. */
 export const TURNOS = ['manana', 'tarde', 'noche'] as const;
 export type Turno = (typeof TURNOS)[number];

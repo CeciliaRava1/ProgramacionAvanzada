@@ -21,7 +21,7 @@ export class RegistrarUsuario {
   async ejecutar(entrada: EntradaDeRegistro, rol: UsuarioRegistrado['rol']): Promise<UsuarioRegistrado> {
     const datos = normalizarDatosDeUsuario(entrada);
     const datosDeEntrenador = rol === 'entrenador' ? { horario: normalizarHorarioDeEntrenador(entrada.horario) } : {};
-    if (await this.usuarios.buscarPorCorreo(datos.correo)) throw new CorreoYaRegistradoError();
+    if (await this.usuarios.buscarPorCorreoYRol(datos.correo, rol)) throw new CorreoYaRegistradoError();
 
     const hashDeContrasena = await this.hashearContrasena(entrada.contrasena);
     // El rol lo fija la operación del servidor, nunca el cuerpo enviado por el navegador.

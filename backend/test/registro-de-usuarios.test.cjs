@@ -12,7 +12,7 @@ test('normaliza el alta y usa el rol del servidor sin devolver credenciales', as
   const { RegistrarUsuario } = await import('../dist/usuarios/aplicacion/registrar-usuario.js');
   const guardados = [];
   const registrar = new RegistrarUsuario({
-    buscarPorCorreo: async () => null,
+    buscarPorCorreoYRol: async () => null,
     guardar: async (usuario) => { guardados.push(usuario); return { ...usuario, id: 1 }; },
   }, async () => 'hash-de-prueba');
 
@@ -26,7 +26,7 @@ test('normaliza el alta y usa el rol del servidor sin devolver credenciales', as
 test('rechaza nombres o correos inválidos antes de consultar o guardar', async () => {
   const { RegistrarUsuario } = await import('../dist/usuarios/aplicacion/registrar-usuario.js');
   const registrar = new RegistrarUsuario({
-    buscarPorCorreo: async () => assert.fail('No debe consultar con datos inválidos.'),
+    buscarPorCorreoYRol: async () => assert.fail('No debe consultar con datos inválidos.'),
     guardar: async () => assert.fail('No debe guardar datos inválidos.'),
   }, async () => assert.fail('No debe calcular el hash con datos inválidos.'));
 
@@ -39,7 +39,7 @@ test('un correo existente no cambia la cuenta ni calcula otra contraseña', asyn
   const { RegistrarUsuario } = await import('../dist/usuarios/aplicacion/registrar-usuario.js');
   const existente = { id: 1, rol: 'entrenador', hashDeContrasena: 'hash-existente' };
   const registrar = new RegistrarUsuario({
-    buscarPorCorreo: async (correo) => { assert.equal(correo, 'alumno@example.test'); return existente; },
+    buscarPorCorreoYRol: async (correo, rol) => { assert.equal(correo, 'alumno@example.test'); assert.equal(rol, 'entrenador'); return existente; },
     guardar: async () => assert.fail('No debe modificar la cuenta.'),
   }, async () => assert.fail('No debe calcular otro hash.'));
 
@@ -82,7 +82,7 @@ test('el horario es opcional y se elige entre mañana, tarde y noche; solo se ac
   }
   assert.throws(() => parsearRegistroDeUsuario({ ...datosValidos, horario: ['tarde'] }, 'alumno'), (error) => error.getStatus() === 400);
   const guardados = [];
-  const registrar = new RegistrarUsuario({ buscarPorCorreo: async () => null, guardar: async (usuario) => { guardados.push(usuario); return { ...usuario, id: 1 }; } }, async () => 'hash');
+  const registrar = new RegistrarUsuario({ buscarPorCorreoYRol: async () => null, guardar: async (usuario) => { guardados.push(usuario); return { ...usuario, id: 1 }; } }, async () => 'hash');
   await registrar.ejecutar({ ...datosValidos, horario: ['noche', 'tarde'] }, 'entrenador');
   assert.deepEqual(guardados[0].horario, ['tarde', 'noche']);
   await assert.rejects(registrar.ejecutar({ ...datosValidos, horario: ['atardecer'] }, 'entrenador'), { message: 'Revisá los datos ingresados.' });
@@ -142,7 +142,7 @@ test('HTTP y MySQL conservan cuentas, rechazan duplicados y protegen altas simul
   });
   const inicio = await fetch(`${urlBase}/usuarios/sesion`, {
     method: 'POST', headers: { Origin: 'http://127.0.0.1:5173', 'Content-Type': 'application/json' },
-    body: JSON.stringify({ correo: correos[4], contrasena: datosValidos.contrasena }),
+    body: JSON.stringify({ correo: correos[4], contrasena: datosValidos.contrasena, rol: 'administrador' }),
   });
   assert.equal(inicio.status, 200);
   const cookieAdministrador = inicio.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera)).split(';')[0];
@@ -182,8 +182,10 @@ test('HTTP y MySQL conservan cuentas, rechazan duplicados y protegen altas simul
   const entrenador = await dataSource.getRepository(EsquemaDeUsuario).save({
     nombre: 'Entrenador', apellido: 'Prueba', correo: correos[2], hashDeContrasena: 'hash-solo-de-prueba', rol: 'entrenador',
   });
+  // Un correo ya usado por un entrenador sirve para crear un alumno; repetirlo con el mismo rol es conflicto.
+  assert.equal((await enviar({ ...datosValidos, correo: correos[2] })).status, 201);
   assert.equal((await enviar({ ...datosValidos, correo: correos[2] })).status, 409);
-  assert.deepEqual(await dataSource.getRepository(EsquemaDeUsuario).findOneByOrFail({ correo: correos[2] }), entrenador);
+  assert.deepEqual(await dataSource.getRepository(EsquemaDeUsuario).findOneByOrFail({ correo: correos[2], rol: 'entrenador' }), entrenador);
 
   const simultaneas = await Promise.all([
     enviar({ ...datosValidos, correo: correos[3] }), enviar({ ...datosValidos, correo: correos[3] }),
@@ -222,13 +224,13 @@ test('solo una sesión administradora puede crear entrenadores, sin alterar cuen
     method: metodo, headers: { ...(origen ? { Origin: origen } : {}), ...(cookie ? { Cookie: cookie } : {}), ...(cuerpo ? { 'Content-Type': 'application/json' } : {}) },
     ...(cuerpo ? { body: JSON.stringify(cuerpo) } : {}),
   });
-  const iniciarSesion = async (correo) => {
-    const respuesta = await llamar('/usuarios/sesion', 'POST', null, { correo, contrasena: datosValidos.contrasena });
+  const iniciarSesion = async (correo, rol) => {
+    const respuesta = await llamar('/usuarios/sesion', 'POST', null, { correo, contrasena: datosValidos.contrasena, rol });
     assert.equal(respuesta.status, 200);
     return respuesta.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera)).split(';')[0];
   };
   const cookies = [];
-  for (const cuenta of cuentas) cookies.push(await iniciarSesion(cuenta.correo));
+  for (const cuenta of cuentas) cookies.push(await iniciarSesion(cuenta.correo, cuenta.rol));
   const entrada = { ...datosValidos, correo: correos[3] };
   const enviar = (cookie, cuerpo = entrada, origen) => llamar('/usuarios/entrenadores', 'POST', cookie, cuerpo, origen);
   assert.equal((await enviar()).status, 401);
@@ -250,7 +252,7 @@ test('solo una sesión administradora puede crear entrenadores, sin alterar cuen
   const actual = await llamar('/usuarios/sesion', 'GET', cookies[0]);
   assert.equal((await actual.json()).id, cuentas[0].id);
   // Este es el cuarto inicio de sesión del proceso: sigue dentro del límite de intentos.
-  const cookieEntrenador = await iniciarSesion(correos[3]);
+  const cookieEntrenador = await iniciarSesion(correos[3], 'entrenador');
   assert.equal((await enviar(cookieEntrenador, { ...entrada, correo: correos[4] })).status, 403);
 
   for (const cambios of [{ nombre: ' ' }, { contrasena: 'corta' }, { contrasena: 'Clave 123' }, { rol: 'administrador' }]) {
@@ -258,7 +260,8 @@ test('solo una sesión administradora puede crear entrenadores, sin alterar cuen
   }
   assert.equal(await usuarios.countBy({ correo: correos[4] }), 0);
   for (const cuenta of [...cuentas, entrenador]) {
-    assert.equal((await enviar(cookies[0], { ...entrada, correo: cuenta.correo })).status, 409);
+    // Solo choca con otra cuenta de entrenador; con un alumno o el administrador comparte correo sin problema.
+    assert.equal((await enviar(cookies[0], { ...entrada, correo: cuenta.correo })).status, cuenta.rol === 'entrenador' ? 409 : 201);
     assert.deepEqual(await usuarios.findOneByOrFail({ id: cuenta.id }), cuenta);
   }
   const simultaneas = await Promise.all([enviar(cookies[0], { ...entrada, correo: correos[5] }), enviar(cookies[0], { ...entrada, correo: correos[5] })]);

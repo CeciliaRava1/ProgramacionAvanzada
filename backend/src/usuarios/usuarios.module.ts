@@ -19,11 +19,17 @@ import { RepositorioDeSolicitudesTypeOrm } from './infraestructura/repositorio-d
 import { SolicitudesDeEntrenadorController } from './presentacion/solicitudes-de-entrenador.controller.js';
 import { GestionarCuentas } from './aplicacion/gestionar-cuentas.js';
 import { CuentasController } from './presentacion/cuentas.controller.js';
+import { RecuperacionController } from './presentacion/recuperacion.controller.js';
+import { RestablecerContrasena, SolicitarRecuperacion } from './aplicacion/recuperar-contrasena.js';
+import { EnviadorDeCorreo, RepositorioDeRecuperaciones } from './dominio/recuperacion-de-contrasena.js';
+import { RepositorioDeRecuperacionesTypeOrm } from './infraestructura/repositorio-de-recuperaciones-typeorm.js';
+import { EnviadorDeCorreoSmtp } from './infraestructura/enviador-de-correo-smtp.js';
+import { origenDelFrontend } from './presentacion/middleware-de-sesion.js';
 
 @Module({
   // shortcut: el límite de intentos es por proceso; compartirlo al desplegar varias instancias.
   imports: [ConfigModule, ThrottlerModule.forRoot([{ ttl: 60_000, limit: 5 }])],
-  controllers: [UsuariosController, SesionController, SolicitudesDeEntrenadorController, CuentasController],
+  controllers: [UsuariosController, SesionController, SolicitudesDeEntrenadorController, CuentasController, RecuperacionController],
   exports: [GuardiaDeRol, RepositorioDeUsuarios, RepositorioDeSolicitudes],
   providers: [
     ThrottlerGuard,
@@ -64,6 +70,31 @@ import { CuentasController } from './presentacion/cuentas.controller.js';
       useFactory: (solicitudes: RepositorioDeSolicitudes) => new ListarAlumnosAsignados(solicitudes),
     },
     {
+      provide: RepositorioDeRecuperaciones,
+      inject: [DataSource],
+      useFactory: (dataSource: DataSource) => new RepositorioDeRecuperacionesTypeOrm(dataSource),
+    },
+    {
+      provide: EnviadorDeCorreo,
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => new EnviadorDeCorreoSmtp(
+        config.get<string>('SMTP_HOST') ?? '127.0.0.1',
+        Number(config.get<string>('SMTP_PUERTO') ?? 1025),
+        config.get<string>('CORREO_REMITENTE') ?? 'GymHelper <no-responder@gymhelper.local>',
+      ),
+    },
+    {
+      provide: SolicitarRecuperacion,
+      inject: [RepositorioDeUsuarios, RepositorioDeRecuperaciones, EnviadorDeCorreo, ConfigService],
+      useFactory: (usuarios: RepositorioDeUsuarios, recuperaciones: RepositorioDeRecuperaciones, enviador: EnviadorDeCorreo, config: ConfigService) =>
+        new SolicitarRecuperacion(usuarios, recuperaciones, enviador, origenDelFrontend(config)),
+    },
+    {
+      provide: RestablecerContrasena,
+      inject: [RepositorioDeRecuperaciones],
+      useFactory: (recuperaciones: RepositorioDeRecuperaciones) => new RestablecerContrasena(recuperaciones, hashearContrasena),
+    },
+    {
       provide: IniciarSesion,
       inject: [RepositorioDeUsuarios],
       useFactory: (usuarios: RepositorioDeUsuarios) => new IniciarSesion(usuarios, verificarContrasena),
@@ -79,6 +110,7 @@ export class UsuariosModule implements NestModule {
       SolicitudesDeEntrenadorController,
       CuentasController,
       UsuariosController,
+      RecuperacionController,
     );
   }
 }

@@ -20,8 +20,8 @@ export class IniciarSesion {
     private readonly verificarContrasena: (contrasena: string, hash?: string) => Promise<boolean>,
   ) {}
 
-  async ejecutar(correo: string, contrasena: string): Promise<UsuarioDeSesion> {
-    const usuario = await this.usuarios.buscarPorCorreo(correo.trim().toLowerCase());
+  async ejecutar(correo: string, contrasena: string, rol: RolDeUsuario): Promise<UsuarioDeSesion> {
+    const usuario = await this.usuarios.buscarPorCorreoYRol(correo.trim().toLowerCase(), rol);
     const coincide = await this.verificarContrasena(contrasena, usuario?.hashDeContrasena);
     // Una cuenta dada de baja no puede iniciar sesión, con el mismo mensaje que una contraseña incorrecta.
     if (!usuario?.id || usuario.fechaBaja || !coincide) throw new CredencialesInvalidasError();

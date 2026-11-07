@@ -131,13 +131,13 @@ test('HTTP y MySQL permiten al administrador consultar, modificar y dar de baja 
     ...(cuerpo === undefined ? {} : { body: JSON.stringify(cuerpo) }),
   });
   // El inicio de sesión admite 5 intentos por minuto: esta prueba usa 4 sesiones y 1 intento rechazado.
-  const iniciarSesion = async (correo) => {
-    const respuesta = await llamar('sesion', 'POST', null, { correo, contrasena });
+  const iniciarSesion = async (correo, rol) => {
+    const respuesta = await llamar('sesion', 'POST', null, { correo, contrasena, rol });
     await respuesta.arrayBuffer();
     if (respuesta.status !== 200) return { estado: respuesta.status, cookie: null };
     return { estado: 200, cookie: respuesta.headers.getSetCookie().find((cabecera) => /Path=\/;/i.test(cabecera)).split(';')[0] };
   };
-  const sesiones = await Promise.all(cuentas.slice(0, 4).map((cuenta) => iniciarSesion(cuenta.correo)));
+  const sesiones = await Promise.all(cuentas.slice(0, 4).map((cuenta) => iniciarSesion(cuenta.correo, cuenta.rol)));
   assert.deepEqual(sesiones.map((sesion) => sesion.estado), [200, 200, 200, 200]);
   const [cookieAdministrador, cookieAlumno, cookieOtroAlumno, cookieEntrenador] = sesiones.map((sesion) => sesion.cookie);
 
@@ -181,7 +181,8 @@ test('HTTP y MySQL permiten al administrador consultar, modificar y dar de baja 
   const modificar = (ruta, cuerpo) => llamar(ruta, 'PUT', cookieAdministrador, cuerpo);
   const antes = await usuarios.findOneByOrFail({ id: alumno.id });
   assert.equal((await modificar(`administrador/alumnos/${alumno.id}`, { ...datosValidos, correo: otroAlumno.correo })).status, 409);
-  assert.equal((await modificar(`administrador/alumnos/${alumno.id}`, { ...datosValidos, correo: correoNuevo })).status, 409);
+  // El mismo correo puede tener una cuenta de cada rol: solo choca con una del mismo rol.
+  assert.equal((await modificar(`administrador/entrenadores/${entrenador.id}`, { ...datosValidos, correo: otroEntrenador.correo })).status, 409);
   for (const cuerpo of [{ ...datosValidos, nombre: ' ' }, { ...datosValidos, correo: 'incorrecto' }, { ...datosValidos, rol: 'administrador' }, { ...datosValidos, contrasena: 'Clave123' }, { ...datosValidos, horario: ['manana'] }]) {
     assert.equal((await modificar(`administrador/alumnos/${alumno.id}`, cuerpo)).status, 400);
   }
@@ -222,7 +223,7 @@ test('HTTP y MySQL permiten al administrador consultar, modificar y dar de baja 
   assert.equal(dadoDeBaja.nombre, 'Cuenta');
   assert.equal(await vinculaciones.countBy({ alumnoId: alumno.id }), 0);
   assert.equal((await llamar('sesion', 'GET', cookieAlumno)).status, 401, 'La sesión abierta deja de ser válida.');
-  assert.equal((await iniciarSesion(alumno.correo)).estado, 401, 'No puede iniciar sesión.');
+  assert.equal((await iniciarSesion(alumno.correo, 'alumno')).estado, 401, 'No puede iniciar sesión.');
   assert.ok(!(await (await llamar('alumnos', 'GET', cookieEntrenador)).json()).some((item) => item.id === alumno.id));
   assert.equal((await modificar(`administrador/alumnos/${alumno.id}`, datosValidos)).status, 409, 'Una baja no se modifica.');
   assert.equal((await llamar(`administrador/alumnos/${alumno.id}`, 'DELETE', cookieAdministrador)).status, 204, 'Repetir la baja no falla.');
